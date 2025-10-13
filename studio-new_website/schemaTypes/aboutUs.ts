@@ -6,6 +6,12 @@ export default defineType({
   type: 'text',
   fields: [
     defineField({
+      name: 'orderId',
+      title: 'OrderId',
+      type: Number,
+      description: 'This should be used to order the posts.'
+    }),
+    defineField({
       name: 'title',
       title: 'Title',
       type: 'string',
