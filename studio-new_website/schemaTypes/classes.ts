@@ -26,6 +26,19 @@ export default defineType({
       type: 'text',
       description: 'Message displayed at the bottom of the classes page',
     }),
+    defineField({
+      name: 'contactEmail',
+      title: 'Contact Email',
+      type: 'string',
+      description: 'Email address for the contact us link',
+      validation: (rule) => rule.email(),
+    }),
+    defineField({
+      name: 'contactLabel',
+      title: 'Contact Label',
+      type: 'string',
+      description: 'Text label for the contact link (e.g., "contact us", "get in touch")',
+    }),
   ],
 })
 

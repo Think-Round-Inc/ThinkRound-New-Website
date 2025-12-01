@@ -7,6 +7,8 @@ interface ClassesData {
   heading: string;
   programs: string[];
   footerMessage?: string;
+  contactEmail?: string;
+  contactLabel?: string;
 }
 
 export const revalidate = 60;
@@ -17,7 +19,9 @@ async function getClassesData() {
       _id,
       heading,
       programs,
-      footerMessage
+      footerMessage,
+      contactEmail,
+      contactLabel
     }`;
     return await client.fetch<ClassesData | null>(query);
   } catch (error) {
@@ -30,20 +34,22 @@ export default async function ClassesPage() {
   const classesData = await getClassesData();
 
   // Fallback to default values if no data is found
-  const heading = classesData?.heading || "We offer private and group lessons for all ages in the following areas:";
+  const heading = classesData?.heading || "Heading";
   const defaultPrograms = [
-    "Painting",
-    "Drawing",
-    "Family Art Making",
-    "Family Photos: Documenting Family History",
-    "Video Taped Family Histories",
-    "Family Iconography",
+    "Program 1",
+    "Program 2",
+    "Program 3",
+    "Program 4",
+    "Program 5",
+    "Program 6",
   ];
   const fetchedPrograms = classesData?.programs;
   const programs = (Array.isArray(fetchedPrograms) && fetchedPrograms.length > 0)
     ? fetchedPrograms
     : defaultPrograms;
-  const footerMessage = classesData?.footerMessage || "We are working on devising new programs for the post-covid era. Should you have any questions or comments please";
+  const footerMessage = classesData?.footerMessage || "Footer Message";
+  const contactEmail = classesData?.contactEmail || "info@thinkround.org";
+  const contactLabel = classesData?.contactLabel || "contact us";
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
@@ -77,10 +83,10 @@ export default async function ClassesPage() {
           <p className="text-gray-800 text-base md:text-lg text-center">
             {footerMessage}{" "}
             <a
-              href="mailto:info@thinkround.org"
+              href={`mailto:${contactEmail}`}
               className="text-orange-500 hover:text-orange-600 hover:underline"
             >
-              contact us
+              {contactLabel}
             </a>
           </p>
           <hr className="border-gray-300 my-8" />
