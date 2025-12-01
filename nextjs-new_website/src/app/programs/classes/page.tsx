@@ -1,8 +1,37 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { client } from "@/sanity/client";
 
-export default function ClassesPage() {
-  const programs = [
+interface ClassesData {
+  _id: string;
+  heading: string;
+  programs: string[];
+  footerMessage?: string;
+}
+
+export const revalidate = 60;
+
+async function getClassesData() {
+  try {
+    const query = `*[_type == "classes"][0]{
+      _id,
+      heading,
+      programs,
+      footerMessage
+    }`;
+    return await client.fetch<ClassesData | null>(query);
+  } catch (error) {
+    console.error("Error fetching classes data:", error);
+    return null;
+  }
+}
+
+export default async function ClassesPage() {
+  const classesData = await getClassesData();
+
+  // Fallback to default values if no data is found
+  const heading = classesData?.heading || "We offer private and group lessons for all ages in the following areas:";
+  const defaultPrograms = [
     "Painting",
     "Drawing",
     "Family Art Making",
@@ -10,6 +39,11 @@ export default function ClassesPage() {
     "Video Taped Family Histories",
     "Family Iconography",
   ];
+  const fetchedPrograms = classesData?.programs;
+  const programs = (Array.isArray(fetchedPrograms) && fetchedPrograms.length > 0)
+    ? fetchedPrograms
+    : defaultPrograms;
+  const footerMessage = classesData?.footerMessage || "We are working on devising new programs for the post-covid era. Should you have any questions or comments please";
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
@@ -23,8 +57,7 @@ export default function ClassesPage() {
               whiteSpace: "pre-wrap",
             }}
           >
-            We offer private and group lessons for all ages in the following
-            areas:
+            {heading}
           </h1>
           <p className="white-space-pre-wrap">&nbsp;</p>
 
@@ -42,8 +75,7 @@ export default function ClassesPage() {
           <hr className="border-gray-300 my-8" />
 
           <p className="text-gray-800 text-base md:text-lg text-center">
-            We are working on devising new programs for the post-covid era.
-            Should you have any questions or comments please{" "}
+            {footerMessage}{" "}
             <a
               href="mailto:info@thinkround.org"
               className="text-orange-500 hover:text-orange-600 hover:underline"
