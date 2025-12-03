@@ -65,7 +65,7 @@ export default async function ClassesPage() {
           >
             {heading}
           </h1>
-          <p className="white-space-pre-wrap">&nbsp;</p>
+          <p className="whitespace-pre-wrap">&nbsp;</p>
 
           <div className="space-y-4">
             {programs.map((program, index) => (
