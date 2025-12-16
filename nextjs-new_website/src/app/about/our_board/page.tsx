@@ -6,22 +6,25 @@ interface BoardMember {
   _id: string;
   name: string;
   photo: { asset: { _ref: string } };
-  introduction: string;
-  position?: string;
+  bio: string;
+  role?: string;
 }
 
 export const revalidate = 60;
 
 async function getBoardMembers() {
-  const query = `*[_type == "boardMember"]{
+  const query = `*[_type == "boardMember"] | order(order asc){
     _id,
     name,
     photo,
-    introduction,
-    position
+    bio,
+    role,
+    pronouns,
+    order
   }`;
   return client.fetch<BoardMember[]>(query);
 }
+
 
 export default async function OurBoardPage() {
   const members = await getBoardMembers();
@@ -49,10 +52,10 @@ export default async function OurBoardPage() {
             {/* Right: Name and Introduction */}
             <div className="flex flex-col flex-1 justify-start">
               <h2 className="text-xl font-bold">{member.name}</h2>
-              {member.position && (
-                <p className="text-gray-500 mb-2">{member.position}</p>
+              {member.role && (
+                <p className="text-gray-500 mb-2">{member.role}</p>
               )}
-              <p className="text-gray-700">{member.introduction}</p>
+              <p className="text-gray-700">{member.bio}</p>
             </div>
           </div>
         ))}

@@ -32,5 +32,18 @@ export default defineType({
       title: 'Bio',
       type: 'text',
     }),
+     defineField({
+      name: 'order',
+      title: 'Display Order',
+      type: 'number',
+      description: 'Lower numbers appear first on the page',
+    }),
   ],
+  preview: {
+    select: {
+      title: 'name',
+      subtitle: 'role',
+      media: 'photo',
+    },
+  },
 })
