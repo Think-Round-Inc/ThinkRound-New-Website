@@ -1,4 +1,5 @@
 import {defineCliConfig} from 'sanity/cli'
+import { schemaTypes } from './schemas'
 
 export default defineCliConfig({
   api: {
