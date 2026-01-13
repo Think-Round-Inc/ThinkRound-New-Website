@@ -23,6 +23,12 @@ export default function Navbar() {
     { label: "DONATE", href: "/donate" },
     { label: "SHOP ART", href: "/shop_art" },
     {
+      label: "PROGRAMS",
+      links: [
+        { name: "STREAM OF CONSCIOUSNESS", href: "/programs/stream_of_consciousness" },
+      ],
+    },
+    {
       label: "THINK ROUND FINE ARTS",
       links: [
         {
