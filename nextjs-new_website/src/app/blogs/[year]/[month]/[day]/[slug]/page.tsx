@@ -64,7 +64,7 @@ export default async function BlogPostPage({
           </h1>
         </header>
 
-        <section className="prose prose-neutral max-w-none w-full text-left prose-p:text-justify prose-p:leading-relaxed prose-p:mb-8">
+        <section className="prose prose-neutral text-gray-800 max-w-none w-full text-left prose-p:text-justify prose-p:leading-relaxed prose-p:mb-8">
           <PortableText value={blog.body} components={ptComponents} />
         </section>
       </div>

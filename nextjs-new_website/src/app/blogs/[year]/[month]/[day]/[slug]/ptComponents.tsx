@@ -39,5 +39,10 @@ export const ptComponents = {
         {children}
       </h2>
     ),
+    h3: ({ children }: any) => (
+      <h3 className="text-4xl uppercase tracking-wide text-gray-800 mt-14 mb-6 text-left">
+        {children}
+      </h3>
+    ),
   },
 };
