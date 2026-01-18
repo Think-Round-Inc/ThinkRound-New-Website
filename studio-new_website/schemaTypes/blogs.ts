@@ -23,7 +23,7 @@ export default defineType({
     defineField({
       name: 'author',
       title: 'Author',
-      type: 'string', // Changed from 'reference' to 'string'
+      type: 'string',
     }),
     defineField({
       name: 'publishedAt',
@@ -44,12 +44,12 @@ export default defineType({
       type: 'array',
       of: [
         {
-          type: 'block', // This handles paragraphs, headers, and lists
+          type: 'block',
         },
         {
-          type: 'image', // This allows images between blocks
+          type: 'image',
           options: {
-            hotspot: true, // Enables the cropping tool in Sanity Studio
+            hotspot: true,
           },
           fields: [
             {

@@ -4,6 +4,8 @@ import aboutUs from './aboutUs'
 import partnerPast from './aboutUsPartnerPast'
 import partnerCurrent from './aboutUsPartner'
 import {streamOfConsciousness} from './streamOfConsciousness'
+import donatePage from './donatePage'
+import blogs from './blogs'
 
 export const schemaTypes = [
   boardMember,
@@ -12,8 +14,6 @@ export const schemaTypes = [
   partnerPast,
   partnerCurrent,
   streamOfConsciousness,
+  donatePage,
+  blogs,
 ]
-
-import donatePage from './donatePage'
-
-export const schemaTypes = [boardMember, postType, aboutUs, partnerPast, partnerCurrent, donatePage]
