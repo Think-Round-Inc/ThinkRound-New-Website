@@ -9,6 +9,7 @@ export default defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'slug',
@@ -17,6 +18,7 @@ export default defineType({
       options: {
         source: 'title',
       },
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'author',
@@ -27,6 +29,7 @@ export default defineType({
       name: 'publishedAt',
       title: 'Published At',
       type: 'date',
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'excerpt',

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { client } from "@/sanity/client";
 
-export interface BlogCard {
+interface BlogCard {
   title: string;
   slug: {
     _type: "slug";
@@ -31,11 +31,9 @@ export default async function BlogsPage() {
   const posts = await getBlogCards();
 
   const getPostUrl = (publishedAt: string, slug: string): string => {
-    const date = new Date(publishedAt);
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
+    const [year, month, day] = publishedAt.split("-");
 
-    return `/${month}/${day}/${slug}`;
+    return `/blogs/${year}/${month}/${day}/${slug}`;
   };
 
   return (
@@ -44,7 +42,6 @@ export default async function BlogsPage() {
         <div className="grid gap-x-12 gap-y-20 w-full grid-cols-1 [@media(min-width:500px)]:grid-cols-2 [@media(min-width:815px)]:grid-cols-3">
           {posts.map((post, index) => (
             <div key={index} className="w-full flex flex-col group">
-              {/* Clicking this Link triggers a GET request to the formatted URL */}
               <Link href={getPostUrl(post.publishedAt, post.slug.current)}>
                 <div className="cursor-pointer">
                   <div className="text-[11px] font-bold tracking-[0.2em] text-black mb-5 uppercase">
