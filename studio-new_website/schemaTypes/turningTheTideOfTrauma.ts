@@ -11,8 +11,8 @@ export default defineType({
             type: 'string'
         }),
         defineField({
-            name: 'mainimage',
-            title: 'MainImage',
+            name: 'mainImage',
+            title: 'Main Image',
             type: 'image'
         }),
         defineField({
@@ -21,10 +21,24 @@ export default defineType({
             type: 'markdown'
         }),
         defineField({
-            name: "links",
-            title: 'Links',
+            name: 'links',
             type: 'array',
-            of: [{type: 'string'}]
+            title: "Links",
+            of: [{
+                type: 'object',
+                fields: [
+                    {
+                    name: 'linkname',
+                    title: 'Link Name',
+                    type: 'string',
+                    },
+                    {
+                    name: 'linkurl',
+                    title: 'Link URL',
+                    type: 'url',
+                    }
+                ]
+            }]
         })
     ]
 })
