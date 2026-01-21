@@ -1,28 +1,19 @@
-import { postType } from './postType'
+import {postType} from './postType'
 import boardMember from './boardMember'
-import aboutUs from "./aboutUs"
-import partnerPast from "./aboutUsPartnerPast"
-import partnerCurrent from "./aboutUsPartner"
-import { streamOfConsciousness } from './streamOfConsciousness'
-
-export const schemaTypes =
-    [
-        boardMember,
-        postType,
-        aboutUs,
-        partnerPast,
-        partnerCurrent,
-        streamOfConsciousness
-    ]
-
+import aboutUs from './aboutUs'
+import partnerPast from './aboutUsPartnerPast'
+import partnerCurrent from './aboutUsPartner'
+import {streamOfConsciousness} from './streamOfConsciousness'
 import donatePage from './donatePage'
+import blogs from './blogs'
 
-export const schemaTypes = 
-[
-    boardMember,
-    postType,
-    aboutUs,
-    partnerPast,
-    partnerCurrent,
-    donatePage
+export const schemaTypes = [
+  boardMember,
+  postType,
+  aboutUs,
+  partnerPast,
+  partnerCurrent,
+  streamOfConsciousness,
+  donatePage,
+  blogs,
 ]

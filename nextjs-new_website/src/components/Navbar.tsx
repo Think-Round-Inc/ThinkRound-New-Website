@@ -62,20 +62,21 @@ export default function Navbar() {
         },
       ],
     },
+    { label: "BLOGS", href: "/blogs" },
   ];
 
-   const handleMouseEnter = (label: string) => {
-     if (timeoutRef.current) {
-       clearTimeout(timeoutRef.current);
-       timeoutRef.current = null;
-     }
-     setOpenMenu(label);
-   };
+  const handleMouseEnter = (label: string) => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    setOpenMenu(label);
+  };
 
-   const handleMouseLeave = () => {
-     if (timeoutRef.current) clearTimeout(timeoutRef.current);
-     timeoutRef.current = setTimeout(() => setOpenMenu(null), 150);
-   };
+  const handleMouseLeave = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => setOpenMenu(null), 150);
+  };
 
   useEffect(() => {
     return () => {
@@ -89,7 +90,9 @@ export default function Navbar() {
         <div
           key={menu.label}
           className="relative inline-flex items-center"
-          onMouseEnter={menu.links ? () => handleMouseEnter(menu.label) : undefined}
+          onMouseEnter={
+            menu.links ? () => handleMouseEnter(menu.label) : undefined
+          }
           onMouseLeave={menu.links ? handleMouseLeave : undefined}
         >
           {menu.links ? (
