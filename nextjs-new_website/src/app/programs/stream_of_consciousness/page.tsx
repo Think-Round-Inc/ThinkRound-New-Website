@@ -16,11 +16,12 @@ const leagueSpartan = League_Spartan({
 export const revalidate = 30;
 
 interface SanityImage {
-    asset: {
-        _ref: string;
-        _type: string;
+    image: {
+        asset: {
+            _ref: string;
+            _type: string;
+        };
     };
-    alt?: string;
     widthPercentage?: number;
 }
 
@@ -35,7 +36,7 @@ interface StreamOfConsciousnessData {
     paragraph2Text?: PortableTextBlock[];
     paragraph3Title?: PortableTextBlock[];
     paragraph3Text?: PortableTextBlock[];
-    bottomImage?: SanityImage;
+    bottomImages?: SanityImage[];
     paragraph4Text?: PortableTextBlock[];
 }
 
@@ -75,7 +76,7 @@ export default async function StreamOfConsciousnessPage() {
             "paragraph2Text": paragraph2Text,
             "paragraph3Title": paragraph3Title,
             "paragraph3Text": paragraph3Text,
-            "bottomImage": bottomImage,
+            "bottomImages": bottomImages,
             "paragraph4Text": paragraph4Text
         }`
     );
@@ -106,13 +107,13 @@ export default async function StreamOfConsciousnessPage() {
             </h1>
 
             <div className="flex flex-col gap-12 w-full items-center">
-                {data.images?.map((image: SanityImage, index: number) => (
+                {data.images?.map((item: SanityImage, index: number) => (
                     <div key={index} className="w-full flex justify-center">
-                        {image && (
-                            <div style={{ width: `${image.widthPercentage || 100}%`, position: 'relative' }}>
+                        {item.image && (
+                            <div style={{ width: `${item.widthPercentage || 100}%`, position: 'relative' }}>
                                 <Image
-                                    src={urlFor(image).width(1920).url()}
-                                    alt={image.alt || `Stream of Consciousness ${index + 1}`}
+                                    src={urlFor(item.image).width(1920).url()}
+                                    alt={`Stream of Consciousness ${index + 1}`}
                                     width={1920}
                                     height={1080}
                                     className="object-contain rounded-sm w-full h-auto"
@@ -240,17 +241,23 @@ export default async function StreamOfConsciousnessPage() {
                 </div>
             )}
 
-            {data.bottomImage && (
-                <div className="mt-12 w-full flex justify-center">
-                    <div style={{ width: `${data.bottomImage.widthPercentage || 100}%`, position: 'relative' }}>
-                        <Image
-                            src={urlFor(data.bottomImage).width(1920).url()}
-                            alt={data.bottomImage.alt || 'Bottom Image'}
-                            width={1920}
-                            height={1080}
-                            className="object-contain rounded-sm w-full h-auto"
-                        />
-                    </div>
+            {data.bottomImages && data.bottomImages.length > 0 && (
+                <div className="flex flex-col gap-12 w-full items-center mt-12">
+                    {data.bottomImages.map((item: SanityImage, index: number) => (
+                        <div key={index} className="w-full flex justify-center">
+                            {item.image && (
+                                <div style={{ width: `${item.widthPercentage || 100}%`, position: 'relative' }}>
+                                    <Image
+                                        src={urlFor(item.image).width(1920).url()}
+                                        alt={`Bottom Image ${index + 1}`}
+                                        width={1920}
+                                        height={1080}
+                                        className="object-contain rounded-sm w-full h-auto"
+                                    />
+                                </div>
+                            )}
+                        </div>
+                    ))}
                 </div>
             )}
 
