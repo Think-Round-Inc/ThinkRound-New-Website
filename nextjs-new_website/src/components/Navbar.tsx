@@ -56,6 +56,15 @@ export default function Navbar() {
         },
       ],
     },
+    {
+      label: "PROGRAMS",
+      links: [
+        {
+          name: "TURNING THE TIDE OF TRAUMA",
+          href: "/programs/turning_the_tide_of_trauma"
+        },
+      ]
+    }
   ];
 
    const handleMouseEnter = (label: string) => {
