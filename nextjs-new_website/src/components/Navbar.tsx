@@ -26,6 +26,7 @@ export default function Navbar() {
       label: "PROGRAMS",
       links: [
         { name: "STREAM OF CONSCIOUSNESS", href: "/programs/stream_of_consciousness" },
+        { name: "INTERGENERATIONAL AFTER SCHOOL PROGRAM", href: "/programs/IAP" }
       ],
     },
     {
