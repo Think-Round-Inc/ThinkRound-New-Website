@@ -48,25 +48,25 @@ export default async function IapPage() {
         </div>
 
         {/* Hero Image Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-          {/* Large featured image */}
-          <div className="lg:col-span-2 lg:row-span-2">
-            <div className="relative w-full h-96 lg:h-[500px] rounded-lg overflow-hidden bg-gray-200 shadow-lg">
-              <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400"></div>
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-16">
+          {/* Image 1 */}
+          <div className="relative w-full h-80 rounded-lg overflow-hidden bg-gray-200 shadow-lg">
+            <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400"></div>
           </div>
 
-          {/* Small images on right */}
-          <div className="flex flex-col gap-6">
-            <div className="relative w-full h-40 rounded-lg overflow-hidden bg-gray-200 shadow-md">
-              <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400"></div>
-            </div>
-            <div className="relative w-full h-40 rounded-lg overflow-hidden bg-gray-200 shadow-md">
-              <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400"></div>
-            </div>
-            <div className="relative w-full h-40 rounded-lg overflow-hidden bg-gray-200 shadow-md">
-              <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400"></div>
-            </div>
+          {/* Image 2 */}
+          <div className="relative w-full h-80 rounded-lg overflow-hidden bg-gray-200 shadow-lg">
+            <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400"></div>
+          </div>
+
+          {/* Image 3 */}
+          <div className="relative w-full h-80 rounded-lg overflow-hidden bg-gray-200 shadow-lg">
+            <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400"></div>
+          </div>
+
+          {/* Image 4 */}
+          <div className="relative w-full h-80 rounded-lg overflow-hidden bg-gray-200 shadow-lg">
+            <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400"></div>
           </div>
         </div>
       </section>
@@ -74,16 +74,16 @@ export default async function IapPage() {
       {/* ABOUT SECTION - Text with Purpose */}
       <section className="py-20 px-6 max-w-5xl mx-auto">
         <div className="prose prose-lg max-w-none text-gray-700 space-y-6">
-          <p className="text-lg leading-relaxed">
+          <p className="text-xl leading-relaxed">
             The Intergenerational Afterschool Program provides students with the opportunity to develop high-level art and 21st-century skills in a safe environment. It is an after-school program that brings together artists aged 60+ to work alongside young people to create collaborative public murals and other art forms.
           </p>
           
-          <p className="text-lg leading-relaxed">
-            During our sessions, students and seniors interact together. In each session, they meet, collaborate, discuss ideas, create collaborative artworks, and share ideas about their families, their schools, their communities, or any other topics that interest them. The most important part is that we create space where students of all backgrounds learn they can succeed in making art alongside grown-ups who value and encourage their ideas.
+          <p className="text-xl leading-relaxed">
+            Intergenerational Afterschool Program provides students with the opportunity to create high-end public artworks for display in their own community while enrolled in Afterschool activities. Building creative ownership, civic pride and contribution, art skills, and camaraderie pervade our intentions as children, youth, and teens interact with our artists/instructors over sixty and our youth interns in college. The next opportunity we hope to provide our students is a small business entrepreneurship program so that children can begin to learn the business of art, that entrepreneurship can be fun as well as beneficial to their own families, their school, their community, the city of San Francisco, and well beyond. Their artworks are conceived to be the centerpiece of public artworks for The Center for the Human Family and within The Paradise Project itself.
           </p>
 
-          <p className="text-lg leading-relaxed">
-            For more information, and more images of our Intergenerational Afterschool Program (IAP), please visit <Link href="https://www.instagram.com/thinkround" target="_blank" className="text-blue-600 hover:underline font-semibold">@THINKROUND</Link>. Thank you for your interest in our programs, and please visit us, see our students in action, and learn more about how Think Round is at work.
+          <p className="text-xl leading-relaxed">
+            For more information, and more images of our Intergenerational Afterschool Program (IAP), please visit TRI's website PROGRAMS tab: STREAM OF CONSCIOUSNESS. There you can read about our largest, most recent public artwork created in IAP. Please enjoy the video explaining how we teach our students to think round as they learn invaluable art and science lessons about the precious nature of Air, Water, and Soil, and their impact on Plants, Animals, and People. Also, see and enjoy the scope and quality of our IAP students and artist/instructors' creations as evidenced in this seminal public artwork.
           </p>
         </div>
       </section>
