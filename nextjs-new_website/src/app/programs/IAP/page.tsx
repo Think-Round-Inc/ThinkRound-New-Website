@@ -11,29 +11,116 @@ const client = createClient({
   useCdn: false,
 })
 
-interface IapProject {
+interface IapPageData {
   _id: string
   title: string
-  studentName: string
-  theme: string
-  mainImage: {
+  heroImage1?: {
     asset: {
       url: string
+      metadata?: {
+        dimensions: {
+          width: number
+          height: number
+        }
+      }
     }
   }
-  description: string
+  heroImage2?: {
+    asset: {
+      url: string
+      metadata?: {
+        dimensions: {
+          width: number
+          height: number
+        }
+      }
+    }
+  }
+  heroImage3?: {
+    asset: {
+      url: string
+      metadata?: {
+        dimensions: {
+          width: number
+          height: number
+        }
+      }
+    }
+  }
+  heroImage4?: {
+    asset: {
+      url: string
+      metadata?: {
+        dimensions: {
+          width: number
+          height: number
+        }
+      }
+    }
+  }
+  body?: any[]
+  studentProjectsBody?: any[]
+  studentProject1?: any[]
+  studentProject2?: any[]
+  studentProject3?: any[]
+  studentProject4?: any[]
+  studentProject5?: any[]
 }
 
-async function getProjects() {
-  return client.fetch<IapProject[]>(`
-    *[_type == "iapProject"] | order(completionDate desc) {
-      _id, title, studentName, theme, mainImage { asset->{url} }, description
+async function getIapPageData() {
+  return client.fetch<IapPageData>(`
+    *[_type == "iapPage"][0] {
+      _id, title,
+      heroImage1 { asset->{url, metadata {dimensions}} },
+      heroImage2 { asset->{url, metadata {dimensions}} },
+      heroImage3 { asset->{url, metadata {dimensions}} },
+      heroImage4 { asset->{url, metadata {dimensions}} },
+      body[] {
+        ...,
+        asset->{url, metadata {dimensions}}
+      },
+      studentProjectsBody[] {
+        ...,
+        image { asset->{url, metadata {dimensions}} },
+        asset->{url, metadata {dimensions}},
+        widthPercentage
+      },
+      studentProject1[] {
+        ...,
+        image { asset->{url, metadata {dimensions}} },
+        asset->{url, metadata {dimensions}},
+        widthPercentage
+      },
+      studentProject2[] {
+        ...,
+        image { asset->{url, metadata {dimensions}} },
+        asset->{url, metadata {dimensions}},
+        widthPercentage
+      },
+      studentProject3[] {
+        ...,
+        image { asset->{url, metadata {dimensions}} },
+        asset->{url, metadata {dimensions}},
+        widthPercentage
+      },
+      studentProject4[] {
+        ...,
+        image { asset->{url, metadata {dimensions}} },
+        asset->{url, metadata {dimensions}},
+        widthPercentage
+      },
+      studentProject5[] {
+        ...,
+        image { asset->{url, metadata {dimensions}} },
+        asset->{url, metadata {dimensions}},
+        widthPercentage
+      }
     }
   `)
 }
 
 export default async function IapPage() {
-  const projects = await getProjects()
+  const iapData = await getIapPageData()
 
   return (
     <main className="bg-white min-h-screen font-sans text-gray-900">
@@ -50,81 +137,596 @@ export default async function IapPage() {
         {/* Hero Image Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-16">
           {/* Image 1 */}
-          <div className="relative w-full h-80 rounded-lg overflow-hidden bg-gray-200 shadow-lg">
-            <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400"></div>
+          <div 
+            className="relative w-full rounded-lg overflow-hidden bg-gray-200 shadow-lg"
+            style={{
+              aspectRatio: iapData?.heroImage1?.asset?.metadata?.dimensions 
+                ? `${iapData.heroImage1.asset.metadata.dimensions.width}/${iapData.heroImage1.asset.metadata.dimensions.height}`
+                : '1/1'
+            }}
+          >
+            {iapData?.heroImage1 ? (
+              <Image
+                src={iapData.heroImage1.asset.url}
+                alt="Hero Image 1"
+                fill
+                className="object-contain"
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400"></div>
+            )}
           </div>
 
           {/* Image 2 */}
-          <div className="relative w-full h-80 rounded-lg overflow-hidden bg-gray-200 shadow-lg">
-            <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400"></div>
+          <div 
+            className="relative w-full rounded-lg overflow-hidden bg-gray-200 shadow-lg"
+            style={{
+              aspectRatio: iapData?.heroImage2?.asset?.metadata?.dimensions 
+                ? `${iapData.heroImage2.asset.metadata.dimensions.width}/${iapData.heroImage2.asset.metadata.dimensions.height}`
+                : '1/1'
+            }}
+          >
+            {iapData?.heroImage2 ? (
+              <Image
+                src={iapData.heroImage2.asset.url}
+                alt="Hero Image 2"
+                fill
+                className="object-contain"
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400"></div>
+            )}
           </div>
 
           {/* Image 3 */}
-          <div className="relative w-full h-80 rounded-lg overflow-hidden bg-gray-200 shadow-lg">
-            <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400"></div>
+          <div 
+            className="relative w-full rounded-lg overflow-hidden bg-gray-200 shadow-lg"
+            style={{
+              aspectRatio: iapData?.heroImage3?.asset?.metadata?.dimensions 
+                ? `${iapData.heroImage3.asset.metadata.dimensions.width}/${iapData.heroImage3.asset.metadata.dimensions.height}`
+                : '1/1'
+            }}
+          >
+            {iapData?.heroImage3 ? (
+              <Image
+                src={iapData.heroImage3.asset.url}
+                alt="Hero Image 3"
+                fill
+                className="object-contain"
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400"></div>
+            )}
           </div>
 
           {/* Image 4 */}
-          <div className="relative w-full h-80 rounded-lg overflow-hidden bg-gray-200 shadow-lg">
-            <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400"></div>
+          <div 
+            className="relative w-full rounded-lg overflow-hidden bg-gray-200 shadow-lg"
+            style={{
+              aspectRatio: iapData?.heroImage4?.asset?.metadata?.dimensions 
+                ? `${iapData.heroImage4.asset.metadata.dimensions.width}/${iapData.heroImage4.asset.metadata.dimensions.height}`
+                : '1/1'
+            }}
+          >
+            {iapData?.heroImage4 ? (
+              <Image
+                src={iapData.heroImage4.asset.url}
+                alt="Hero Image 4"
+                fill
+                className="object-contain"
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400"></div>
+            )}
           </div>
         </div>
       </section>
 
       {/* ABOUT SECTION - Text with Purpose */}
       <section className="py-20 px-6 max-w-5xl mx-auto">
-        <div className="prose prose-lg max-w-none text-gray-700 space-y-6">
-          <p className="text-xl leading-relaxed">
-            The Intergenerational Afterschool Program provides students with the opportunity to develop high-level art and 21st-century skills in a safe environment. It is an after-school program that brings together artists aged 60+ to work alongside young people to create collaborative public murals and other art forms.
-          </p>
-          
-          <p className="text-xl leading-relaxed">
-            Intergenerational Afterschool Program provides students with the opportunity to create high-end public artworks for display in their own community while enrolled in Afterschool activities. Building creative ownership, civic pride and contribution, art skills, and camaraderie pervade our intentions as children, youth, and teens interact with our artists/instructors over sixty and our youth interns in college. The next opportunity we hope to provide our students is a small business entrepreneurship program so that children can begin to learn the business of art, that entrepreneurship can be fun as well as beneficial to their own families, their school, their community, the city of San Francisco, and well beyond. Their artworks are conceived to be the centerpiece of public artworks for The Center for the Human Family and within The Paradise Project itself.
-          </p>
+        {iapData?.body ? (
+          <div className="prose prose-lg max-w-none text-gray-700 space-y-6">
+            {iapData.body.map((block: any, index: number) => {
+              if (block._type === 'block') {
+                return (
+                  <p key={index} className="text-xl leading-relaxed">
+                    {block.children?.map((child: any) => child.text).join('')}
+                  </p>
+                )
+              } else if (block._type === 'image' && block.asset?.url) {
+                return (
+                  <div 
+                    key={index} 
+                    className="relative w-full rounded-lg overflow-hidden my-6"
+                    style={{
+                      aspectRatio: block.asset?.metadata?.dimensions 
+                        ? `${block.asset.metadata.dimensions.width}/${block.asset.metadata.dimensions.height}`
+                        : '4/3'
+                    }}
+                  >
+                    <Image
+                      src={block.asset.url}
+                      alt="Section content"
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                )
+              }
+              return null
+            })}
+          </div>
+        ) : (
+          <div className="prose prose-lg max-w-none text-gray-700 space-y-6">
+            <p className="text-xl leading-relaxed">
+              The Intergenerational Afterschool Program provides students with the opportunity to develop high-level art and 21st-century skills in a safe environment. It is an after-school program that brings together artists aged 60+ to work alongside young people to create collaborative public murals and other art forms.
+            </p>
+            
+            <p className="text-xl leading-relaxed">
+              Intergenerational Afterschool Program provides students with the opportunity to create high-end public artworks for display in their own community while enrolled in Afterschool activities. Building creative ownership, civic pride and contribution, art skills, and camaraderie pervade our intentions as children, youth, and teens interact with our artists/instructors over sixty and our youth interns in college. The next opportunity we hope to provide our students is a small business entrepreneurship program so that children can begin to learn the business of art, that entrepreneurship can be fun as well as beneficial to their own families, their school, their community, the city of San Francisco, and well beyond. Their artworks are conceived to be the centerpiece of public artworks for The Center for the Human Family and within The Paradise Project itself.
+            </p>
 
-          <p className="text-xl leading-relaxed">
-            For more information, and more images of our Intergenerational Afterschool Program (IAP), please visit TRI's website PROGRAMS tab: STREAM OF CONSCIOUSNESS. There you can read about our largest, most recent public artwork created in IAP. Please enjoy the video explaining how we teach our students to think round as they learn invaluable art and science lessons about the precious nature of Air, Water, and Soil, and their impact on Plants, Animals, and People. Also, see and enjoy the scope and quality of our IAP students and artist/instructors' creations as evidenced in this seminal public artwork.
-          </p>
-        </div>
+            <p className="text-xl leading-relaxed">
+              For more information, and more images of our Intergenerational Afterschool Program (IAP), please visit TRI's website PROGRAMS tab: STREAM OF CONSCIOUSNESS. There you can read about our largest, most recent public artwork created in IAP. Please enjoy the video explaining how we teach our students to think round as they learn invaluable art and science lessons about the precious nature of Air, Water, and Soil, and their impact on Plants, Animals, and People. Also, see and enjoy the scope and quality of our IAP students and artist/instructors' creations as evidenced in this seminal public artwork.
+            </p>
+          </div>
+        )}
       </section>
 
       {/* IMAGE SHOWCASE - Grid of Student Projects */}
-      <section className="py-20 px-6 max-w-7xl mx-auto">
-        <h2 className="text-4xl font-bold text-gray-900 mb-12 text-center">Student Masterpieces</h2>
+      <section className="py-20 px-6 max-w-5xl mx-auto">
+        <h2 className="text-5xl font-bold text-gray-900 mb-12 text-center">Student Art Works</h2>
 
-        {projects.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project) => (
-              <div key={project._id} className="group">
-                {/* Image */}
-                <div className="relative w-full h-64 rounded-lg overflow-hidden bg-gray-200 shadow-md mb-4 group-hover:shadow-lg transition-shadow">
-                  {project.mainImage ? (
-                    <Image
-                      src={project.mainImage.asset.url}
-                      alt={project.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center">
-                      <span className="text-gray-500 text-3xl">🎨</span>
-                    </div>
-                  )}
+        {(iapData?.studentProjectsBody && iapData.studentProjectsBody.length > 0) ||
+        iapData?.studentProject1?.length ||
+        iapData?.studentProject2?.length ||
+        iapData?.studentProject3?.length ||
+        iapData?.studentProject4?.length ||
+        iapData?.studentProject5?.length ? (
+          <div className="space-y-16">
+            {/* studentProjectsBody Section */}
+            {iapData.studentProjectsBody && iapData.studentProjectsBody.length > 0 && (
+              <div className="space-y-6">
+                <div className="space-y-8">
+                  {iapData.studentProjectsBody.map((block: any, index: number) => {
+                    // Handle new named object type
+                    if (block._type === 'studentProjectImage' && block.image?.asset?.url) {
+                      const widthPercentage = block.widthPercentage || 100;
+                      return (
+                        <div 
+                          key={`studentProjectsBody-${index}`}
+                          className="flex justify-center"
+                        >
+                          <div 
+                            className="relative rounded-lg overflow-hidden"
+                            style={{
+                              width: `${widthPercentage}%`,
+                              maxWidth: '600px',
+                              aspectRatio: '1/1',
+                              margin: '0 auto'
+                            }}
+                          >
+                            <Image
+                              src={block.image.asset.url}
+                              alt="Student project"
+                              fill
+                              className="object-contain"
+                            />
+                          </div>
+                        </div>
+                      )
+                    }
+                    // Handle old plain image type
+                    if (block._type === 'image' && block.asset?.url) {
+                      return (
+                        <div 
+                          key={`studentProjectsBody-${index}`}
+                          className="flex justify-center"
+                        >
+                          <div 
+                            className="relative rounded-lg overflow-hidden"
+                            style={{
+                              width: '100%',
+                              maxWidth: '600px',
+                              aspectRatio: '1/1',
+                              margin: '0 auto'
+                            }}
+                          >
+                            <Image
+                              src={block.asset.url}
+                              alt="Student project"
+                              fill
+                              className="object-contain"
+                            />
+                          </div>
+                        </div>
+                      )
+                    }
+                    return null
+                  })}
                 </div>
-
-                {/* Text */}
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-1">{project.title}</h3>
-                  <p className="text-sm text-gray-600 mb-2">By {project.studentName}</p>
-                  {project.theme && (
-                    <p className="text-xs uppercase tracking-wider text-gray-500 font-semibold mb-2">
-                      Theme: {project.theme}
-                    </p>
-                  )}
-                  <p className="text-gray-700 text-sm leading-relaxed">{project.description}</p>
-                </div>
+                {iapData.studentProjectsBody.map((block: any, index: number) => {
+                  if (block._type === 'block') {
+                    return (
+                      <p key={`body-${index}`} className="text-lg leading-relaxed text-gray-700">
+                        {block.children?.map((child: any) => child.text).join('')}
+                      </p>
+                    )
+                  }
+                  return null
+                })}
               </div>
-            ))}
+            )}
+
+            {/* studentProject1 Section */}
+            {iapData.studentProject1 && iapData.studentProject1.length > 0 && (
+              <div className="space-y-6">
+                <div className="space-y-8">
+                  {iapData.studentProject1.map((block: any, index: number) => {
+                    // Handle new named object type
+                    if (block._type === 'studentProject1Image' && block.image?.asset?.url) {
+                      const widthPercentage = block.widthPercentage || 100;
+                      return (
+                        <div 
+                          key={`studentProject1-${index}`}
+                          className="flex justify-center"
+                        >
+                          <div 
+                            className="relative rounded-lg overflow-hidden"
+                            style={{
+                              width: `${widthPercentage}%`,
+                              maxWidth: '600px',
+                              aspectRatio: '1/1',
+                              margin: '0 auto'
+                            }}
+                          >
+                            <Image
+                              src={block.image.asset.url}
+                              alt="Student project"
+                              fill
+                              className="object-contain"
+                            />
+                          </div>
+                        </div>
+                      )
+                    }
+                    // Handle old plain image type
+                    if (block._type === 'image' && block.asset?.url) {
+                      return (
+                        <div 
+                          key={`studentProject1-${index}`}
+                          className="flex justify-center"
+                        >
+                          <div 
+                            className="relative rounded-lg overflow-hidden"
+                            style={{
+                              width: '100%',
+                              maxWidth: '600px',
+                              aspectRatio: '1/1',
+                              margin: '0 auto'
+                            }}
+                          >
+                            <Image
+                              src={block.asset.url}
+                              alt="Student project"
+                              fill
+                              className="object-contain"
+                            />
+                          </div>
+                        </div>
+                      )
+                    }
+                    return null
+                  })}
+                </div>
+                {iapData.studentProject1.map((block: any, index: number) => {
+                  if (block._type === 'block') {
+                    return (
+                      <p key={`project1-text-${index}`} className="text-lg leading-relaxed text-gray-700">
+                        {block.children?.map((child: any) => child.text).join('')}
+                      </p>
+                    )
+                  }
+                  return null
+                })}
+              </div>
+            )}
+
+            {/* studentProject2 Section */}
+            {iapData.studentProject2 && iapData.studentProject2.length > 0 && (
+              <div className="space-y-6">
+                <div className="space-y-8">
+                  {iapData.studentProject2.map((block: any, index: number) => {
+                    // Handle new named object type
+                    if (block._type === 'studentProject2Image' && block.image?.asset?.url) {
+                      const widthPercentage = block.widthPercentage || 100;
+                      return (
+                        <div 
+                          key={`studentProject2-${index}`}
+                          className="flex justify-center"
+                        >
+                          <div 
+                            className="relative rounded-lg overflow-hidden"
+                            style={{
+                              width: `${widthPercentage}%`,
+                              maxWidth: '600px',
+                              aspectRatio: '1/1',
+                              margin: '0 auto'
+                            }}
+                          >
+                            <Image
+                              src={block.image.asset.url}
+                              alt="Student project"
+                              fill
+                              className="object-contain"
+                            />
+                          </div>
+                        </div>
+                      )
+                    }
+                    // Handle old plain image type
+                    if (block._type === 'image' && block.asset?.url) {
+                      return (
+                        <div 
+                          key={`studentProject2-${index}`}
+                          className="flex justify-center"
+                        >
+                          <div 
+                            className="relative rounded-lg overflow-hidden"
+                            style={{
+                              width: '100%',
+                              maxWidth: '600px',
+                              aspectRatio: '1/1',
+                              margin: '0 auto'
+                            }}
+                          >
+                            <Image
+                              src={block.asset.url}
+                              alt="Student project"
+                              fill
+                              className="object-contain"
+                            />
+                          </div>
+                        </div>
+                      )
+                    }
+                    return null
+                  })}
+                </div>
+                {iapData.studentProject2.map((block: any, index: number) => {
+                  if (block._type === 'block') {
+                    return (
+                      <p key={`project2-text-${index}`} className="text-lg leading-relaxed text-gray-700">
+                        {block.children?.map((child: any) => child.text).join('')}
+                      </p>
+                    )
+                  }
+                  return null
+                })}
+              </div>
+            )}
+
+            {/* studentProject3 Section */}
+            {iapData.studentProject3 && iapData.studentProject3.length > 0 && (
+              <div className="space-y-6">
+                <div className="space-y-8">
+                  {iapData.studentProject3.map((block: any, index: number) => {
+                    // Handle new named object type
+                    if (block._type === 'studentProject3Image' && block.image?.asset?.url) {
+                      const widthPercentage = block.widthPercentage || 100;
+                      return (
+                        <div 
+                          key={`studentProject3-${index}`}
+                          className="flex justify-center"
+                        >
+                          <div 
+                            className="relative rounded-lg overflow-hidden"
+                            style={{
+                              width: `${widthPercentage}%`,
+                              maxWidth: '600px',
+                              aspectRatio: '1/1',
+                              margin: '0 auto'
+                            }}
+                          >
+                            <Image
+                              src={block.image.asset.url}
+                              alt="Student project"
+                              fill
+                              className="object-contain"
+                            />
+                          </div>
+                        </div>
+                      )
+                    }
+                    // Handle old plain image type
+                    if (block._type === 'image' && block.asset?.url) {
+                      return (
+                        <div 
+                          key={`studentProject3-${index}`}
+                          className="flex justify-center"
+                        >
+                          <div 
+                            className="relative rounded-lg overflow-hidden"
+                            style={{
+                              width: '100%',
+                              maxWidth: '600px',
+                              aspectRatio: '1/1',
+                              margin: '0 auto'
+                            }}
+                          >
+                            <Image
+                              src={block.asset.url}
+                              alt="Student project"
+                              fill
+                              className="object-contain"
+                            />
+                          </div>
+                        </div>
+                      )
+                    }
+                    return null
+                  })}
+                </div>
+                {iapData.studentProject3.map((block: any, index: number) => {
+                  if (block._type === 'block') {
+                    return (
+                      <p key={`project3-text-${index}`} className="text-lg leading-relaxed text-gray-700">
+                        {block.children?.map((child: any) => child.text).join('')}
+                      </p>
+                    )
+                  }
+                  return null
+                })}
+              </div>
+            )}
+
+            {/* studentProject4 Section */}
+            {iapData.studentProject4 && iapData.studentProject4.length > 0 && (
+              <div className="space-y-6">
+                <div className="space-y-8">
+                  {iapData.studentProject4.map((block: any, index: number) => {
+                    // Handle new named object type
+                    if (block._type === 'studentProject4Image' && block.image?.asset?.url) {
+                      const widthPercentage = block.widthPercentage || 100;
+                      return (
+                        <div 
+                          key={`studentProject4-${index}`}
+                          className="flex justify-center"
+                        >
+                          <div 
+                            className="relative rounded-lg overflow-hidden"
+                            style={{
+                              width: `${widthPercentage}%`,
+                              maxWidth: '600px',
+                              aspectRatio: '1/1',
+                              margin: '0 auto'
+                            }}
+                          >
+                            <Image
+                              src={block.image.asset.url}
+                              alt="Student project"
+                              fill
+                              className="object-contain"
+                            />
+                          </div>
+                        </div>
+                      )
+                    }
+                    // Handle old plain image type
+                    if (block._type === 'image' && block.asset?.url) {
+                      return (
+                        <div 
+                          key={`studentProject4-${index}`}
+                          className="flex justify-center"
+                        >
+                          <div 
+                            className="relative rounded-lg overflow-hidden"
+                            style={{
+                              width: '100%',
+                              maxWidth: '600px',
+                              aspectRatio: '1/1',
+                              margin: '0 auto'
+                            }}
+                          >
+                            <Image
+                              src={block.asset.url}
+                              alt="Student project"
+                              fill
+                              className="object-contain"
+                            />
+                          </div>
+                        </div>
+                      )
+                    }
+                    return null
+                  })}
+                </div>
+                {iapData.studentProject4.map((block: any, index: number) => {
+                  if (block._type === 'block') {
+                    return (
+                      <p key={`project4-text-${index}`} className="text-lg leading-relaxed text-gray-700">
+                        {block.children?.map((child: any) => child.text).join('')}
+                      </p>
+                    )
+                  }
+                  return null
+                })}
+              </div>
+            )}
+
+            {/* studentProject5 Section */}
+            {iapData.studentProject5 && iapData.studentProject5.length > 0 && (
+              <div className="space-y-6">
+                <div className="space-y-8">
+                  {iapData.studentProject5.map((block: any, index: number) => {
+                    // Handle new named object type
+                    if (block._type === 'studentProject5Image' && block.image?.asset?.url) {
+                      const widthPercentage = block.widthPercentage || 100;
+                      return (
+                        <div 
+                          key={`studentProject5-${index}`}
+                          className="flex justify-center"
+                        >
+                          <div 
+                            className="relative rounded-lg overflow-hidden"
+                            style={{
+                              width: `${widthPercentage}%`,
+                              maxWidth: '600px',
+                              aspectRatio: '1/1',
+                              margin: '0 auto'
+                            }}
+                          >
+                            <Image
+                              src={block.image.asset.url}
+                              alt="Student project"
+                              fill
+                              className="object-contain"
+                            />
+                          </div>
+                        </div>
+                      )
+                    }
+                    // Handle old plain image type
+                    if (block._type === 'image' && block.asset?.url) {
+                      return (
+                        <div 
+                          key={`studentProject5-${index}`}
+                          className="flex justify-center"
+                        >
+                          <div 
+                            className="relative rounded-lg overflow-hidden"
+                            style={{
+                              width: '100%',
+                              maxWidth: '600px',
+                              aspectRatio: '1/1',
+                              margin: '0 auto'
+                            }}
+                          >
+                            <Image
+                              src={block.asset.url}
+                              alt="Student project"
+                              fill
+                              className="object-contain"
+                            />
+                          </div>
+                        </div>
+                      )
+                    }
+                    return null
+                  })}
+                </div>
+                {iapData.studentProject5.map((block: any, index: number) => {
+                  if (block._type === 'block') {
+                    return (
+                      <p key={`project5-text-${index}`} className="text-lg leading-relaxed text-gray-700">
+                        {block.children?.map((child: any) => child.text).join('')}
+                      </p>
+                    )
+                  }
+                  return null
+                })}
+              </div>
+            )}
           </div>
         ) : (
           <div className="text-center py-20 bg-gray-50 rounded-lg">
