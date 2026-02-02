@@ -3,6 +3,7 @@ import { urlFor } from "@/sanity/client";
 import { Instrument_Sans, League_Spartan } from "next/font/google";
 import { PortableText, PortableTextBlock } from "next-sanity";
 import Image from "next/image";
+import SocialLinks from "@/components/SocialLinks";
 
 const instrumentSans = Instrument_Sans({
     subsets: ["latin"],
@@ -277,6 +278,12 @@ export default async function StreamOfConsciousnessPage() {
                     </div>
                 </div>
             )}
+
+            {/* Social Media Links */}
+            <div className="mt-16 flex justify-center">
+                <SocialLinks />
+            </div>
         </main>
     );
 }
+
