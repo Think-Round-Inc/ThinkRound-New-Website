@@ -1,11 +1,12 @@
-import {postType} from './postType'
+import { postType } from './postType'
 import boardMember from './boardMember'
 import aboutUs from './aboutUs'
 import partnerPast from './aboutUsPartnerPast'
 import partnerCurrent from './aboutUsPartner'
-import {streamOfConsciousness} from './streamOfConsciousness'
+import { streamOfConsciousness } from './streamOfConsciousness'
 import donatePage from './donatePage'
 import blogs from './blogs'
+import iapPage from './iap'
 import classes from './classes'
 
 export const schemaTypes = [
@@ -17,5 +18,6 @@ export const schemaTypes = [
   streamOfConsciousness,
   donatePage,
   blogs,
+  iapPage,
   classes,
 ]

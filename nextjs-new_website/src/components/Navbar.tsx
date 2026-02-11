@@ -26,6 +26,8 @@ export default function Navbar() {
       label: "PROGRAMS",
       links: [
         { name: "STREAM OF CONSCIOUSNESS", href: "/programs/stream_of_consciousness" },
+        { name: "INTERGENERATIONAL AFTER SCHOOL PROGRAM", href: "/programs/IAP" },
+        { name: "CLASSES AT THINK ROUND", href: "/programs/classes" },
       ],
     },
     {
@@ -62,12 +64,7 @@ export default function Navbar() {
         },
       ],
     },
-    {
-      label: "PROGRAMS",
-      links: [
-        { name: "CLASSES AT THINK ROUND", href: "/programs/classes" },
-      ],
-    },
+
     { label: "BLOGS", href: "/blogs" },
   ];
 
