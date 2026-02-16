@@ -1,5 +1,4 @@
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import PostList from "@/components/PostList";
 import GalleryList from "@/components/GalleryList";
 import { client } from "@/sanity/client";
@@ -23,7 +22,6 @@ export default async function IndexPage() {
       <main className="flex-grow container mx-auto max-w-5xl p-4 md:p-8 space-y-12">
         <PostList posts={posts} />
       </main>
-      <Footer />
     </div>
   );
 }
