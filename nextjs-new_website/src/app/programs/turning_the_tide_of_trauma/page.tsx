@@ -26,7 +26,7 @@ async function getTtoT() {
 
 //maybe arrays of paragraphs would be better
 //update markdown to incroporate links
-
+//check for line breaks?
 function readMarkdown(text: string){
     var toReturn = text;
     //bolden
@@ -52,14 +52,13 @@ export default async function TtoTPage() {
                             height={550}
                             className="max-w-md mx-auto py-6 px-4 rounded-lg object-cover"
                         />
-                        {/* <div className="text-center" dangerouslySetInnerHTML={{ __html: readMarkdown(t.description)}}></div> */}
                         <div className="text-center">{readMarkdown(t.description)}</div>
                         {
                             t.links.map(
                                 link => (
-                                    <div key={link.linkname}>
+                                    <div className="" key={link.linkname}>
                                         <Link href={link.linkurl}>
-                                            <button>{link.linkname}</button>
+                                            <button className="text-center bg-purple-600 hover:bg-purple-700 my-1 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out">{link.linkname}</button>
                                         </Link>
                                     </div>
                                 )
