@@ -43,7 +43,7 @@ export default function Navbar() {
         },
         {
           name: "PAST EXHIBITIONS",
-          href: "/about/past_exhibitions",
+          href: "/think_round_fine_arts/past_exhibitions",
         },
       ],
     },

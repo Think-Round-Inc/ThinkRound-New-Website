@@ -1,5 +1,7 @@
 
-const nextConfig = {
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
@@ -9,6 +11,7 @@ const nextConfig = {
         pathname: "/images/**",
       },
     ],
+    formats: ["image/avif", "image/webp"],
   },
 };
 
