@@ -32,3 +32,13 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+.classes-h1 {
+  text-transform: none;
+    font-weight: bolder;
+    letter-spacing: -.04em;
+    font-size: 55px;
+    font-family: Instrument Sans;
+    line-height: 1em;
+    font-style: normal;
+}
+
