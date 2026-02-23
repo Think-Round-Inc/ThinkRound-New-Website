@@ -2,7 +2,6 @@ import { client, urlFor } from "@/sanity/client";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import type { Metadata } from "next";
 
 export const revalidate = 30;
@@ -134,7 +133,6 @@ export default async function PastExhibitionsPage() {
           </div>
         </div>
       </main>
-      <Footer />
     </>
   );
 }
