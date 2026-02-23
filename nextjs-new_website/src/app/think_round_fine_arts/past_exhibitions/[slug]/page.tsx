@@ -114,6 +114,24 @@ export async function generateStaticParams() {
 }
 
 const descriptionComponents = {
+  marks: {
+    strong: ({ children }: { children?: React.ReactNode }) => (
+      <strong className="font-bold">{children}</strong>
+    ),
+    em: ({ children }: { children?: React.ReactNode }) => (
+      <em className="italic">{children}</em>
+    ),
+    link: ({ value, children }: { value?: { href: string }; children?: React.ReactNode }) => (
+      <a
+        href={value?.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-600 underline hover:text-blue-800 transition-colors"
+      >
+        {children}
+      </a>
+    ),
+  },
   block: {
     normal: ({ children }: { children?: React.ReactNode }) => (
       <p className="text-lg font-light text-gray-700 mb-4 leading-relaxed">
@@ -147,8 +165,10 @@ const descriptionComponents = {
 };
 
 function formatDateRange(startDate: string, endDate: string): string {
-  const start = new Date(startDate);
-  const end = new Date(endDate);
+  const [sy, sm, sd] = startDate.split("-").map(Number);
+  const [ey, em, ed] = endDate.split("-").map(Number);
+  const start = new Date(sy, sm - 1, sd);
+  const end = new Date(ey, em - 1, ed);
   const opts: Intl.DateTimeFormatOptions = {
     month: "long",
     day: "numeric",
