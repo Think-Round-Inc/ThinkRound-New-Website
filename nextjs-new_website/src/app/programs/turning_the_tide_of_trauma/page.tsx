@@ -31,6 +31,8 @@ function readMarkdown(text: string){
     var toReturn = text;
     //bolden
     toReturn = toReturn.replace(/\*\*(.+?)\*\*/gm, '<strong>$1</strong>')
+    //link replacer
+    toReturn = toReturn.replace(/\[(.+?)\]\((.+?)\)/,"<a style='color: orange;' href='$2'>$1</a>");
     return (
         <div>
             <div className="returnText" dangerouslySetInnerHTML={{ __html:toReturn}}></div>
