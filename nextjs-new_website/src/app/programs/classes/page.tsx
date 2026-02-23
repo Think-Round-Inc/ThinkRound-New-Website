@@ -1,5 +1,4 @@
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { client } from "@/sanity/client";
 
 interface ClassesData {
@@ -92,7 +91,6 @@ export default async function ClassesPage() {
           <hr className="border-gray-300 my-8" />
         </div>
       </main>
-      <Footer />
     </div>
   );
 }
