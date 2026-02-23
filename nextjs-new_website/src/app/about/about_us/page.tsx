@@ -51,6 +51,19 @@ async function getPastPartners(){
   return client.fetch<PastPartner[]>(query)
 }
 
+function readMarkdown(text: string){
+    var toReturn = text;
+    toReturn = toReturn.replace(/\*\*(.+?)\*\*/gm, '<strong>$1</strong>')
+    //link replacer
+    toReturn = toReturn.replace(/\[(.+?)\]\((.+?)\)/,"<a style='color: orange;' href='$2'>$1</a>");
+    //bulleted list (general list)
+    return (
+        <div>
+            <div className="returnText" dangerouslySetInnerHTML={{ __html:toReturn}}></div>
+        </div>
+    );
+}
+
 export default async function AboutUsPage() {
 
   
@@ -75,7 +88,7 @@ export default async function AboutUsPage() {
               {abouts.map((about) => (
                 <div key={about._id} className="p-3">
                   <div className="text-2xl font-bold text-center">{about.title}</div>
-                  <div className="text-center">{about.description}</div>
+                  <div className="text-center">{readMarkdown(about.description)}</div>
                 </div>
               ))}
 
