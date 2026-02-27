@@ -7,10 +7,8 @@ import {streamOfConsciousness} from './streamOfConsciousness'
 import donatePage from './donatePage'
 import blogs from './blogs'
 import homePageBuilder from './homepage/homePageBuilder'
-import pageSection from './homepage/pageSection'
-import richTextBlock from './homepage/richTextBlock'
-import imageBlock from './homepage/imageBlock'
 import videoBlock from './homepage/videoBlock'
+import videoFeatureBlock from './homepage/videoFeatureBlock'
 import buttonRow from './homepage/buttonRow'
 
 export const schemaTypes = [
@@ -23,9 +21,7 @@ export const schemaTypes = [
   donatePage,
   blogs,
   homePageBuilder,
-  pageSection,
-  richTextBlock,
-  imageBlock,
   videoBlock,
+  videoFeatureBlock,
   buttonRow,
 ]

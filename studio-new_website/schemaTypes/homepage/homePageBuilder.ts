@@ -13,52 +13,31 @@ export default defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: 'sections',
-      title: 'Sections',
+      name: 'content',
+      title: 'Content',
       type: 'array',
-      description: 'Add sections in display order from top to bottom.',
+      description: 'Add text, images, videos, and button rows in display order.',
       of: [
         defineArrayMember({
-          name: 'sectionItem',
-          title: 'Section',
-          type: 'object',
+          type: 'block',
+        }),
+        defineArrayMember({
+          type: 'image',
+          options: {
+            hotspot: true,
+          },
           fields: [
             defineField({
-              name: 'title',
-              title: 'Section Title',
+              name: 'alt',
               type: 'string',
-              description: 'Editor-only label to identify this section in the list.',
-              validation: (rule) => rule.required(),
-            }),
-            defineField({
-              name: 'content',
-              title: 'Content Blocks',
-              type: 'array',
-              description:
-                'Add text, image, video, and button blocks in the order they should appear.',
-              of: [
-                defineArrayMember({type: 'richTextBlock'}),
-                defineArrayMember({type: 'imageBlock'}),
-                defineArrayMember({type: 'videoBlock'}),
-                defineArrayMember({type: 'buttonRow'}),
-              ],
-              validation: (rule) => rule.min(1),
+              title: 'Alternative Text',
+              description: 'Important for SEO and accessibility.',
             }),
           ],
-          preview: {
-            select: {
-              title: 'title',
-              content: 'content',
-            },
-            prepare(selection) {
-              const itemCount = Array.isArray(selection.content) ? selection.content.length : 0
-              return {
-                title: selection.title || 'Section',
-                subtitle: `${itemCount} content block${itemCount === 1 ? '' : 's'}`,
-              }
-            },
-          },
         }),
+        defineArrayMember({type: 'videoBlock'}),
+        defineArrayMember({type: 'videoFeatureBlock'}),
+        defineArrayMember({type: 'buttonRow'}),
       ],
       validation: (rule) => rule.min(1),
     }),
@@ -66,13 +45,13 @@ export default defineType({
   preview: {
     select: {
       title: 'title',
-      sections: 'sections',
+      content: 'content',
     },
     prepare(selection) {
-      const count = Array.isArray(selection.sections) ? selection.sections.length : 0
+      const count = Array.isArray(selection.content) ? selection.content.length : 0
       return {
         title: selection.title || 'Homepage',
-        subtitle: `${count} section${count === 1 ? '' : 's'}`,
+        subtitle: `${count} block${count === 1 ? '' : 's'}`,
       }
     },
   },
