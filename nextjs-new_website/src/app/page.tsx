@@ -50,6 +50,21 @@ async function getHomepage() {
         }
       },
 
+      _type == "videoFeatureBlock" => {
+        ...,
+        videoFile{
+          asset->{
+            url,
+            mimeType,
+            metadata { dimensions }
+          }
+        }
+      },
+
+      _type == "buttonRow" => {
+        ...
+      },
+
       // 🔘 BUTTON: Ensure all custom fields are grabbed
       _type == "button" => {
         text,
@@ -62,13 +77,6 @@ async function getHomepage() {
   }`;
 
   return await client.fetch<Homepage>(query, {}, options);
-}
-
-interface Blog {
-  title: string;
-  author: string;
-  publishedAt: string;
-  body: PortableTextBlock[];
 }
 
 export default async function IndexPage() {
