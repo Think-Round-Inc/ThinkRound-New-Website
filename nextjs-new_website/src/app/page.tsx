@@ -4,11 +4,7 @@ import PostList from "@/components/PostList";
 import GalleryList from "@/components/GalleryList";
 import { client } from "@/sanity/client";
 
-import {
-  PortableText,
-  PortableTextBlock,
-  type SanityDocument,
-} from "next-sanity";
+import { PortableText, PortableTextBlock, type SanityDocument } from "next-sanity";
 
 import { homeComponents } from "./homeComponents";
 
@@ -26,7 +22,7 @@ async function getHomepage() {
     content[]{
       ..., // Fetches basic fields like 'text', 'variant', 'url'
 
-      // 🖼️ IMAGE: Get metadata for height/width/LQIP (blur)
+      // IMAGE: Get metadata for height/width/LQIP (blur)
       _type == "image" => {
         ...,
         asset->{
@@ -38,7 +34,7 @@ async function getHomepage() {
         }
       },
 
-      // 🎥 VIDEO: Follow the reference to get the actual file URL
+      // VIDEO: Follow the reference to get the actual file URL
       _type == "videoBlock" => {
         ...,
         url, // For YouTube/Vimeo
@@ -62,18 +58,12 @@ async function getHomepage() {
       },
 
       _type == "buttonRow" => {
-        ...
-      },
-
-      // 🔘 BUTTON: Ensure all custom fields are grabbed
-      _type == "button" => {
-        text,
-        url,
-        variant,
-        alignment,
-        target
+        ...,
+        buttons[]{
+          ...
+        }
       }
-    } 
+    }
   }`;
 
   return await client.fetch<Homepage>(query, {}, options);

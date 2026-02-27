@@ -161,19 +161,35 @@ export const homeComponents: PortableTextComponents = {
     },
 
     buttonRow: ({ value }) => {
+      const buttons = Array.isArray(value?.buttons) ? value.buttons : [];
       const baseStyle =
-        "inline-block px-6 py-3 text-sm uppercase tracking-wide transition";
+        "inline-flex min-h-[76px] min-w-[280px] items-center justify-center px-10 py-6 text-center text-xl font-extrabold uppercase tracking-[0.06em] transition";
+
+      if (buttons.length === 0) return null;
+
+      const getVariantClass = (variant?: string) => {
+        if (variant === "secondary") {
+          return "border-2 border-[#6f3ca8] text-[#6f3ca8] hover:bg-[#f5f0fb]";
+        }
+        if (variant === "text") {
+          return "text-[#6f3ca8] underline underline-offset-4 hover:text-[#5f3290]";
+        }
+        return "bg-[#6f3ca8] text-white hover:bg-[#5f3290]";
+      };
 
       return (
-        <div className="my-10 text-center">
-          <a
-            href={value.url}
-            target={value.target || "_self"}
-            rel="noopener noreferrer"
-            className={`${baseStyle}`}
-          >
-            {value.text}
-          </a>
+        <div className="my-10 flex flex-wrap items-center justify-center gap-4">
+          {buttons.map((button: any) => (
+            <a
+              key={button?._key || `${button?.href}-${button?.label}`}
+              href={button?.href}
+              target={button?.openInNewTab ? "_blank" : "_self"}
+              rel={button?.openInNewTab ? "noopener noreferrer" : undefined}
+              className={`${baseStyle} ${getVariantClass(button?.variant)}`}
+            >
+              {button?.label}
+            </a>
+          ))}
         </div>
       );
     },
