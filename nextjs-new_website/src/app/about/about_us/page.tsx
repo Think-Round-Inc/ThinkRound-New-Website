@@ -53,10 +53,12 @@ async function getPastPartners(){
 
 function readMarkdown(text: string){
     var toReturn = text;
+    //  //Blockquote
+    toReturn = toReturn.replace(/\>(.+)/g,"<blockquote>$1</blockquote>");
     //bolden
     toReturn = toReturn.replace(/\*\*(.+?)\*\*/gm, '<strong>$1</strong>')
     //link replacer
-    toReturn = toReturn.replace(/\[(.+?)\]\((.+?)\)/,"<a style='color: orange;' href='$2'>$1</a>");
+    toReturn = toReturn.replace(/\[(.+?)\]\((.+?)\)/gm,"<a style='color: orange;' href='$2'>$1</a>");
     //bulleted list (general list)
     toReturn = toReturn.replace(/\*(.+?)/gm,'<ul style="padding: 0;"><li style="padding: 0;">$1</li></ul>');
     return (
