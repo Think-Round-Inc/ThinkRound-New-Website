@@ -29,10 +29,12 @@ async function getTtoT() {
 //check for line breaks?
 function readMarkdown(text: string){
     var toReturn = text;
+    //  //Blockquote
+    toReturn = toReturn.replace(/\>(.+)/g,"<blockquote>$1</blockquote>");
+    //Bolden
     toReturn = toReturn.replace(/\*\*(.+?)\*\*/gm, '<strong>$1</strong>')
     //link replacer
-    toReturn = toReturn.replace(/\[(.+?)\]\((.+?)\)/,"<a style='color: orange;' href='$2'>$1</a>");
-    //quotation
+    toReturn = toReturn.replace(/\[(.+?)\]\((.+?)\)/gm,"<a style='color: orange;' href='$2'>$1</a>");
     return (
         <div>
             <div className="returnText" dangerouslySetInnerHTML={{ __html:toReturn}}></div>
