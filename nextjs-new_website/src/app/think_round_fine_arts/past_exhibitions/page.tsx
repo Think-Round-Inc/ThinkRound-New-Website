@@ -16,6 +16,7 @@ export const metadata: Metadata = {
 interface PastExhibitionCard {
   _id: string;
   title: string;
+  cardTitle?: string;
   slug: { _type: "slug"; current: string };
   startDate: string;
   endDate: string;
@@ -31,6 +32,7 @@ async function getExhibitions(): Promise<PastExhibitionCard[]> {
     `*[_type == "pastExhibition"] | order(startDate desc) {
       _id,
       title,
+      cardTitle,
       slug,
       startDate,
       endDate,
@@ -40,8 +42,10 @@ async function getExhibitions(): Promise<PastExhibitionCard[]> {
 }
 
 function formatDateRange(startDate: string, endDate: string): string {
-  const start = new Date(startDate);
-  const end = new Date(endDate);
+  const [sy, sm, sd] = startDate.split("-").map(Number);
+  const [ey, em, ed] = endDate.split("-").map(Number);
+  const start = new Date(sy, sm - 1, sd);
+  const end = new Date(ey, em - 1, ed);
   const startStr = start.toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
@@ -55,7 +59,8 @@ function formatDateRange(startDate: string, endDate: string): string {
 }
 
 function getYear(dateStr: string): string {
-  return new Date(dateStr).getFullYear().toString();
+  const [y] = dateStr.split("-");
+  return y;
 }
 
 export default async function PastExhibitionsPage() {
@@ -91,8 +96,8 @@ export default async function PastExhibitionsPage() {
                 href={`/think_round_fine_arts/past_exhibitions/${exhibition.slug.current}`}
                 className="group block overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300"
               >
-                {/* Image Container - natural aspect ratio */}
-                <div className="relative bg-gray-100 overflow-hidden">
+                {/* Image Container - fixed height, image contained within */}
+                <div className="relative aspect-[4/3] bg-white overflow-hidden">
                   <Image
                     src={urlFor(exhibition.coverImage)
                       .width(1200)
@@ -101,9 +106,8 @@ export default async function PastExhibitionsPage() {
                       exhibition.coverImage.alt ||
                       `${exhibition.title} exhibition cover`
                     }
-                    width={1200}
-                    height={800}
-                    className="w-full h-auto transition-transform duration-500 group-hover:scale-105"
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
                     {...(index < 4
                       ? { priority: true }
                       : {
@@ -118,14 +122,14 @@ export default async function PastExhibitionsPage() {
                 </div>
 
                 {/* Card Text */}
-                <div className="p-4 bg-white">
-                  <h2 className="text-lg font-semibold text-black group-hover:text-gray-600 transition-colors">
-                    {exhibition.title}{" "}
+                <div className="px-4 py-3 bg-white">
+                  <h2 className="text-sm font-semibold text-black group-hover:text-gray-600 transition-colors">
+                    {exhibition.cardTitle ?? exhibition.title}{" "}
                     <span className="text-gray-400 font-normal">
                       ({getYear(exhibition.startDate)})
                     </span>
                   </h2>
-                  <p className="text-sm text-gray-500 mt-1">
+                  <p className="text-xs text-gray-500 mt-0.5">
                     {formatDateRange(exhibition.startDate, exhibition.endDate)}
                   </p>
                 </div>
