@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { PortableText, PortableTextBlock } from "next-sanity";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import ExhibitionGallery from "@/components/ExhibitionGallery";
 import type { Metadata } from "next";
 
@@ -334,7 +333,6 @@ export default async function PastExhibitionDetailPage({
           )}
         </div>
       </main>
-      <Footer />
     </>
   );
 }
