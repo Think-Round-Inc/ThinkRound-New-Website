@@ -23,6 +23,15 @@ export default function Navbar() {
     { label: "DONATE", href: "/donate" },
     { label: "SHOP ART", href: "/shop_art" },
     {
+      label: "PROGRAMS",
+      links: [
+        { name: "STREAM OF CONSCIOUSNESS", href: "/programs/stream_of_consciousness" },
+        { name: "INTERGENERATIONAL AFTER SCHOOL PROGRAM", href: "/programs/IAP" },
+        { name: "CLASSES AT THINK ROUND", href: "/programs/classes" },
+        { name: "TURNING THE TIDE OF TRAUMA", href: "/programs/turning_the_tide_of_trauma"},
+      ],
+    },
+    {
       label: "THINK ROUND FINE ARTS",
       links: [
         {
@@ -35,7 +44,7 @@ export default function Navbar() {
         },
         {
           name: "PAST EXHIBITIONS",
-          href: "/about/past_exhibitions",
+          href: "/think_round_fine_arts/past_exhibitions",
         },
       ],
     },
@@ -56,29 +65,21 @@ export default function Navbar() {
         },
       ],
     },
-    {
-      label: "PROGRAMS",
-      links: [
-        {
-          name: "TURNING THE TIDE OF TRAUMA",
-          href: "/programs/turning_the_tide_of_trauma"
-        },
-      ]
-    }
+    { label: "BLOGS", href: "/blogs" },
   ];
 
-   const handleMouseEnter = (label: string) => {
-     if (timeoutRef.current) {
-       clearTimeout(timeoutRef.current);
-       timeoutRef.current = null;
-     }
-     setOpenMenu(label);
-   };
+  const handleMouseEnter = (label: string) => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    setOpenMenu(label);
+  };
 
-   const handleMouseLeave = () => {
-     if (timeoutRef.current) clearTimeout(timeoutRef.current);
-     timeoutRef.current = setTimeout(() => setOpenMenu(null), 150);
-   };
+  const handleMouseLeave = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => setOpenMenu(null), 150);
+  };
 
   useEffect(() => {
     return () => {
@@ -92,7 +93,9 @@ export default function Navbar() {
         <div
           key={menu.label}
           className="relative inline-flex items-center"
-          onMouseEnter={menu.links ? () => handleMouseEnter(menu.label) : undefined}
+          onMouseEnter={
+            menu.links ? () => handleMouseEnter(menu.label) : undefined
+          }
           onMouseLeave={menu.links ? handleMouseLeave : undefined}
         >
           {menu.links ? (
