@@ -28,6 +28,7 @@ export default function Navbar() {
         { name: "STREAM OF CONSCIOUSNESS", href: "/programs/stream_of_consciousness" },
         { name: "INTERGENERATIONAL AFTER SCHOOL PROGRAM", href: "/programs/IAP" },
         { name: "CLASSES AT THINK ROUND", href: "/programs/classes" },
+        { name: "TURNING THE TIDE OF TRAUMA", href: "/programs/turning_the_tide_of_trauma"},
       ],
     },
     {
@@ -64,7 +65,6 @@ export default function Navbar() {
         },
       ],
     },
-
     { label: "BLOGS", href: "/blogs" },
   ];
 

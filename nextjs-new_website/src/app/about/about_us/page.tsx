@@ -51,6 +51,23 @@ async function getPastPartners(){
   return client.fetch<PastPartner[]>(query)
 }
 
+function readMarkdown(text: string){
+    var toReturn = text;
+    //  //Blockquote
+    toReturn = toReturn.replace(/\>(.+)/g,"<blockquote>$1</blockquote>");
+    //bolden
+    toReturn = toReturn.replace(/\*\*(.+?)\*\*/gm, '<strong>$1</strong>')
+    //link replacer
+    toReturn = toReturn.replace(/\[(.+?)\]\((.+?)\)/gm,"<a style='color: orange;' href='$2'>$1</a>");
+    //bulleted list (general list)
+    toReturn = toReturn.replace(/\*(.+?)/gm,'<ul style="padding: 0;"><li style="padding: 0;">$1</li></ul>');
+    return (
+        <div>
+            <div className="returnText" dangerouslySetInnerHTML={{ __html:toReturn}}></div>
+        </div>
+    );
+}
+
 export default async function AboutUsPage() {
 
   
@@ -67,47 +84,54 @@ export default async function AboutUsPage() {
             <div className="flex-shrink-0" id="sideBar"> 
               {abouts.map((about) => (
                 <div key={about._id} className="">
-                  {about.title}
+                  {/* {about.title} */}
                 </div>
               ))}
             </div>
             <div className="mainText">
               {abouts.map((about) => (
                 <div key={about._id} className="p-3">
-                  <div className="text-2xl">{about.title}</div>
-                  <div className="">{about.description}</div>
+                  <div className="text-2xl font-bold text-center">{about.title}</div>
+                  <div className="text-center">{readMarkdown(about.description)}</div>
                 </div>
               ))}
-            </div>
-            <div className ="pastPartners">
+
+              <div className="text-xl p-3">Current Partners</div>
+              <div id="currentPartners">
+                {cPartners.map((partner) => (
+                  <div key={partner._id}>
+                    <Link href={partner.hyperlink}>
+                    <Image
+                      src={urlFor(partner.logo).width(150).height(150).url()}
+                      alt={partner.name}
+                      width={150}
+                      height={150}
+                      className="rounded-lg object-cover"
+                    />
+                    </Link>
+                  </div>
+                ))}
+              </div>
+
+            <div className="text-xl p-3">Past Partners</div>
+            <div id="pastPartners">
               {pPartners.map((partner) => (
                 <div key={partner._id}>
                   <Image
-                    src={urlFor(partner.logo).width(150).height(1500).url()}
+                    src={urlFor(partner.logo).width(150).height(150).url()}
                     alt={partner.name}
                     width={150}
                     height={150}
-                    className="rounded-lg object-cover"
+                    className="block rounded-lg object-cover"
                   />
                 </div>
               ))
               }
             </div>
-            <div className="currentPartners">
-              {cPartners.map((partner) => (
-                <div key={partner._id}>
-                  <Link href={partner.hyperlink}>
-                  <Image
-                    src={urlFor(partner.logo).width(150).height(1500).url()}
-                    alt={partner.name}
-                    width={150}
-                    height={150}
-                    className="rounded-lg object-cover"
-                  />
-                  </Link>
-                </div>
-              ))}
+
             </div>
+
+
           </div>
         </div>
     );

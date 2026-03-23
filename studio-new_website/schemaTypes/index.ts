@@ -9,6 +9,7 @@ import blogs from './blogs'
 import pastExhibition from './pastExhibition'
 import iapPage from './iap'
 import classes from './classes'
+import turningTheTide from "./turningTheTideOfTrauma"
 
 export const schemaTypes = [
   boardMember,
@@ -22,4 +23,5 @@ export const schemaTypes = [
   pastExhibition,
   iapPage,
   classes,
+  turningTheTide
 ]
