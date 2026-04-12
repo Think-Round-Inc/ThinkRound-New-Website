@@ -2,6 +2,7 @@ import { client } from "@/sanity/client";
 import { urlFor } from "@/sanity/client";
 import Image from "next/image";
 import Link from "next/link"
+import Navbar from '@/components/Navbar'
 
 interface TtoT {
     _id: string;
@@ -35,6 +36,8 @@ function readMarkdown(text: string){
     toReturn = toReturn.replace(/\*\*(.+?)\*\*/gm, '<strong>$1</strong>')
     //link replacer
     toReturn = toReturn.replace(/\[(.+?)\]\((.+?)\)/gm,"<a style='color: orange;' href='$2'>$1</a>");
+    //heading replacer
+    toReturn = toReturn.replace(/\#(.+)/g,"<div style='font-size:xx-large'>$1</div>")
     return (
         <div>
             <div className="returnText" dangerouslySetInnerHTML={{ __html:toReturn}}></div>
@@ -46,6 +49,7 @@ export default async function TtoTPage() {
     const ttot = await getTtoT();
     return (
         <div className="w-full max-w-7xl mx-auto py-12 px-4">
+            <Navbar />
             {
                 ttot.map(t => (
                     <div key={t._id}>
@@ -60,7 +64,7 @@ export default async function TtoTPage() {
                         {
                             t.links.map(
                                 link => (
-                                    <div className="" key={link.linkname}>
+                                    <div className="grid place-items-center" key={link.linkname}>
                                         <Link href={link.linkurl}>
                                             <button className="text-center bg-purple-600 hover:bg-purple-700 my-1 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out">{link.linkname}</button>
                                         </Link>
