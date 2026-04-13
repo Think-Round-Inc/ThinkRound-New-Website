@@ -1,7 +1,8 @@
 import { client } from "@/sanity/client";
 import { urlFor } from "@/sanity/client";
 import Image from "next/image";
-import Link from "next/link"
+import Link from "next/link";
+import Navbar from '@/components/Navbar';
 
 interface AboutUs {
     _id: string;
@@ -60,12 +61,29 @@ function readMarkdown(text: string){
     //link replacer
     toReturn = toReturn.replace(/\[(.+?)\]\((.+?)\)/gm,"<a style='color: orange;' href='$2'>$1</a>");
     //bulleted list (general list)
-    toReturn = toReturn.replace(/\*(.+?)/gm,'<ul style="padding: 0;"><li style="padding: 0;">$1</li></ul>');
+    toReturn = toReturn.replace(/\*(.+)/gm,'<ul style="padding: 0; list-style-position: inside; list-style-type: circle;"><li style="padding: 0;">$1</li></ul>');
     return (
         <div>
             <div className="returnText" dangerouslySetInnerHTML={{ __html:toReturn}}></div>
         </div>
     );
+}
+
+function enlargeTitle(text:string){
+  var toReturn = text;
+  if (/\#(.+)/g.test(toReturn)){
+    toReturn = toReturn.replace(/\#(.+)/g,"<div style='font-weight:bold; text-align: center; font-size:xx-large'>$1</div>");
+    return (
+      <div>
+        <div className="returnText" dangerouslySetInnerHTML={{ __html:toReturn}}></div>
+      </div>
+    );
+  }
+  return (
+    <div>
+      <div className="text-2xl font-bold text-center">{text}</div>
+    </div>
+  )
 }
 
 export default async function AboutUsPage() {
@@ -79,19 +97,13 @@ export default async function AboutUsPage() {
       //Will need to search for triple then duo then single asterisk
     return ( //need to map the menu and the actual text
         <div className="w-full max-w-7xl mx-auto py-12 px-4">
-          <h1 className="text-4xl font-bold mb-8 text-center">About Us</h1>
+          <Navbar />
+          <h1 className="text-4xl font-bold mb-8 text-center">THINK ROUND, INC. VISION AND STRATEGIC PLAN (2014 and beyond)</h1>
           <div className="flex flex-col gap-6 sm:flex-row">
-            <div className="flex-shrink-0" id="sideBar"> 
-              {abouts.map((about) => (
-                <div key={about._id} className="">
-                  {/* {about.title} */}
-                </div>
-              ))}
-            </div>
             <div className="mainText">
               {abouts.map((about) => (
                 <div key={about._id} className="p-3">
-                  <div className="text-2xl font-bold text-center">{about.title}</div>
+                  {enlargeTitle(about.title)}
                   <div className="text-center">{readMarkdown(about.description)}</div>
                 </div>
               ))}
@@ -128,10 +140,7 @@ export default async function AboutUsPage() {
               ))
               }
             </div>
-
             </div>
-
-
           </div>
         </div>
     );

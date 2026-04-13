@@ -1,8 +1,8 @@
 import { client } from "@/sanity/client";
 import { urlFor } from "@/sanity/client";
 import Image from "next/image";
-import Link from "next/link"
-import Navbar from '@/components/Navbar'
+import Link from "next/link";
+import Navbar from '@/components/Navbar';
 
 interface TtoT {
     _id: string;
