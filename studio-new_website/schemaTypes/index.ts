@@ -1,15 +1,15 @@
-import { postType } from './postType'
+import {postType} from './postType'
 import boardMember from './boardMember'
 import aboutUs from './aboutUs'
 import partnerPast from './aboutUsPartnerPast'
 import partnerCurrent from './aboutUsPartner'
-import { streamOfConsciousness } from './streamOfConsciousness'
+import {streamOfConsciousness} from './streamOfConsciousness'
 import donatePage from './donatePage'
 import blogs from './blogs'
 import pastExhibition from './pastExhibition'
 import iapPage from './iap'
 import classes from './classes'
-import turningTheTide from "./turningTheTideOfTrauma"
+import turningTheTide from './turningTheTideOfTrauma'
 import homePageBuilder from './homepage/homePageBuilder'
 import videoBlock from './homepage/videoBlock'
 import videoFeatureBlock from './homepage/videoFeatureBlock'
@@ -27,7 +27,7 @@ export const schemaTypes = [
   pastExhibition,
   iapPage,
   classes,
-  turningTheTide
+  turningTheTide,
   homePageBuilder,
   videoBlock,
   videoFeatureBlock,
