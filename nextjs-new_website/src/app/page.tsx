@@ -84,7 +84,7 @@ export default async function IndexPage() {
     <>
       <Navbar />
       <article className="min-h-screen bg-white py-24 px-6 md:px-12 w-full flex flex-col items-center">
-        <section className="prose prose-neutral text-gray-800 w-full max-w-4xl flex flex-col items-center text-center prose-p:text-center prose-p:leading-relaxed prose-p:mb-8">
+        <section className="prose prose-neutral w-full max-w-4xl text-left text-gray-800 prose-headings:text-left prose-p:text-left prose-p:leading-relaxed prose-blockquote:text-left">
           <PortableText value={homepage.content} components={homeComponents} />
         </section>
       </article>

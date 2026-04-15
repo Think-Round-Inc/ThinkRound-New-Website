@@ -197,25 +197,31 @@ export const homeComponents: PortableTextComponents = {
 
   block: {
     normal: ({ children }) => (
-      <p className="text-lg font-light text-gray-800 mb-6 leading-relaxed">
+      <p className="whitespace-pre-wrap text-lg font-light text-gray-800 mb-6 leading-relaxed">
         {children}
       </p>
     ),
 
     h1: ({ children }) => (
-      <h1 className="text-5xl font-bold mt-16 mb-8">{children}</h1>
+      <h1 className="whitespace-pre-wrap text-5xl font-bold mt-16 mb-8">
+        {children}
+      </h1>
     ),
 
     h2: ({ children }) => (
-      <h2 className="text-4xl font-semibold mt-14 mb-6">{children}</h2>
+      <h2 className="whitespace-pre-wrap text-4xl font-semibold mt-14 mb-6">
+        {children}
+      </h2>
     ),
 
     h3: ({ children }) => (
-      <h3 className="text-3xl font-medium mt-12 mb-4">{children}</h3>
+      <h3 className="whitespace-pre-wrap text-3xl font-medium mt-12 mb-4">
+        {children}
+      </h3>
     ),
 
     blockquote: ({ children }) => (
-      <blockquote className="border-l-4 border-gray-300 pl-6 italic my-8">
+      <blockquote className="whitespace-pre-wrap border-l-4 border-gray-300 pl-6 italic my-8">
         {children}
       </blockquote>
     ),
