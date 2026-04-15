@@ -1,10 +1,13 @@
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import PostList from "@/components/PostList";
 import GalleryList from "@/components/GalleryList";
 import { client } from "@/sanity/client";
 
-import { PortableText, PortableTextBlock, type SanityDocument } from "next-sanity";
+import {
+  PortableText,
+  PortableTextBlock,
+  type SanityDocument,
+} from "next-sanity";
 
 import { homeComponents } from "./homeComponents";
 
