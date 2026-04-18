@@ -109,20 +109,9 @@ export default async function ParadiseProjectPage() {
           {/* Body Text */}
           {data?.bodyText && (
             <div className="relative lg:absolute lg:left-[61.5rem] lg:top-[28.25rem] lg:w-[55.5rem] lg:max-w-full">
-              <p className={`${cormorantInfant.className} text-[1.125rem] lg:text-[1.875rem] leading-relaxed lg:leading-[2.25rem] text-black font-medium`}>
-                {data.bodyText.split('|').map((segment, i, arr) => (
-                  <span key={i}>
-                    {segment}
-                    {i < arr.length - 1 && (
-                      <>
-                        <br className="lg:hidden" />
-                        <br className="lg:hidden" />
-                        <span className="hidden lg:inline"> </span>
-                      </>
-                    )}
-                  </span>
-                ))}
-              </p>
+               <p className={`${cormorantInfant.className} text-[1.125rem] lg:text-[1.875rem] leading-relaxed lg:leading-[2.25rem] text-black font-medium whitespace-pre-wrap`}>
+                 {data.bodyText}
+               </p>
             </div>
           )}
         </div>
