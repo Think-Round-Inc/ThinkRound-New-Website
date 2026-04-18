@@ -48,7 +48,7 @@ export default async function ParadiseProjectPage() {
           
           {/* Hero Image */}
           <div 
-            className="relative lg:absolute w-full lg:w-[72.625rem] h-[35vh] lg:h-[34.9375rem] lg:left-[3.4375rem] lg:top-[13.0625rem]"
+            className="relative lg:absolute w-full lg:w-[87.15rem] h-[40vh] lg:h-[41.925rem] lg:left-[-4rem] lg:top-[9rem]"
           >
             {data?.heroImage?.asset?.url ? (
               <div className="relative w-full h-full transform scale-x-[-1]">
@@ -66,7 +66,7 @@ export default async function ParadiseProjectPage() {
           </div>
 
           {/* Heading Overlays (The Paradise Project) */}
-          <div className="absolute top-0 left-0 w-full h-full pointer-events-none flex flex-col items-center justify-center lg:block lg:contents">
+          <div className="absolute top-0 left-0 w-full h-full pointer-events-none flex flex-col items-start justify-center pl-24 pr-6 lg:block lg:contents">
              {/* 'The' */}
              <div className="relative lg:absolute lg:top-[14.25rem] lg:left-[12.125rem] mb-1 lg:mb-0">
                 <span className={`${cormorantSC.className} text-[2rem] lg:text-[3.125rem] leading-none text-black bg-transparent lg:bg-transparent`} style={{ letterSpacing: '0.3em' }}>
@@ -95,12 +95,12 @@ export default async function ParadiseProjectPage() {
           - Mobile: Spaced below the hero image.
           - Desktop: Back to their absolute positions on the right.
         */}
-        <div className="flex flex-col gap-6 px-6 pb-12 pt-4 lg:contents lg:p-0">
+        <div className="flex flex-col gap-6 pl-6 pr-6 pb-12 pt-4 lg:contents lg:p-0">
           
           {/* Sub-Header */}
           {data?.subHeader && (
             <div className="relative lg:absolute lg:left-[61.5rem] lg:top-[20.6875rem] lg:w-[24.75rem] lg:h-[2.25rem]">
-               <h2 className={`${cormorantSC.className} text-[1.25rem] lg:text-[1.875rem] leading-tight text-black font-medium text-center lg:text-center whitespace-normal lg:whitespace-nowrap`} style={{ letterSpacing: '0.15em' }}>
+               <h2 className={`${cormorantSC.className} text-[1.25rem] lg:text-[1.875rem] leading-tight text-black font-medium text-center whitespace-normal lg:whitespace-nowrap`} style={{ letterSpacing: '0.15em' }}>
                  {data.subHeader}
                </h2>
             </div>
