@@ -2,7 +2,7 @@ import {defineField, defineType} from 'sanity'
 
 export default defineType({
   name: 'paradiseProject',
-  title: 'Home Page',
+  title: 'Paradise Project',
   type: 'document',
   fields: [
     defineField({
@@ -36,7 +36,7 @@ export default defineType({
     },
     prepare({media}) {
       return {
-        title: 'Home Page',
+        title: 'Paradise Project',
         media,
       }
     }
