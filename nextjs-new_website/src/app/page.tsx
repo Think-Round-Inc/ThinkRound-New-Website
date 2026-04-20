@@ -92,7 +92,6 @@ export default async function IndexPage() {
           <PortableText value={homepage.content} components={homeComponents} />
         </section>
       </article>
-      <Footer />
     </>
   );
 }
