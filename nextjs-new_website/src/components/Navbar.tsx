@@ -61,7 +61,7 @@ export default function Navbar() {
         },
         {
           name: "PARADISE PROJECT",
-          href: "/about/paradise_project",
+          href: "/paradise_project",
         },
       ],
     },
@@ -136,3 +136,5 @@ export default function Navbar() {
     </nav>
   );
 }
+
+  
