@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 
 interface GalleryImage {
   src: string;
@@ -18,6 +18,11 @@ interface ExhibitionGalleryProps {
 
 export default function ExhibitionGallery({ images }: ExhibitionGalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(true);
+  }, [activeIndex]);
 
   const goNext = useCallback(() => {
     setActiveIndex((prev) => (prev + 1) % images.length);
@@ -46,13 +51,22 @@ export default function ExhibitionGallery({ images }: ExhibitionGalleryProps) {
       className="mb-12 outline-none focus-visible:outline-2 focus-visible:outline-black"
     >
       {/* Hero Image - fixed aspect ratio to prevent layout shift */}
-      <div className="relative w-full aspect-[3/2] rounded-lg overflow-hidden bg-white">
+      <div className="relative w-full aspect-[3/2] rounded-lg overflow-hidden bg-gray-50">
+        {isLoading && (
+          <div
+            className="absolute inset-0 z-20 flex items-center justify-center bg-gray-50"
+            aria-hidden="true"
+          >
+            <Loader2 className="w-10 h-10 text-gray-400 animate-spin" />
+          </div>
+        )}
         <Image
           key={activeIndex}
           src={active.src}
           alt={active.alt}
           fill
           className="object-contain"
+          onLoad={() => setIsLoading(false)}
           {...(activeIndex === 0
             ? { priority: true }
             : {
