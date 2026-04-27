@@ -80,10 +80,9 @@ export default defineType({
             },
             {
               name: 'caption',
-              title: 'Caption',
+              title: 'Caption (optional)',
               type: 'string',
               description: 'e.g. "Artist Name - Title, Year, Medium"',
-              validation: (Rule) => Rule.required(),
             },
             {
               name: 'alt',
