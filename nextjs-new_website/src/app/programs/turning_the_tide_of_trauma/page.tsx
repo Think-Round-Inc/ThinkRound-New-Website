@@ -48,19 +48,19 @@ function readMarkdown(text: string){
 export default async function TtoTPage() {
     const ttot = await getTtoT();
     return (
-        <div className="w-full max-w-7xl mx-auto py-12 px-4">
+        <div className="flex flex-col min-h-screen bg-white">
             <Navbar />
             {
                 ttot.map(t => (
-                    <div key={t._id}>
-                        <div className="text-4xl text-center">{t.title}</div>
+                    <div key={t._id} className="py-10">
+                        <div className="text-4xl text-center text-gray-800">{t.title}</div>
                         <Image src={urlFor(t.mainImage).width(550).height(550).url()}
                             alt={t.title}
                             width={550}
                             height={550}
                             className="max-w-md mx-auto py-6 px-4 rounded-lg object-cover"
                         />
-                        <div className="text-center">{readMarkdown(t.description)}</div>
+                        <div className="text-center text-gray-800 px-48 py-12">{readMarkdown(t.description)}</div>
                         {
                             t.links.map(
                                 link => (
