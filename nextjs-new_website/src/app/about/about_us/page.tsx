@@ -88,7 +88,6 @@ function enlargeTitle(text:string){
 
 export default async function AboutUsPage() {
 
-  
     const cPartners = await getCurrentPartners();
     const pPartners = await getPastPartners();
     const abouts = await getAboutUs();
@@ -96,20 +95,20 @@ export default async function AboutUsPage() {
     //will need to search for enboldened or italic text and replace it before returning
       //Will need to search for triple then duo then single asterisk
     return ( //need to map the menu and the actual text
-        <div className="w-full max-w-7xl mx-auto py-12 px-4">
+        <div className="w-full min-h-screen mx-auto bg-white">
           <Navbar />
-          <h1 className="text-4xl font-bold mb-8 text-center">THINK ROUND, INC. VISION AND STRATEGIC PLAN (2014 and beyond)</h1>
+          <h1 className="text-4xl font-bold mb-8 text-center text-gray-800 pt-20">THINK ROUND, INC. VISION AND STRATEGIC PLAN (2014 and beyond)</h1>
           <div className="flex flex-col gap-6 sm:flex-row">
             <div className="mainText">
               {abouts.map((about) => (
-                <div key={about._id} className="p-3">
+                <div key={about._id} className="p-3 text-gray-800">
                   {enlargeTitle(about.title)}
-                  <div className="text-center">{readMarkdown(about.description)}</div>
+                  <div className="px-50">{readMarkdown(about.description)}</div>
                 </div>
               ))}
 
-              <div className="text-xl p-3">Current Partners</div>
-              <div id="currentPartners">
+              <div className="text-xl p-3 text-gray-800 px-50">Current Partners</div>
+              <div id="currentPartners" className="px-50">
                 {cPartners.map((partner) => (
                   <div key={partner._id}>
                     <Link href={partner.hyperlink}>
@@ -125,8 +124,8 @@ export default async function AboutUsPage() {
                 ))}
               </div>
 
-            <div className="text-xl p-3">Past Partners</div>
-            <div id="pastPartners">
+            <div className="text-xl p-3 text-gray-800 px-50">Past Partners</div>
+            <div id="pastPartners" className="px-50">
               {pPartners.map((partner) => (
                 <div key={partner._id}>
                   <Image
