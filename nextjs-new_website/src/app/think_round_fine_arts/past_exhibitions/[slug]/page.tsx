@@ -1,10 +1,9 @@
 import { client, urlFor } from "@/sanity/client";
-import Image from "next/image";
 import Link from "next/link";
 import { PortableText, PortableTextBlock } from "next-sanity";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import ExhibitionGallery from "@/components/ExhibitionGallery";
+import ArtistCard from "@/components/ArtistCard";
 import type { Metadata } from "next";
 
 export const revalidate = 30;
@@ -114,6 +113,24 @@ export async function generateStaticParams() {
 }
 
 const descriptionComponents = {
+  marks: {
+    strong: ({ children }: { children?: React.ReactNode }) => (
+      <strong className="font-bold">{children}</strong>
+    ),
+    em: ({ children }: { children?: React.ReactNode }) => (
+      <em className="italic">{children}</em>
+    ),
+    link: ({ value, children }: { value?: { href: string }; children?: React.ReactNode }) => (
+      <a
+        href={value?.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-600 underline hover:text-blue-800 transition-colors"
+      >
+        {children}
+      </a>
+    ),
+  },
   block: {
     normal: ({ children }: { children?: React.ReactNode }) => (
       <p className="text-lg font-light text-gray-700 mb-4 leading-relaxed">
@@ -147,8 +164,10 @@ const descriptionComponents = {
 };
 
 function formatDateRange(startDate: string, endDate: string): string {
-  const start = new Date(startDate);
-  const end = new Date(endDate);
+  const [sy, sm, sd] = startDate.split("-").map(Number);
+  const [ey, em, ed] = endDate.split("-").map(Number);
+  const start = new Date(sy, sm - 1, sd);
+  const end = new Date(ey, em - 1, ed);
   const opts: Intl.DateTimeFormatOptions = {
     month: "long",
     day: "numeric",
@@ -268,36 +287,16 @@ export default async function PastExhibitionDetailPage({
               </h2>
               <div className="flex gap-4 overflow-x-auto pb-3 scrollbar-hide">
                 {exhibition.artists.map((artist, index) => (
-                  <div
+                  <ArtistCard
                     key={index}
-                    className="flex-shrink-0 flex items-center gap-3 bg-gray-50 rounded-lg px-4 py-3 border border-gray-200 min-w-[240px] max-w-[300px]"
-                  >
-                    {artist.photo && (
-                      <div className="flex-shrink-0 w-12 h-12 rounded-full overflow-hidden">
-                        <Image
-                          src={urlFor(artist.photo)
-                            .width(96)
-                            .height(96)
-                            .url()}
-                          alt={`${artist.name} portrait`}
-                          width={96}
-                          height={96}
-                          className="object-cover w-full h-full"
-                          sizes="48px"
-                        />
-                      </div>
-                    )}
-                    <div className="min-w-0">
-                      <h3 className="text-sm font-semibold text-black truncate">
-                        {artist.name}
-                      </h3>
-                      {artist.bio && (
-                        <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed">
-                          {artist.bio}
-                        </p>
-                      )}
-                    </div>
-                  </div>
+                    name={artist.name}
+                    bio={artist.bio}
+                    photoUrl={
+                      artist.photo
+                        ? urlFor(artist.photo).width(96).height(96).url()
+                        : undefined
+                    }
+                  />
                 ))}
               </div>
             </section>
@@ -314,7 +313,6 @@ export default async function PastExhibitionDetailPage({
           )}
         </div>
       </main>
-      <Footer />
     </>
   );
 }

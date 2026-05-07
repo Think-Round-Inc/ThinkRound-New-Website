@@ -90,16 +90,26 @@ export default async function StreamOfConsciousnessPage() {
         )
     }
 
+    // On mobile, normalize the first two images to the width of the larger one
+    const firstImageWidth = data.images?.[0]?.widthPercentage ?? 100;
+    const secondImageWidth = data.images?.[1]?.widthPercentage ?? 100;
+    const mobileFirstTwoWidth = Math.max(firstImageWidth, secondImageWidth);
+
     return (
-        <main className="min-h-screen bg-white text-black p-8 flex flex-col items-center">
+        <main className="min-h-screen bg-white text-black p-4 sm:p-8 flex flex-col items-center">
             <h1
                 className={`${instrumentSans.className} mb-12 text-center`}
                 style={{
-                    fontSize: '64px',
+                    fontSize: 'clamp(22px, 6vw, 64px)',
                     fontWeight: 700,
-                    lineHeight: '64px',
+                    lineHeight: '1.2',
+                    overflow: 'visible',
+                    paddingBottom: '4px',
                     color: 'rgb(46, 46, 46)',
-                    fontStyle: 'normal'
+                    fontStyle: 'normal',
+                    overflowWrap: 'break-word',
+                    wordBreak: 'break-word',
+                    maxWidth: '100%',
                 }}
             >
                 Stream of
@@ -107,11 +117,23 @@ export default async function StreamOfConsciousnessPage() {
                 Consciousness
             </h1>
 
+            {/* Single style block: on mobile, equalize the first two images to the larger width */}
+            <style>{`
+                @media (max-width: 639px) {
+                    .img-first-two {
+                        width: ${mobileFirstTwoWidth}% !important;
+                    }
+                }
+            `}</style>
+
             <div className="flex flex-col gap-12 w-full items-center">
                 {data.images?.map((item: SanityImage, index: number) => (
                     <div key={index} className="w-full flex justify-center">
                         {item.image && (
-                            <div style={{ width: `${item.widthPercentage || 100}%`, position: 'relative' }}>
+                            <div
+                                className={index < 2 ? 'img-first-two' : ''}
+                                style={{ width: `${item.widthPercentage || 100}%` }}
+                            >
                                 <Image
                                     src={urlFor(item.image).width(1920).url()}
                                     alt={`Stream of Consciousness ${index + 1}`}
@@ -144,7 +166,7 @@ export default async function StreamOfConsciousnessPage() {
             <br />
             <br />
             {data.videoUrl && getYouTubeId(data.videoUrl) && (
-                <div className="mt-12 flex flex-col items-center gap-4 w-full max-w-2xl">
+                <div className="mt-12 flex flex-col items-center gap-4 w-full max-w-2xl px-4 sm:px-0">
                     <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-lg">
                         <iframe
                             src={`https://www.youtube.com/embed/${getYouTubeId(data.videoUrl)}`}
@@ -156,10 +178,11 @@ export default async function StreamOfConsciousnessPage() {
                     </div>
                     {data.videoText && (
                         <div
-                            className="text-center max-w-2xl text-[24px]"
+                            className="text-center w-full"
                             style={{
                                 color: '#828282',
                                 fontFamily: leagueSpartan.style.fontFamily,
+                                fontSize: 'clamp(18px, 3.5vw, 24px)',
                                 lineHeight: '1.6em',
                                 letterSpacing: '.02em'
                             }}
@@ -171,19 +194,20 @@ export default async function StreamOfConsciousnessPage() {
             )}
 
             {(data.paragraph1Title || data.paragraph1Text) && (
-                <div className="mt-12 flex flex-col items-center gap-4 w-full max-w-2xl text-center">
+                <div className="mt-12 flex flex-col items-center gap-4 w-full max-w-2xl px-4 sm:px-0">
                     {data.paragraph1Title && (
-                        <div className="text-4xl text-left w-[720px]" style={{ color: '#424242' }}>
+                        <div className="text-left w-full" style={{ color: '#424242', fontSize: 'clamp(24px, 5vw, 36px)' }}>
                             <PortableText value={data.paragraph1Title} components={portableTextComponents} />
                         </div>
                     )}
                     {data.paragraph1Text && (
                         <div
-                            className="text-left w-[720px] text-[24px]"
+                            className="text-left w-full"
                             style={{
                                 fontWeight: 400,
                                 color: '#828282',
                                 fontFamily: leagueSpartan.style.fontFamily,
+                                fontSize: 'clamp(18px, 3.5vw, 24px)',
                                 lineHeight: '1.6em',
                                 letterSpacing: '.02em'
                             }}
@@ -195,19 +219,20 @@ export default async function StreamOfConsciousnessPage() {
             )}
 
             {(data.paragraph2Title || data.paragraph2Text) && (
-                <div className="mt-12 flex flex-col items-center gap-4 w-full max-w-2xl text-center">
+                <div className="mt-12 flex flex-col items-center gap-4 w-full max-w-2xl px-4 sm:px-0 text-center">
                     {data.paragraph2Title && (
-                        <div className="text-center w-[720px] text-[24px]">
+                        <div className="text-center w-full" style={{ fontSize: 'clamp(18px, 3.5vw, 24px)' }}>
                             <PortableText value={data.paragraph2Title} components={portableTextComponents} />
                         </div>
                     )}
                     {data.paragraph2Text && (
                         <div
-                            className="text-left w-[720px] text-[24px]"
+                            className="text-left w-full"
                             style={{
                                 fontWeight: 400,
                                 color: '#828282',
                                 fontFamily: leagueSpartan.style.fontFamily,
+                                fontSize: 'clamp(18px, 3.5vw, 24px)',
                                 lineHeight: '1.6em',
                                 letterSpacing: '.02em'
                             }}
@@ -219,19 +244,20 @@ export default async function StreamOfConsciousnessPage() {
             )}
 
             {(data.paragraph3Title || data.paragraph3Text) && (
-                <div className="mt-12 flex flex-col items-center gap-4 w-full max-w-2xl text-center">
+                <div className="mt-12 flex flex-col items-center gap-4 w-full max-w-2xl px-4 sm:px-0 text-center">
                     {data.paragraph3Title && (
-                        <div className="text-center w-[720px] text-[24px]" style={{ color: '#828282' }}>
+                        <div className="text-center w-full" style={{ color: '#828282', fontSize: 'clamp(18px, 3.5vw, 24px)' }}>
                             <PortableText value={data.paragraph3Title} components={portableTextComponents} />
                         </div>
                     )}
                     {data.paragraph3Text && (
                         <div
-                            className="text-left w-[720px] text-[24px]"
+                            className="text-left w-full"
                             style={{
                                 fontWeight: 400,
                                 color: '#828282',
                                 fontFamily: leagueSpartan.style.fontFamily,
+                                fontSize: 'clamp(18px, 3.5vw, 24px)',
                                 lineHeight: '1.6em',
                                 letterSpacing: '.02em'
                             }}
@@ -247,7 +273,7 @@ export default async function StreamOfConsciousnessPage() {
                     {data.bottomImages.map((item: SanityImage, index: number) => (
                         <div key={index} className="w-full flex justify-center">
                             {item.image && (
-                                <div style={{ width: `${item.widthPercentage || 100}%`, position: 'relative' }}>
+                                <div style={{ width: `${item.widthPercentage || 100}%` }}>
                                     <Image
                                         src={urlFor(item.image).width(1920).url()}
                                         alt={`Bottom Image ${index + 1}`}
@@ -263,13 +289,14 @@ export default async function StreamOfConsciousnessPage() {
             )}
 
             {data.paragraph4Text && (
-                <div className="mt-12 flex flex-col items-center gap-4 w-full max-w-2xl text-center">
+                <div className="mt-12 flex flex-col items-center gap-4 w-full max-w-2xl px-4 sm:px-0">
                     <div
-                        className="text-left w-[720px] text-[24px]"
+                        className="text-left w-full"
                         style={{
                             fontWeight: 400,
                             color: '#828282',
                             fontFamily: leagueSpartan.style.fontFamily,
+                            fontSize: 'clamp(18px, 3.5vw, 24px)',
                             lineHeight: '1.6em',
                             letterSpacing: '.02em'
                         }}

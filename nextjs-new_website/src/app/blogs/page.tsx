@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { client } from "@/sanity/client";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 
 interface BlogCard {
   title: string;
@@ -72,7 +71,6 @@ export default async function BlogsPage() {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 }

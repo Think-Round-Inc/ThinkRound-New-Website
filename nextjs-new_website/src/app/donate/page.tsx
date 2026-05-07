@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { client } from "@/sanity/client";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 
 export const revalidate = 30; // ISR: revalidate every 30s
 
@@ -82,8 +81,6 @@ export default async function DonatePage() {
           </div>
         )}
       </section>
-
-      <Footer />
     </>
   );
 }

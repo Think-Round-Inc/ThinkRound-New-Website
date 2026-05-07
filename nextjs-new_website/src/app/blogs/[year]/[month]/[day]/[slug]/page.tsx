@@ -2,7 +2,6 @@ import { client } from "@/sanity/client";
 import { PortableText, PortableTextBlock } from "@portabletext/react";
 import { ptComponents } from "./ptComponents";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 
 interface Blog {
   title: string;
@@ -73,7 +72,6 @@ export default async function BlogPostPage({
           </section>
         </div>
       </article>
-      <Footer />
     </>
   );
 }

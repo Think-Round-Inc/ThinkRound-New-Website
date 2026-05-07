@@ -13,10 +13,17 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'cardTitle',
+      title: 'Card Title (optional)',
+      type: 'string',
+      description:
+        'Short title shown on the archive listing card. If left blank, the main Title is used. (Useful when the full title is too long for a card)',
+    }),
+    defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      options: {source: 'title'},
+      options: {source: (doc: Record<string, unknown>) => (doc.cardTitle as string) || (doc.title as string) || ''},
       description: 'URL-friendly identifier, auto-generated from title',
       validation: (Rule) => Rule.required(),
     }),
@@ -73,10 +80,9 @@ export default defineType({
             },
             {
               name: 'caption',
-              title: 'Caption',
+              title: 'Caption (optional)',
               type: 'string',
               description: 'e.g. "Artist Name - Title, Year, Medium"',
-              validation: (Rule) => Rule.required(),
             },
             {
               name: 'alt',

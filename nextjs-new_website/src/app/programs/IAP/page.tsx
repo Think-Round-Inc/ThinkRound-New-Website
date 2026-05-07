@@ -1,7 +1,6 @@
 import { createClient } from 'next-sanity'
 import Image from 'next/image'
 import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer'
 
 
 
@@ -241,8 +240,6 @@ export default async function IapPage() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </main>
   )
 }
