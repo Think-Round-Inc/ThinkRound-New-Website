@@ -14,7 +14,6 @@ import homePageBuilder from './homepage/homePageBuilder'
 import videoBlock from './homepage/videoBlock'
 import videoFeatureBlock from './homepage/videoFeatureBlock'
 import buttonRow from './homepage/buttonRow'
-import turningTheTide from "./turningTheTideOfTrauma"
 import paradiseProject from './paradiseProject'
 
 export const schemaTypes = [
