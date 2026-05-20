@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import { client } from "@/sanity/client";
 import Image from "next/image";
 import Link from "next/link";
-import { Cormorant_SC, Cormorant_Infant } from "next/font/google";
+import { Cormorant_SC, Cormorant_Infant, Lato } from "next/font/google";
 
 const cormorantSC = Cormorant_SC({
   subsets: ["latin"],
@@ -12,6 +12,11 @@ const cormorantSC = Cormorant_SC({
 const cormorantInfant = Cormorant_Infant({
   subsets: ["latin"],
   weight: ["500"],
+});
+
+const lato = Lato({
+  subsets: ["latin"],
+  weight: ["400", "700"],
 });
 
 export default async function ParadiseProjectPage() {
@@ -191,11 +196,11 @@ export default async function ParadiseProjectPage() {
                 <div key={slug} className="border border-gray-200 rounded-xl overflow-hidden flex flex-row h-[15rem]">
                   <div className="flex flex-col justify-between p-8 flex-1">
                     <div>
-                      <h3 className={`font-serif text-[2.75rem] font-normal leading-tight text-black`}>{community.name}</h3>
-                      <p className={`${cormorantInfant.className} text-[1.25rem] text-black mt-3`}>Coming soon</p>
+                      <h3 className={`${lato.className} text-[2.75rem] font-normal leading-tight text-black`}>{community.name}</h3>
+                      <p className={`${lato.className} text-[1.25rem] text-black mt-3`}>Coming soon</p>
                     </div>
                     <div className="mt-6">
-                      <span className={`font-serif inline-flex items-center gap-1 border border-black rounded-none px-3 py-1 text-[1.125rem]`}>
+                      <span className={`${lato.className} inline-flex items-center gap-1 border border-black rounded-none px-3 py-1 text-[1.125rem]`}>
                         {community.launchDate || '4/5/24'} <span>›</span>
                       </span>
                     </div>
@@ -216,16 +221,16 @@ export default async function ParadiseProjectPage() {
               <Link key={slug} href={`/paradise_project/${slug}`} className="group border border-gray-200 rounded-xl overflow-hidden flex flex-row h-[15rem] hover:shadow-md transition-shadow">
                 <div className="flex flex-col justify-between p-8 flex-1">
                   <div>
-                    <h3 className={`font-serif text-[2.75rem] font-normal leading-tight text-black`}>{community.name}</h3>
-                    <p className={`${cormorantInfant.className} text-[1.25rem] text-black mt-3`}>
+                    <h3 className={`${lato.className} text-[2.75rem] font-normal leading-tight text-black`}>{community.name}</h3>
+                    <p className={`${lato.className} text-[1.25rem] text-black mt-3`}>
                       {community.familyCount ? `${community.familyCount} families` : 'X number of families'}
                     </p>
-                    <p className={`${cormorantInfant.className} text-[1.25rem] text-black`}>
+                    <p className={`${lato.className} text-[1.25rem] text-black`}>
                       {community.paintingCount ? `${community.paintingCount} paintings` : 'X number of paintings'}
                     </p>
                   </div>
                   <div className="mt-6">
-                    <span className={`font-serif inline-flex items-center gap-1 border border-black rounded-none px-3 py-1 text-[1.125rem] group-hover:bg-black group-hover:text-white transition-colors`}>
+                    <span className={`${lato.className} inline-flex items-center gap-1 border border-black rounded-none px-3 py-1 text-[1.125rem] group-hover:bg-black group-hover:text-white transition-colors`}>
                       Explore <span>›</span>
                     </span>
                   </div>
@@ -244,15 +249,15 @@ export default async function ParadiseProjectPage() {
 
           {/* View All — always last */}
           <Link href="/paradise_project/all" className="group border border-gray-200 rounded-xl overflow-hidden flex flex-col items-center justify-center p-8 min-h-[15rem] hover:shadow-md transition-shadow">
-            <h3 className={`font-serif text-[2.75rem] font-normal leading-tight text-black text-center`}>View All</h3>
-            <p className={`${cormorantInfant.className} text-[1.25rem] text-black mt-3 text-center`}>
+            <h3 className={`${lato.className} text-[2.75rem] font-normal leading-tight text-black text-center`}>View All</h3>
+            <p className={`${lato.className} text-[1.25rem] text-black mt-3 text-center`}>
               {data?.viewAll?.familyCount ? `${data.viewAll.familyCount} families` : 'X number of families'}
             </p>
-            <p className={`${cormorantInfant.className} text-[1.25rem] text-black text-center`}>
+            <p className={`${lato.className} text-[1.25rem] text-black text-center`}>
               {data?.viewAll?.paintingCount ? `${data.viewAll.paintingCount} paintings` : 'X number of paintings'}
             </p>
             <div className="mt-6">
-              <span className={`font-serif inline-flex items-center gap-1 border border-black rounded-none px-3 py-1 text-[1.125rem] group-hover:bg-black group-hover:text-white transition-colors`}>
+              <span className={`${lato.className} inline-flex items-center gap-1 border border-black rounded-none px-3 py-1 text-[1.125rem] group-hover:bg-black group-hover:text-white transition-colors`}>
                 Explore <span>›</span>
               </span>
             </div>
