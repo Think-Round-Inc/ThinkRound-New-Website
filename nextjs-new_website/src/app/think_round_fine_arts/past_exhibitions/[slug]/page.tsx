@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import ExhibitionGallery from "@/components/ExhibitionGallery";
 import ArtistCard from "@/components/ArtistCard";
 import type { Metadata } from "next";
-
+import Footer from "@/components/Footer";
 export const revalidate = 30;
 
 interface Artist {
@@ -49,7 +49,7 @@ interface PastExhibitionDetail {
 }
 
 async function getExhibition(
-  slug: string
+  slug: string,
 ): Promise<PastExhibitionDetail | null> {
   return client.fetch<PastExhibitionDetail | null>(
     `*[_type == "pastExhibition" && slug.current == $slug][0]{
@@ -66,7 +66,7 @@ async function getExhibition(
       links,
       galleryLocation
     }`,
-    { slug }
+    { slug },
   );
 }
 
@@ -107,7 +107,7 @@ export async function generateMetadata({
 
 export async function generateStaticParams() {
   const exhibitions = await client.fetch<{ slug: string }[]>(
-    `*[_type == "pastExhibition"]{ "slug": slug.current }`
+    `*[_type == "pastExhibition"]{ "slug": slug.current }`,
   );
   return exhibitions.map((e) => ({ slug: e.slug }));
 }
@@ -120,7 +120,13 @@ const descriptionComponents = {
     em: ({ children }: { children?: React.ReactNode }) => (
       <em className="italic">{children}</em>
     ),
-    link: ({ value, children }: { value?: { href: string }; children?: React.ReactNode }) => (
+    link: ({
+      value,
+      children,
+    }: {
+      value?: { href: string };
+      children?: React.ReactNode;
+    }) => (
       <a
         href={value?.href}
         target="_blank"
@@ -235,9 +241,16 @@ export default async function PastExhibitionDetailPage({
             images={[
               {
                 src: urlFor(exhibition.coverImage).width(1200).url(),
-                thumbSrc: urlFor(exhibition.coverImage).width(160).height(160).url(),
-                blurDataURL: urlFor(exhibition.coverImage).width(20).blur(10).url(),
-                alt: exhibition.coverImage.alt || `${exhibition.title} exhibition`,
+                thumbSrc: urlFor(exhibition.coverImage)
+                  .width(160)
+                  .height(160)
+                  .url(),
+                blurDataURL: urlFor(exhibition.coverImage)
+                  .width(20)
+                  .blur(10)
+                  .url(),
+                alt:
+                  exhibition.coverImage.alt || `${exhibition.title} exhibition`,
               },
               ...(exhibition.artworkGallery || []).map((artwork, index) => ({
                 src: urlFor(artwork.image).width(1200).url(),
