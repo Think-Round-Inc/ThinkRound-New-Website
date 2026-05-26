@@ -42,6 +42,18 @@ const buttons = [
     href: "http://newfillmore.com/wp-content/uploads/2019/11/2019_11.pdf",
     type: "purple",
   },
+  {
+    title: "CARAVAN Global Citizen SHORT FILM FESTIVAL:",
+    name: "LEARN MORE",
+    href: "https://www.oncaravan.org/global-citizen",
+    type: "purple",
+  },
+  {
+    title: "FAMILIES OF ABRAHAM ON SF EXAMINER",
+    name: "LEARN MORE",
+    href: "https://www.sfexaminer.com/entertainment/good-day-oct-3-5-2019/",
+    type: "purple",
+  },
 ];
 
 export default async function PressPage() {
