@@ -18,7 +18,7 @@ export default function Buttons(props: ButtonProps) {
       <Link
         href={props.href}
         className={clsx(
-          "     flex h-[48px]  items-center  max-w-fit px-10  text-sm md:max-lg:text-md lg:text-2xl font-bold ",
+          "flex h-[48px]  items-center  w-fit px-10  text-sm lg:text-xl font-bold ",
           {
             "bg-white text-orange-400 border-2 rounded-md border-orange-400 hover:bg-orange-400 hover:text-white ":
               props.type === "orange",
@@ -29,6 +29,12 @@ export default function Buttons(props: ButtonProps) {
       >
         {props.name}
       </Link>
+      // <Link
+      //   href={props.href}
+      //   className="text-lg  items-stretch inline-block mt-6 border-2 border-orange-500 text-orange-500 px-6 py-2 font-semibold hover:bg-orange-500 hover:text-white transition self-start"
+      // >
+      //   {props.name}
+      // </Link>
     );
   }
 }

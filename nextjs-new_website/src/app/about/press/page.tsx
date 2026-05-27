@@ -77,7 +77,7 @@ export default async function PressPage() {
             </div>
 
             {/* Right: Title, description and buttons */}
-            <div className="flex flex-col flex-1 justify-start pt-6 md:w-2/3 ">
+            <div className="flex flex-col flex-1 justify-start pt-6 md:w-2/3">
               <div>
                 <div className="text-xl lg:text-3xl text-black font-bold">
                   {post.title}
@@ -87,10 +87,10 @@ export default async function PressPage() {
                 {Array.isArray(post.body) && <PortableText value={post.body} />}
               </div>
 
-              <div className="pt-6">
+              <div className="pt-6 flex flex-col gap-4">
                 {buttons.map((button) =>
                   post.title === button.title ? (
-                    <div className="pt-6" key={button.href}>
+                    <div className="pt-6 " key={button.href}>
                       <Buttons
                         key={button.href}
                         title={button.title}
