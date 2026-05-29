@@ -1,7 +1,8 @@
 import Image from "next/image";
-import { client, urlFor } from "@/sanity/client";
+import { urlFor } from "@/sanity/client";
 import { PortableText } from "next-sanity";
 import Buttons from "@/components/Buttons";
+import LazyImage from "./LazyImage";
 
 interface Post {
   _id: string;
@@ -45,14 +46,14 @@ const buttons = [
 
 export default async function PressPost({ post }: { post: Post }) {
   return (
-    <div className="flex flex-col md:flex-row p-10 gap-10">
-      Left: Photo
+    <div className="flex flex-col md:flex-row px-15 py-5 ">
+      {/* Left: Photo */}
       <div className="sm:max-md:shrink-0   md:w-1/3">
-        <Image
-          src={urlFor(post.image).width(500).height(500).url()}
+        <LazyImage
+          src={urlFor(post.image).width(450).height(450).url()}
           alt={post.title}
-          width={500}
-          height={500}
+          width={450}
+          height={450}
           className=" rounded-lg object-cover "
         />
       </div>
