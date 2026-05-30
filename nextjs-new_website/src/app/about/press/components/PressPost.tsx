@@ -1,8 +1,7 @@
-import Image from "next/image";
 import { urlFor } from "@/sanity/client";
 import { PortableText } from "next-sanity";
-import Buttons from "@/components/Buttons";
-import LazyImage from "./LazyImage";
+import Buttons from "@/app/about/press/components/Buttons";
+import LazyImage from "@/app/about/press/components/LazyImage";
 
 interface Post {
   _id: string;
@@ -74,7 +73,6 @@ export default async function PressPost({ post }: { post: Post }) {
               <div className="pt-6 " key={button.href}>
                 <Buttons
                   key={button.href}
-                  title={button.title}
                   name={button.name}
                   href={button.href}
                   type={button.type}

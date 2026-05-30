@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import { client } from "@/sanity/client";
 
-import PressPost from "@/components/PressPost";
+import PressPost from "@/app/about/press/components/PressPost";
 
 interface Post {
   _id: string;

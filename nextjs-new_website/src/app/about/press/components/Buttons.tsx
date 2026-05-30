@@ -4,7 +4,6 @@ import Link from "next/link";
 import clsx from "clsx";
 
 interface ButtonProps {
-  title: string;
   name: string;
   href: string;
   type: string;
