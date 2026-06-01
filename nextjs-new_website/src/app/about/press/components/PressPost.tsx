@@ -45,9 +45,9 @@ const buttons = [
 
 export default async function PressPost({ post }: { post: Post }) {
   return (
-    <div className="flex flex-col md:flex-row px-15 py-5 ">
+    <div className="flex flex-col md:flex-row px-15 py-5 md:gap-10">
       {/* Left: Photo */}
-      <div className="sm:max-md:shrink-0   md:w-1/3">
+      <div className="sm:max-md:shrink-0   md:w-1/3 ">
         <LazyImage
           src={urlFor(post.image).width(450).height(450).url()}
           alt={post.title}
