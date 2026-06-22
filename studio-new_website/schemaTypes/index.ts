@@ -16,6 +16,7 @@ import videoFeatureBlock from './homepage/videoFeatureBlock'
 import buttonRow from './homepage/buttonRow'
 import paradiseProject from './paradiseProject'
 import painting from './painting'
+import contactUs from './contactUs'
 
 export const schemaTypes = [
   boardMember,
@@ -36,4 +37,5 @@ export const schemaTypes = [
   buttonRow,
   paradiseProject,
   painting,
+  contactUs,
 ]

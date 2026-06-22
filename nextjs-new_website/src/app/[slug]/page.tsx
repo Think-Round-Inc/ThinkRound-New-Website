@@ -2,6 +2,7 @@ import { PortableText, type SanityDocument } from "next-sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import { client } from "@/sanity/client";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -21,7 +22,7 @@ export default async function PostPage({
   params: Promise<{ slug: string }>;
 }) {
   const resolvedParams = await params;
-  const slugRaw = (resolvedParams as any)?.slug ?? null;
+  const slugRaw = resolvedParams.slug;
   const slug = typeof slugRaw === "string" ? decodeURIComponent(slugRaw) : slugRaw;
 
   let post: SanityDocument | null = null;
@@ -68,12 +69,12 @@ export default async function PostPage({
         ← Back to posts
       </Link>
       {postImageUrl && (
-        <img
+        <Image
           src={postImageUrl}
           alt={post.title}
           className="aspect-video rounded-xl"
-          width="550"
-          height="310"
+          width={550}
+          height={310}
         />
       )}
       <h1 className="text-4xl font-bold mb-8">{post.title}</h1>

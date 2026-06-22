@@ -2,11 +2,12 @@ import Link from "next/link";
 import { SanityDocument } from "next-sanity";
 import Image from "next/image";
 import imageUrlBuilder from '@sanity/image-url';
+import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import { client } from "@/sanity/client";
 
 const builder = imageUrlBuilder(client);
 
-function urlFor(source: any) {
+function urlFor(source: SanityImageSource) {
   return builder.image(source);
 }
 
