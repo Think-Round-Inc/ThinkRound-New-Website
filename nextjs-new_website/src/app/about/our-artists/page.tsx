@@ -1,4 +1,5 @@
 import { client, urlFor } from "@/sanity/client";
+import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import Image from "next/image";
 
 export const revalidate = 60;
@@ -6,7 +7,7 @@ export const revalidate = 60;
 type Artist = {
   _id: string;
   name: string;
-  image?: any;
+  image?: SanityImageSource;
   bio?: string;
 };
 

@@ -2,6 +2,14 @@ import Image from "next/image";
 import { PortableTextComponents } from "@portabletext/react";
 import { urlFor } from "@/sanity/client";
 
+interface ButtonRowItem {
+  _key?: string;
+  href?: string;
+  label?: string;
+  openInNewTab?: boolean;
+  variant?: string;
+}
+
 export const homeComponents: PortableTextComponents = {
   types: {
     // 🖼 IMAGE
@@ -179,7 +187,7 @@ export const homeComponents: PortableTextComponents = {
 
       return (
         <div className="my-10 flex flex-wrap items-center justify-center gap-4">
-          {buttons.map((button: any) => (
+          {buttons.map((button: ButtonRowItem) => (
             <a
               key={button?._key || `${button?.href}-${button?.label}`}
               href={button?.href}

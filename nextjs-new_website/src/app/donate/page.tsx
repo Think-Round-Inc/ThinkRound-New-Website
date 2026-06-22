@@ -4,6 +4,25 @@ import Navbar from "@/components/Navbar";
 
 export const revalidate = 30; // ISR: revalidate every 30s
 
+interface DonateSocialLink {
+  platform?: string;
+  url?: string;
+}
+
+interface DonatePageData {
+  title?: string;
+  Image?: {
+    asset?: {
+      url?: string;
+    };
+  };
+  ButtonText?: string;
+  introText?: string;
+  supportingContent?: string;
+  secondaryButtonText?: string;
+  socialLinks?: DonateSocialLink[];
+}
+
 async function getDonatePage() {
   const query = `*[_type == "donatePage"][0]{
     title,
@@ -18,7 +37,7 @@ async function getDonatePage() {
     secondaryButtonText,
     socialLinks
   }`;
-  return await client.fetch(query);
+  return await client.fetch<DonatePageData | null>(query);
 }
 
 export default async function DonatePage() {
@@ -27,6 +46,8 @@ export default async function DonatePage() {
   if (!data) {
     return <div className="p-10 text-center">No donate page content found.</div>;
   }
+
+  const socialLinks = data.socialLinks ?? [];
 
   return (
     <>
@@ -65,9 +86,9 @@ export default async function DonatePage() {
           )}
         </div>
 
-        {data.socialLinks?.length > 0 && (
+        {socialLinks.length > 0 && (
           <div className="flex justify-center gap-6 mt-8">
-            {data.socialLinks.map((link: any, idx: number) => (
+            {socialLinks.map((link, idx) => (
               <a
                 key={idx}
                 href={link.url}

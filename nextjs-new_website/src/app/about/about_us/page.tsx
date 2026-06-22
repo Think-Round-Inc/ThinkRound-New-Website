@@ -12,13 +12,13 @@ interface AboutUs {
 interface CurrentPartner {
   _id: string;
   name: string;
-  logo: { asset: { _ref: string } };
-  hyperlink: string
+  logo?: { asset?: { _ref: string } };
+  hyperlink?: string
 }
 interface PastPartner {
   _id: string;
   name: string;
-  logo: { asset: { _ref: string } };
+  logo?: { asset?: { _ref: string } };
 }
 
 export const revalidate = 60;
@@ -53,7 +53,7 @@ async function getPastPartners(){
 }
 
 function readMarkdown(text: string){
-    var toReturn = text;
+    let toReturn = text;
     //  //Blockquote
     toReturn = toReturn.replace(/\>(.+)/g,"<blockquote>$1</blockquote>");
     //bolden
@@ -70,7 +70,7 @@ function readMarkdown(text: string){
 }
 
 function enlargeTitle(text:string){
-  var toReturn = text;
+  let toReturn = text;
   if (/\#(.+)/g.test(toReturn)){
     toReturn = toReturn.replace(/\#(.+)/g,"<div style='font-weight:bold; text-align: center; font-size:xx-large'>$1</div>");
     return (
@@ -111,15 +111,26 @@ export default async function AboutUsPage() {
               <div id="currentPartners" className="px-50">
                 {cPartners.map((partner) => (
                   <div key={partner._id}>
-                    <Link href={partner.hyperlink}>
-                    <Image
-                      src={urlFor(partner.logo).width(150).height(150).url()}
-                      alt={partner.name}
-                      width={150}
-                      height={150}
-                      className="rounded-lg object-cover"
-                    />
-                    </Link>
+                    {partner.logo?.asset && partner.hyperlink && (
+                      <Link href={partner.hyperlink}>
+                        <Image
+                          src={urlFor(partner.logo).width(150).height(150).url()}
+                          alt={partner.name}
+                          width={150}
+                          height={150}
+                          className="rounded-lg object-cover"
+                        />
+                      </Link>
+                    )}
+                    {partner.logo?.asset && !partner.hyperlink && (
+                      <Image
+                        src={urlFor(partner.logo).width(150).height(150).url()}
+                        alt={partner.name}
+                        width={150}
+                        height={150}
+                        className="rounded-lg object-cover"
+                      />
+                    )}
                   </div>
                 ))}
               </div>
@@ -128,13 +139,15 @@ export default async function AboutUsPage() {
             <div id="pastPartners" className="px-50">
               {pPartners.map((partner) => (
                 <div key={partner._id}>
-                  <Image
-                    src={urlFor(partner.logo).width(150).height(150).url()}
-                    alt={partner.name}
-                    width={150}
-                    height={150}
-                    className="block rounded-lg object-cover"
-                  />
+                  {partner.logo?.asset && (
+                    <Image
+                      src={urlFor(partner.logo).width(150).height(150).url()}
+                      alt={partner.name}
+                      width={150}
+                      height={150}
+                      className="block rounded-lg object-cover"
+                    />
+                  )}
                 </div>
               ))
               }

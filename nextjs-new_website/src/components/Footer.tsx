@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const socialLinks = [
   {
@@ -55,10 +56,10 @@ function SocialIcons({ className = "" }: { className?: string }) {
 function NavLinks({ className = "", boardLabel = "Our Board Members" }: { className?: string; boardLabel?: string }) {
   return (
     <nav className={`flex flex-wrap items-center gap-x-6 gap-y-2 text-base font-[100] text-gray-200 ${className}`}>
-      <a href="/mission" className="hover:underline transition-all whitespace-nowrap">Mission</a>
-      <a href="/contact" className="hover:underline transition-all whitespace-nowrap">Contact</a>
-      <a href="/board" className="hover:underline transition-all whitespace-nowrap">{boardLabel}</a>
-      <a href="/map" className="hover:underline transition-all whitespace-nowrap">Map</a>
+      <Link href="/mission" className="hover:underline transition-all whitespace-nowrap">Mission</Link>
+      <Link href="/about/contact_us" className="hover:underline transition-all whitespace-nowrap">Contact</Link>
+      <Link href="/board" className="hover:underline transition-all whitespace-nowrap">{boardLabel}</Link>
+      <Link href="/map" className="hover:underline transition-all whitespace-nowrap">Map</Link>
     </nav>
   );
 }
@@ -144,4 +145,3 @@ export default function Footer() {
     </footer>
   );
 }
-

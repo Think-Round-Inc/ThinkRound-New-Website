@@ -9,7 +9,10 @@ interface TtoT {
     title: string;
     mainImage: { asset: { _ref: string } };
     description: string;
-    links: []
+    links: {
+      linkname: string;
+      linkurl: string;
+    }[]
 }
 export const revalidate = 60;
 
@@ -29,7 +32,7 @@ async function getTtoT() {
 //update markdown to incroporate links
 //check for line breaks?
 function readMarkdown(text: string){
-    var toReturn = text;
+    let toReturn = text;
     //  //Blockquote
     toReturn = toReturn.replace(/\>(.+)/g,"<blockquote>$1</blockquote>");
     //Bolden

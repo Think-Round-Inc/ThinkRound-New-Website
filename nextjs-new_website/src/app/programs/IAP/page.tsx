@@ -41,10 +41,20 @@ interface IapPageData {
 
 }
 
+interface RawIapPageData {
+  title: string
+  heroImage1: ImageAsset
+  heroImage2: ImageAsset
+  heroImage3: ImageAsset
+  heroImage4: ImageAsset
+  body?: StudentBlock[]
+  studentProjectsBody?: StudentBlock[]
+}
+
 
 
 async function getIapPageData(): Promise<IapPageData> {
-  const data = await client.fetch<any>(`
+  const data = await client.fetch<RawIapPageData>(`
     *[_type == "iapPage"][0] {
       title,
       heroImage1 { asset->{url, metadata{dimensions}} },
