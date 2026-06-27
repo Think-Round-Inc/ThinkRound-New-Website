@@ -76,6 +76,7 @@ export default function Navbar() {
     },
     { label: "BLOGS", href: "/blogs" },
     { label: "VOLUNTEER", href: "/volunteer" },
+    { label: "SUBSCRIBE", href: "/subscribe" },
   ];
 
   const handleMouseEnter = (label: string) => {
