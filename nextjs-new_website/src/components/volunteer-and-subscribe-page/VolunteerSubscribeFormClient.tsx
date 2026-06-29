@@ -33,7 +33,7 @@ export default function VolunteerSubscribeFormClient({ id }: Props) {
   const [errors, setErrors] = useState<
     Partial<Record<keyof FormValues, string>>
   >({});
-
+  const [modalError, setModalError] = useState<string | null>(null);
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -97,7 +97,10 @@ export default function VolunteerSubscribeFormClient({ id }: Props) {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Submission failed");
+        setModalError(data.error || "Submission failed");
+        setValues(initialValues);
+        return;
+        // throw new Error(data.error || "Submission failed");
       }
 
       alert("Form submitted successfully.");
@@ -105,7 +108,10 @@ export default function VolunteerSubscribeFormClient({ id }: Props) {
       setErrors({});
     } catch (error) {
       console.error(error);
-      alert(error instanceof Error ? error.message : "Submission failed");
+      // alert(error instanceof Error ? error.message : "Submission failed");
+      setModalError(
+        error instanceof Error ? error.message : "Submission failed",
+      );
     }
   };
 
@@ -205,6 +211,21 @@ export default function VolunteerSubscribeFormClient({ id }: Props) {
       >
         SUBMIT
       </button>
+      {modalError && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
+            <h2 className="text-2xl font-semibold mb-3">Submission error</h2>
+            <p className="mb-6 text-xl text-gray-700">{modalError}</p>
+            <button
+              type="button"
+              onClick={() => setModalError(null)}
+              className="rounded bg-purple-900 py-3 px-7 text-white text-xl"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </form>
   );
 }
