@@ -62,7 +62,7 @@ export default function VolunteerSubscribeFormClient({ id }: Props) {
     return Object.keys(e).length === 0;
   };
 
-  const handleSubmit = (ev: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
     if (!validateForm()) return;
 
@@ -82,16 +82,31 @@ export default function VolunteerSubscribeFormClient({ id }: Props) {
           message: values.message,
         };
 
-    if (isVolunteer) {
-      console.log("Volunteer form submitted:", payload);
-      alert("Volunteer Form submitted — check console for details.");
-    } else {
-      console.log("Subscribe form submitted:", payload);
-      alert("Subscribe Form submitted — check console for details.");
-    }
+    try {
+      const response = await fetch(
+        isVolunteer ? "/api/forms/volunteer" : "/api/forms/subscribe",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        },
+      );
 
-    setValues(initialValues);
-    setErrors({});
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Submission failed");
+      }
+
+      alert("Form submitted successfully.");
+      setValues(initialValues);
+      setErrors({});
+    } catch (error) {
+      console.error(error);
+      alert(error instanceof Error ? error.message : "Submission failed");
+    }
   };
 
   return (
