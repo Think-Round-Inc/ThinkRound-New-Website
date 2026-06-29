@@ -16,6 +16,8 @@ import videoFeatureBlock from './homepage/videoFeatureBlock'
 import buttonRow from './homepage/buttonRow'
 import paradiseProject from './paradiseProject'
 import painting from './painting'
+import {volunteerSubmission} from './volunteerSubmission'
+import {subscribeSubmission} from './subscribeSubmission'
 
 export const schemaTypes = [
   boardMember,
@@ -36,4 +38,6 @@ export const schemaTypes = [
   buttonRow,
   paradiseProject,
   painting,
+  volunteerSubmission,
+  subscribeSubmission,
 ]
