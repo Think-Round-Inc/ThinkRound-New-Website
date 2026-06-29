@@ -70,8 +70,25 @@ export async function submitContactForm(
 
     const client = getServerClient();
 
-    const document =
+    const typeName =
       resolvedFormType === "volunteer"
+        ? "volunteerSubmission"
+        : "subscribeSubmission";
+
+    const existingCount = await client.fetch(
+      "count(*[_type == $type && email == $email])",
+      { type: typeName, email },
+    );
+
+    if (existingCount > 0) {
+      return NextResponse.json(
+        { error: "This email has already been submitted." },
+        { status: 409 },
+      );
+    }
+
+    const document =
+      typeName === "volunteerSubmission"
         ? await client.create({
             _type: "volunteerSubmission",
             firstName,
