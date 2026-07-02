@@ -29,7 +29,6 @@ export default async function VolunteerPage() {
         className=" px-6 py-12 xl:mx-120 lg:mx-80 md:mx-35 sm:mx-10"
         style={{ fontFamily: leagueSpartan.style.fontFamily }}
       >
-        {/* <VolunteerFormClient initialForm={form} /> */}
         <VolunteerSubscribeFormClient id="volunteer" />
       </section>
     </main>
