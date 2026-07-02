@@ -7,10 +7,6 @@ import HeroSection from "@/components/volunteer-and-subscribe-page/HeroSection";
 const leagueSpartan = League_Spartan({ subsets: ["latin"] });
 
 export default async function VolunteerPage() {
-  // const form = await client.fetch(
-  //   `*[_type == "volunteerForm"][0]{ firstName, lastName, email, dropdown, message }`,
-  // );
-
   return (
     <main
       className="min-h-screen   bg-gray-50 "
