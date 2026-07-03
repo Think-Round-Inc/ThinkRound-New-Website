@@ -8,7 +8,6 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import { League_Spartan } from "next/font/google";
-import SocialLinks from "@/components/SocialLinks";
 import UpdatedSocialLinks from "@/components/UpdatedSocialLinks";
 
 const leagueSpartan = League_Spartan({
@@ -96,6 +95,17 @@ const portableTextComponents: PortableTextComponents = {
   },
 };
 
+const leftAlignedComponents: PortableTextComponents = {
+  ...portableTextComponents,
+  block: {
+    normal: ({ children }) => (
+      <p className="mb-5 text-2xl text-left leading-8 text-[#4b556392]">
+        {children}
+      </p>
+    ),
+  },
+};
+
 async function getTtoT() {
   const query = `*[_type == "turningTheTide"][0]{
     _id,
@@ -131,12 +141,9 @@ export default async function TtoTPage() {
     <div className="min-h-screen bg-white text-[#2e2e2e]">
       <Navbar />
 
-      <main className="mx-auto flex w-full max-w-4xl flex-col px-6 py-16 sm:px-8 lg:px-12">
+      <main className=" flex flex-col w-full max-w-4xl  mx-auto px-6 py-16 sm:px-8 lg:px-12">
         <section className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="space-y-6">
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-purple-700">
-              Program Focus
-            </p>
             <h1 className="text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl">
               {ttot.title}
             </h1>
@@ -156,30 +163,19 @@ export default async function TtoTPage() {
         </section>
         <section>
           <div
-            className="flex justify-center items-center text-center leading-8 "
+            className="my-8 text-3xl sm:text-4xl lg:text-5xl  text-center leading-8 "
             style={{
-              fontWeight: 100,
+              fontWeight: 500,
               color: "#828282",
               fontFamily: leagueSpartan.style.fontFamily,
-              fontSize: "clamp(3em, 7vw, 3em)",
               lineHeight: "1.15em",
               letterSpacing: ".02em",
             }}
           >
-            {ttot.description && (
-              <PortableText
-                value={ttot.description}
-                // components={portableTextComponents}
-              />
-            )}
+            {ttot.description && <PortableText value={ttot.description} />}
           </div>
           <div className="mb-5 text-2xl text-center leading-8 text-[#000000]">
-            {ttot.paragraph1 && (
-              <PortableText
-                value={ttot.paragraph1}
-                // components={portableTextComponents}
-              />
-            )}
+            {ttot.paragraph1 && <PortableText value={ttot.paragraph1} />}
           </div>
           <div>
             {ttot.paragraph2 && (
@@ -217,7 +213,7 @@ export default async function TtoTPage() {
             {ttot.paragraph3 && (
               <PortableText
                 value={ttot.paragraph3}
-                components={portableTextComponents}
+                components={leftAlignedComponents}
               />
             )}
           </div>
@@ -232,7 +228,7 @@ export default async function TtoTPage() {
         </section>
 
         {ttot.links && ttot.links.length > 0 && (
-          <section className="mt-14 flex flex-wrap justify-center gap-4">
+          <section className="my-10 flex flex-wrap justify-center gap-4">
             {ttot.links.map((link) => (
               <Link
                 key={link._key ?? link.linkname}
@@ -241,7 +237,7 @@ export default async function TtoTPage() {
                 rel={
                   link.linkurl?.startsWith("http") ? "noreferrer" : undefined
                 }
-                className="rounded-full bg-purple-700 px-6 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-purple-800"
+                className="rounded-0 bg-purple-900 px-6 py-3 xl:px-10 xl:py-5 text-center text-sm xl:text-lg font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-purple-800"
               >
                 {link.linkname}
               </Link>
@@ -254,7 +250,7 @@ export default async function TtoTPage() {
             {ttot.footer && (
               <PortableText
                 value={ttot.footer}
-                components={portableTextComponents}
+                components={leftAlignedComponents}
               />
             )}
           </div>
