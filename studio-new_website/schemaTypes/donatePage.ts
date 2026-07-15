@@ -1,4 +1,4 @@
-import { defineArrayMember, defineField, defineType } from 'sanity';
+import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export default defineType({
   name: 'donatePage',
@@ -9,7 +9,7 @@ export default defineType({
       name: 'Image',
       title: 'Image',
       type: 'image',
-      options: { hotspot: true },
+      options: {hotspot: true},
     }),
     defineField({
       name: 'title',
@@ -36,25 +36,5 @@ export default defineType({
       title: 'Secondary Button Text',
       type: 'string',
     }),
-    defineField({
-      name: 'socialLinks',
-      title: 'Social Media Links',
-      type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'object',
-          fields: [
-            defineField({ name: 'platform', title: 'Platform', type: 'string' }),
-            defineField({ name: 'url', title: 'URL', type: 'url' }),
-            defineField({
-              name: 'icon',
-              title: 'Icon',
-              type: 'string',
-              description: 'Icon name from your icon set (e.g., "facebook", "twitter").',
-            }),
-          ],
-        }),
-      ],
-    }),
   ],
-});
+})
