@@ -36,6 +36,9 @@ export default defineType({
       name: 'image1',
       title: 'Image 1',
       type: 'image',
+      options: {
+        hotspot: true,
+      },
     }),
     defineField({
       name: 'caption1',
@@ -46,6 +49,9 @@ export default defineType({
       name: 'image2',
       title: 'Image 2',
       type: 'image',
+      options: {
+        hotspot: true,
+      },
     }),
     defineField({
       name: 'caption2',
@@ -56,6 +62,9 @@ export default defineType({
       name: 'image3',
       title: 'Image 3',
       type: 'image',
+      options: {
+        hotspot: true,
+      },
     }),
     defineField({
       name: 'caption3',
@@ -66,11 +75,17 @@ export default defineType({
       name: 'image4',
       title: 'Image 4',
       type: 'image',
+      options: {
+        hotspot: true,
+      },
     }),
     defineField({
       name: 'image5',
       title: 'Image 5',
       type: 'image',
+      options: {
+        hotspot: true,
+      },
     }),
     defineField({
       name: 'caption5',
@@ -81,6 +96,9 @@ export default defineType({
       name: 'image6',
       title: 'Image 6',
       type: 'image',
+      options: {
+        hotspot: true,
+      },
     }),
     defineField({
       name: 'body',
