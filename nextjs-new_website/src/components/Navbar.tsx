@@ -26,6 +26,10 @@ export default function Navbar() {
       label: "PROGRAMS",
       links: [
         {
+          name: "KEEP(KID’S ENVIRONMENTAL EDUCATION PROGRAM)",
+          href: "/programs/keep",
+        },
+        {
           name: "STREAM OF CONSCIOUSNESS",
           href: "/programs/stream_of_consciousness",
         },

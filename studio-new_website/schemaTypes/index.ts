@@ -18,6 +18,7 @@ import paradiseProject from './paradiseProject'
 import painting from './painting'
 import {volunteerSubmission} from './volunteerSubmission'
 import {subscribeSubmission} from './subscribeSubmission'
+import keep from './keep'
 
 export const schemaTypes = [
   boardMember,
@@ -40,4 +41,5 @@ export const schemaTypes = [
   painting,
   volunteerSubmission,
   subscribeSubmission,
+  keep,
 ]
