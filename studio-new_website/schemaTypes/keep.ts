@@ -15,23 +15,23 @@ export default defineType({
       title: 'Subtitle',
       type: 'string',
     }),
-    defineField({
-      name: 'link1',
-      title: 'Link1',
-      type: 'object',
-      fields: [
-        {
-          name: 'linkname',
-          title: 'Link Name',
-          type: 'string',
-        },
-        {
-          name: 'linkurl',
-          title: 'Link URL',
-          type: 'url',
-        },
-      ],
-    }),
+    // defineField({
+    //   name: 'link1',
+    //   title: 'Link1',
+    //   type: 'object',
+    //   fields: [
+    //     {
+    //       name: 'linkname',
+    //       title: 'Link Name',
+    //       type: 'string',
+    //     },
+    //     {
+    //       name: 'linkurl',
+    //       title: 'Link URL',
+    //       type: 'url',
+    //     },
+    //   ],
+    // }),
     defineField({
       name: 'image1',
       title: 'Image 1',
@@ -106,8 +106,8 @@ export default defineType({
       of: [{type: 'block'}],
     }),
     defineField({
-      name: 'link2',
-      title: 'Link2',
+      name: 'link',
+      title: 'Link',
       type: 'object',
       fields: [
         {
