@@ -68,6 +68,8 @@ type KeepPageData = {
 export default async function KidsEnvironmentalEducationPage() {
   const data: KeepPageData | null = await client.fetch(KEEP_QUERY);
 
+  const palette = ["#79DBFF", "#FFD83A", "#C7ABFF", "#00C2CB", "#D56161"];
+
   if (!data) {
     return (
       <div className=" min-h-screen bg-white  text-[#2e2e2e]">
@@ -85,13 +87,24 @@ export default async function KidsEnvironmentalEducationPage() {
       <Navbar />
       <main className="keep-page">
         <section className="keep-hero">
-          <h1 className="keep-logo-text">{data.title || "KEEP!"}</h1>
+          <h1 className="keep-logo-text">
+            <span aria-label={data.title}>
+              {data?.title?.split("").map((ch, i) => {
+                const color = palette[i % palette.length];
+                return (
+                  <span key={i} style={{ color }}>
+                    {ch === " " ? "\u00A0" : ch}
+                  </span>
+                );
+              })}
+            </span>
+          </h1>
 
           <h2 className="keep-title">
             {data.subtitle || "Kid’s\nEnvironmental\nEducation\nProgram"}
           </h2>
 
-          <Link href="/volunteer" className="keep-button">
+          <Link href="/programs/keep" className="keep-button">
             VOLUNTEER FOR KEEP!
           </Link>
         </section>
@@ -142,25 +155,25 @@ export default async function KidsEnvironmentalEducationPage() {
         )}
 
         {data.image4 && (
-          <section className="keep-medium-section">
+          <section className="keep-wide-section">
             <Image
               src={urlFor(data.image4).width(1100).url()}
               alt="KEEP environmental education activity"
               width={1100}
               height={760}
-              className="keep-medium-image"
+              className="keep-wide-image"
             />
           </section>
         )}
 
         {data.image5 && (
-          <section className="keep-small-section">
+          <section className="keep-medium-section">
             <Image
               src={urlFor(data.image5).width(800).url()}
               alt={data.caption5 || "KEEP environmental activity"}
               width={800}
               height={560}
-              className="keep-small-image"
+              className="keep-medium-image"
             />
 
             {data.caption5 && <p className="keep-caption">{data.caption5}</p>}
@@ -168,13 +181,13 @@ export default async function KidsEnvironmentalEducationPage() {
         )}
 
         {data.image6 && (
-          <section className="keep-medium-section">
+          <section className="keep-section-image6">
             <Image
-              src={urlFor(data.image6).width(1100).url()}
+              src={urlFor(data.image6).width(1000).height(691).url()}
               alt="KEEP community field trip"
-              width={1100}
-              height={760}
-              className="keep-medium-image"
+              width={1000}
+              height={691}
+              className="keep-image-6"
             />
           </section>
         )}
