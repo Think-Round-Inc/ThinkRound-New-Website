@@ -1,9 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
-import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
@@ -25,6 +23,10 @@ export default function Navbar() {
     {
       label: "PROGRAMS",
       links: [
+        {
+          name: "KEEP(KID’S ENVIRONMENTAL EDUCATION PROGRAM)",
+          href: "/programs/keep",
+        },
         {
           name: "STREAM OF CONSCIOUSNESS",
           href: "/programs/stream_of_consciousness",
@@ -63,12 +65,24 @@ export default function Navbar() {
       ],
     },
     {
+      label: "CENTER FOR THE HUMAN FAMILY",
+      links: [
+        { name: "EXTERIOR", href: "/center_for_human_family/exterior", disabled: true },
+        { name: "SUSTAINABLE LIVING - LEARNING CENTERS", href: "/center_for_human_family/sustainable-living-learning-centers", disabled: true },
+        { name: "1ST FLOOR", href: "/center_for_human_family/1st-floor", disabled: true },
+        { name: "LOBBY - STREAM OF CONSCIOUSNESS", href: "/center_for_human_family/lobby-stream-of-consciousness", disabled: true },
+        { name: "AQUAPONICS & FISH FARMS", href: "/center_for_human_family/aquaponics-fish-farms", disabled: true },
+        { name: "RESTAURANT / CAFE / CULINARY ACADEMY", href: "/center_for_human_family/restaurant-cafe-culinary-academy", disabled: true },
+        { name: "2ND FLOOR", href: "/center_for_human_family/2nd-floor", disabled: true },
+        { name: "HEALING ROOMS", href: "/center_for_human_family/healing-rooms", disabled: true },
+        { name: "AIR, WATER, SOIL EXHIBIT", href: "/center_for_human_family/air-water-soil-exhibit", disabled: true },
+        { name: "3RD FLOOR", href: "/center_for_human_family/3rd-floor", disabled: true },
+        { name: "PARADISE PROJECT", href: "/paradise_project" },
+      ],
+    },
+    {
       label: "VISIONS",
       links: [
-        {
-          name: "CENTER FOR THE HUMAN FAMILY",
-          href: "/about/center_for_the_human_family",
-        },
         {
           name: "PARADISE PROJECT - 7 INSTALLATIONS",
           href: "/about/paradise_project_7_installations",
@@ -131,17 +145,23 @@ export default function Navbar() {
           )}
 
           {menu.links && openMenu === menu.label && (
-            <div className="absolute left-0 top-full mt-1 w-56 rounded-md border bg-white shadow-lg z-50">
+            <div className="absolute left-0 top-full mt-1 w-80 rounded-md border bg-white shadow-lg z-50">
               <ul className="flex flex-col">
                 {menu.links.map((link) => (
                   <li key={link.name}>
-                    <Link
-                      href={link.href}
-                      className="block px-4 py-2 hover:bg-gray-100 whitespace-nowrap"
-                      onClick={() => setOpenMenu(null)}
-                    >
-                      {link.name}
-                    </Link>
+                    {link.disabled ? (
+                      <span className="block px-4 py-2 whitespace-nowrap text-gray-400 cursor-not-allowed select-none">
+                        {link.name}
+                      </span>
+                    ) : (
+                      <Link
+                        href={link.href}
+                        className="block px-4 py-2 hover:bg-gray-100 whitespace-nowrap"
+                        onClick={() => setOpenMenu(null)}
+                      >
+                        {link.name}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
