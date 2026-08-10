@@ -703,7 +703,7 @@ function Section({
       className={`
         mb-5
         w-full
-        max-w-3xl
+        max-w-6xl
         ${className}
       `}
     >
@@ -837,7 +837,7 @@ export default async function ChildrenMuralProgramPage() {
           mx-auto
           flex
           w-full
-          max-w-5xl
+          max-w-6xl
           flex-col
           items-center
         "
@@ -872,7 +872,7 @@ export default async function ChildrenMuralProgramPage() {
         {/* Hero image */}
 
         {data.heroImage && (
-          <div className="mx-auto mb-10 w-full max-w-4xl">
+          <div className="mx-auto mb-10 w-full max-w-6xl">
             <ResponsiveImage
               image={data.heroImage}
               alt="Children's Mural Program"
