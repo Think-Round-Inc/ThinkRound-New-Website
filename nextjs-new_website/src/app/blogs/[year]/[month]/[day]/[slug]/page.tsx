@@ -30,6 +30,17 @@ async function getBlog(params: { date: string; slug: string }) {
   return client.fetch<Blog>(query, params);
 }
 
+// publishedAt is a Sanity `date` ("YYYY-MM-DD"); new Date(str) parses it as UTC midnight,
+// so rendering in local time shows the previous day west of UTC. Build a local date instead.
+function formatPublishedDate(publishedAt: string): string {
+  const [year, month, day] = publishedAt.split("-").map(Number);
+  return new Date(year, month - 1, day).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
 export default async function BlogPostPage({
   params,
 }: {
@@ -54,11 +65,7 @@ export default async function BlogPostPage({
         <div className="max-w-3xl mx-auto flex flex-col items-start">
           <div className="text-[11px] font-bold tracking-[0.2em] uppercase text-black mb-6">
             {blog.author} <span className="mx-2 text-gray-300">•</span>{" "}
-            {new Date(blog.publishedAt).toLocaleDateString("en-US", {
-              month: "long",
-              day: "numeric",
-              year: "numeric",
-            })}
+            {formatPublishedDate(blog.publishedAt)}
           </div>
 
           <header className="mb-12 w-full text-left">
