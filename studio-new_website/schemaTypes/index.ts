@@ -7,6 +7,7 @@ import {streamOfConsciousness} from './streamOfConsciousness'
 import donatePage from './donatePage'
 import blogs from './blogs'
 import pastExhibition from './pastExhibition'
+import currentExhibition from './currentExhibition'
 import iapPage from './iap'
 import classes from './classes'
 import turningTheTide from './turningTheTideOfTrauma'
@@ -30,6 +31,7 @@ export const schemaTypes = [
   donatePage,
   blogs,
   pastExhibition,
+  currentExhibition,
   iapPage,
   classes,
   turningTheTide,
