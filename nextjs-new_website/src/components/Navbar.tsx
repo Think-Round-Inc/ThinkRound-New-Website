@@ -53,7 +53,7 @@ export default function Navbar() {
         },
         {
           name: "CURRENT & UPCOMING EXHIBITIONS",
-          href: "/about/current_upcoming_exhibitions",
+          href: "/think_round_fine_arts/current_upcoming_exhibitions",
         },
         {
           name: "PAST EXHIBITIONS",
