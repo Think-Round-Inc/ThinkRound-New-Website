@@ -14,6 +14,9 @@ export default defineType({
       name: 'mainImage',
       title: 'Main Image',
       type: 'image',
+      options: {
+        hotspot: true,
+      },
     }),
     defineField({
       name: 'paragraph1',
@@ -25,6 +28,9 @@ export default defineType({
       name: 'image1',
       title: 'Image 1',
       type: 'image',
+      options: {
+        hotspot: true,
+      },
     }),
     defineField({
       name: 'paragraph2',
@@ -36,6 +42,9 @@ export default defineType({
       name: 'image2',
       title: 'Image 2',
       type: 'image',
+      options: {
+        hotspot: true,
+      },
     }),
     defineField({
       name: 'paragraph3',
@@ -47,6 +56,9 @@ export default defineType({
       name: 'image3',
       title: 'Image 3',
       type: 'image',
+      options: {
+        hotspot: true,
+      },
     }),
     defineField({
       name: 'paragraph4',
@@ -65,7 +77,7 @@ export default defineType({
           type: 'string',
         },
         {
-          name: 'link',
+          name: 'linkEmail',
           title: 'Link Email',
           type: 'string',
           validation: (Rule) => Rule.email(),
@@ -82,6 +94,9 @@ export default defineType({
       name: 'image4',
       title: 'Image 4',
       type: 'image',
+      options: {
+        hotspot: true,
+      },
     }),
     defineField({
       name: 'paragraph6',
