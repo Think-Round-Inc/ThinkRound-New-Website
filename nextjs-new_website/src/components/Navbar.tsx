@@ -36,6 +36,7 @@ export default function Navbar() {
           href: "/programs/IAP",
         },
         { name: "CLASSES AT THINK ROUND", href: "/programs/classes" },
+        { name: "FAMILY ARTS PROGRAM", href: "/programs/family_arts_program" },
         {
           name: "TURNING THE TIDE OF TRAUMA",
           href: "/programs/turning_the_tide_of_trauma",
