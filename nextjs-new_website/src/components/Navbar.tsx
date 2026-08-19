@@ -40,6 +40,11 @@ export default function Navbar() {
           name: "TURNING THE TIDE OF TRAUMA",
           href: "/programs/turning_the_tide_of_trauma",
         },
+        {
+          name: "CHILDREN'S MURAL PROGRAM",
+          href: "nextjs-new_website\\src\\app\\programs\\children_mural_program\\page.tsx",
+        },  
+
       ],
     },
     {
