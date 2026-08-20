@@ -6,7 +6,7 @@ import { useState, useRef, useEffect } from "react";
 export default function Navbar() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
+  const [activeLink, setActiveLink] = useState<string | null>(null);
   const menuItems = [
     {
       label: "ABOUT",
@@ -44,8 +44,7 @@ export default function Navbar() {
         {
           name: "CHILDREN'S MURAL PROGRAM",
           href: "nextjs-new_website\\src\\app\\programs\\children_mural_program\\page.tsx",
-        },  
-
+        },
       ],
     },
     {
@@ -68,16 +67,56 @@ export default function Navbar() {
     {
       label: "CENTER FOR THE HUMAN FAMILY",
       links: [
-        { name: "EXTERIOR", href: "/center_for_human_family/exterior", disabled: true },
-        { name: "SUSTAINABLE LIVING - LEARNING CENTERS", href: "/center_for_human_family/sustainable-living-learning-centers", disabled: true },
-        { name: "1ST FLOOR", href: "/center_for_human_family/1st-floor", disabled: true },
-        { name: "LOBBY - STREAM OF CONSCIOUSNESS", href: "/center_for_human_family/lobby-stream-of-consciousness", disabled: true },
-        { name: "AQUAPONICS & FISH FARMS", href: "/center_for_human_family/aquaponics-fish-farms", disabled: true },
-        { name: "RESTAURANT / CAFE / CULINARY ACADEMY", href: "/center_for_human_family/restaurant-cafe-culinary-academy", disabled: true },
-        { name: "2ND FLOOR", href: "/center_for_human_family/2nd-floor", disabled: true },
-        { name: "HEALING ROOMS", href: "/center_for_human_family/healing-rooms", disabled: true },
-        { name: "AIR, WATER, SOIL EXHIBIT", href: "/center_for_human_family/air-water-soil-exhibit", disabled: true },
-        { name: "3RD FLOOR", href: "/center_for_human_family/3rd-floor", disabled: true },
+        {
+          name: "EXTERIOR",
+          href: "/center_for_human_family/exterior",
+          disabled: true,
+        },
+        {
+          name: "SUSTAINABLE LIVING - LEARNING CENTERS",
+          href: "/center_for_human_family/sustainable-living-learning-centers",
+          disabled: true,
+        },
+        {
+          name: "1ST FLOOR",
+          href: "/center_for_human_family/1st-floor",
+          disabled: true,
+        },
+        {
+          name: "LOBBY - STREAM OF CONSCIOUSNESS",
+          href: "/center_for_human_family/lobby-stream-of-consciousness",
+          disabled: true,
+        },
+        {
+          name: "AQUAPONICS & FISH FARMS",
+          href: "/center_for_human_family/aquaponics-fish-farms",
+          disabled: true,
+        },
+        {
+          name: "RESTAURANT / CAFE / CULINARY ACADEMY",
+          href: "/center_for_human_family/restaurant-cafe-culinary-academy",
+          disabled: true,
+        },
+        {
+          name: "2ND FLOOR",
+          href: "/center_for_human_family/2nd-floor",
+          disabled: true,
+        },
+        {
+          name: "HEALING ROOMS",
+          href: "/center_for_human_family/healing-rooms",
+          disabled: true,
+        },
+        {
+          name: "AIR, WATER, SOIL EXHIBIT",
+          href: "/center_for_human_family/air-water-soil-exhibit",
+          disabled: true,
+        },
+        {
+          name: "3RD FLOOR",
+          href: "/center_for_human_family/3rd-floor",
+          disabled: true,
+        },
         { name: "PARADISE PROJECT", href: "/paradise_project" },
       ],
     },
@@ -109,7 +148,9 @@ export default function Navbar() {
 
   const handleMouseLeave = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => setOpenMenu(null), 150);
+    timeoutRef.current = setTimeout(() => {
+      setOpenMenu(null);
+    }, 150);
   };
 
   useEffect(() => {
@@ -119,7 +160,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="flex items-center gap-6 bg-gray-200 p-4">
+    <nav className="flex items-center gap-6 bg-white   p-4">
       {menuItems.map((menu) => (
         <div
           key={menu.label}
@@ -131,7 +172,7 @@ export default function Navbar() {
         >
           {menu.links ? (
             <button
-              className="inline-flex items-center h-10 px-3 py-2 font-medium text-gray-800 hover:text-blue-600 bg-transparent border-0 whitespace-nowrap"
+              className={`inline-flex items-center h-10 px-3 py-2 font-bold text-[#70169c] hover:text-[#FA7D00] border-0 whitespace-nowrap ${openMenu === menu.label ? "text-[#FA7D00]" : ""}`}
               type="button"
             >
               {menu.label}
@@ -139,25 +180,25 @@ export default function Navbar() {
           ) : (
             <Link
               href={menu.href!}
-              className="inline-flex items-center h-10 px-3 py-2 font-medium text-gray-800 hover:text-blue-600 whitespace-nowrap"
+              className={`inline-flex items-center h-10 px-3 py-2 font-bold  text-[#70169c] hover:text-[#FA7D00] whitespace-nowrap `}
             >
               {menu.label}
             </Link>
           )}
 
           {menu.links && openMenu === menu.label && (
-            <div className="absolute left-0 top-full mt-1 w-80 rounded-md border bg-white shadow-lg z-50">
+            <div className="absolute left-0 top-full mt-1 w-80 z-50">
               <ul className="flex flex-col">
                 {menu.links.map((link) => (
                   <li key={link.name}>
                     {link.disabled ? (
-                      <span className="block px-4 py-2 whitespace-nowrap text-gray-400 cursor-not-allowed select-none">
+                      <span className="block px-4 py-2 whitespace-nowrap text-gray-500 cursor-not-allowed select-none">
                         {link.name}
                       </span>
                     ) : (
                       <Link
                         href={link.href}
-                        className="block px-4 py-2 hover:bg-gray-100 whitespace-nowrap"
+                        className={`block px-4 py-2 text-black font-bold hover:text-[#FA7D00]   whitespace-nowrap `}
                         onClick={() => setOpenMenu(null)}
                       >
                         {link.name}
