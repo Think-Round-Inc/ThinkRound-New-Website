@@ -42,7 +42,7 @@ export default function Navbar() {
         },
         {
           name: "CHILDREN'S MURAL PROGRAM",
-          href: "nextjs-new_website\\src\\app\\programs\\children_mural_program\\page.tsx",
+          href: "/programs/children_mural_program",
         },  
 
       ],
