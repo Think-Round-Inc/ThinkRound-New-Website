@@ -10,7 +10,6 @@ import { urlFor } from "@/sanity/image";
 import Navbar from "@/components/Navbar";
 import { League_Spartan } from "next/font/google";
 import UpdatedSocialLinks from "@/components/UpdatedSocialLinks";
-import LazyImage from "@/app/about/press/components/LazyImage";
 
 const leagueSpartan = League_Spartan({
   subsets: ["latin"],

@@ -2,11 +2,15 @@
 
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 
 export default function Navbar() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [isMediumScreen, setIsMediumScreen] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const [activeLink, setActiveLink] = useState<string | null>(null);
+
+  const ThinkRoundLogoPath = "/Think_Round_logo_NavBar.webp";
+  const largeDisplayClassName = "md";
   const menuItems = [
     {
       label: "ABOUT",
@@ -154,63 +158,84 @@ export default function Navbar() {
   };
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 768px)");
+    const updateScreenSize = () => setIsMediumScreen(mediaQuery.matches);
+
+    updateScreenSize();
+    mediaQuery.addEventListener("change", updateScreenSize);
+
     return () => {
+      mediaQuery.removeEventListener("change", updateScreenSize);
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
   }, []);
 
-  return (
-    <nav className="flex items-center gap-6 bg-white   p-4">
-      {menuItems.map((menu) => (
-        <div
-          key={menu.label}
-          className="relative inline-flex items-center"
-          onMouseEnter={
-            menu.links ? () => handleMouseEnter(menu.label) : undefined
-          }
-          onMouseLeave={menu.links ? handleMouseLeave : undefined}
-        >
-          {menu.links ? (
-            <button
-              className={`inline-flex items-center h-10 px-3 py-2 font-bold text-[#70169c] hover:text-[#FA7D00] border-0 whitespace-nowrap ${openMenu === menu.label ? "text-[#FA7D00]" : ""}`}
-              type="button"
-            >
-              {menu.label}
-            </button>
-          ) : (
-            <Link
-              href={menu.href!}
-              className={`inline-flex items-center h-10 px-3 py-2 font-bold  text-[#70169c] hover:text-[#FA7D00] whitespace-nowrap `}
-            >
-              {menu.label}
-            </Link>
-          )}
+  if (!isMediumScreen) return null;
 
-          {menu.links && openMenu === menu.label && (
-            <div className="absolute left-0 top-full mt-1 w-80 z-50">
-              <ul className="flex flex-col">
-                {menu.links.map((link) => (
-                  <li key={link.name}>
-                    {link.disabled ? (
-                      <span className="block px-4 py-2 whitespace-nowrap text-gray-500 cursor-not-allowed select-none">
-                        {link.name}
-                      </span>
-                    ) : (
-                      <Link
-                        href={link.href}
-                        className={`block px-4 py-2 text-black font-bold hover:text-[#FA7D00]   whitespace-nowrap `}
-                        onClick={() => setOpenMenu(null)}
-                      >
-                        {link.name}
-                      </Link>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-      ))}
+  return (
+    <nav className=" bg-white grid grid-cols-[0.3fr_1.7fr] items-center xl:gap-x-10 p-8">
+      <div>
+        <section className=" md:max-lg:mx-10 md:max-lg:w-40 xl:w-sm ">
+          <Image
+            src={ThinkRoundLogoPath}
+            alt="Think Round Logo"
+            width={500}
+            height={196}
+          />
+        </section>
+      </div>
+      <div className="flex md:max-lg:flex-wrap flex-row justify-end  md:max-lg:text-sm p-4">
+        {menuItems.map((menu) => (
+          <div
+            key={menu.label}
+            className=" relative inline-flex  items-center "
+            onMouseEnter={
+              menu.links ? () => handleMouseEnter(menu.label) : undefined
+            }
+            onMouseLeave={menu.links ? handleMouseLeave : undefined}
+          >
+            {menu.links ? (
+              <button
+                className={` inline-flex items-center h-7 px-3 py-2 font-bold text-[#70169c] hover:text-[#FA7D00] border-0 whitespace-nowrap ${openMenu === menu.label ? "text-[#FA7D00]" : ""}`}
+                type="button"
+              >
+                {menu.label}
+              </button>
+            ) : (
+              <Link
+                href={menu.href!}
+                className={` inline-flex  items-center h-7 px-3 py-2 font-bold  text-[#70169c] hover:text-[#FA7D00] whitespace-nowrap `}
+              >
+                {menu.label}
+              </Link>
+            )}
+
+            {menu.links && openMenu === menu.label && (
+              <div className="absolute left-0 top-full w-80 z-1 pt-2">
+                <ul className="flex flex-col bg-white ">
+                  {menu.links.map((link) => (
+                    <li key={link.name}>
+                      {link.disabled ? (
+                        <span className="block px-4  whitespace-nowrap text-gray-500 cursor-not-allowed select-none">
+                          {link.name}
+                        </span>
+                      ) : (
+                        <Link
+                          href={link.href}
+                          className={`block px-4  text-black font-bold hover:text-[#FA7D00]   whitespace-nowrap `}
+                          onClick={() => setOpenMenu(null)}
+                        >
+                          {link.name}
+                        </Link>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
     </nav>
   );
 }
