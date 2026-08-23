@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+// TypeScript may not have a declaration for CSS side-effect imports in the editor.
+// @ts-expect-error CSS is processed by Next.js at build time.
 import "./globals.css";
 
 const geistSans = Geist({
@@ -31,13 +33,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
-        <Footer />
+        {/* <Footer /> */}
       </body>
     </html>
   );
 }
-
-
 
 // import type { Metadata } from "next";
 // import { Geist, Geist_Mono } from "next/font/google";
