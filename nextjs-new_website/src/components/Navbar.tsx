@@ -205,27 +205,30 @@ export default function Navbar() {
             className="min-h-screen mobile-navigation-open border-t border-gray-200 px-6 py-4"
           >
             <ul className="flex flex-col gap-3">
-              {menuItems.map((menu) => (
-                <li key={menu.label}>
-                  {menu.links ? (
-                    <button
-                      type="button"
-                      className="block w-full text-left font-bold text-[#70169c] hover:text-[#FA7D00]"
-                      onClick={() => setMobileSubmenu(menu.label)}
-                    >
-                      {menu.label}
-                    </button>
-                  ) : (
-                    <Link
-                      href={menu.href!}
-                      className="block font-bold text-[#70169c] hover:text-[#FA7D00]"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      {menu.label}
-                    </Link>
-                  )}
-                </li>
-              ))}
+              {menuItems.map((menu) => {
+                return (
+                  <li key={menu.label}>
+                    {menu.links ? (
+                      <button
+                        type="button"
+                        className="block w-full text-left font-bold text-[#70169c] hover:text-[#FA7D00]"
+                        onClick={() => setMobileSubmenu(menu.label)}
+                      >
+                        {menu.label}
+                        <span>{` >>`}</span>
+                      </button>
+                    ) : (
+                      <Link
+                        href={menu.href!}
+                        className="block font-bold text-[#70169c] hover:text-[#FA7D00]"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        {menu.label}
+                      </Link>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
             {mobileSubmenu && (
               <div
@@ -250,7 +253,7 @@ export default function Navbar() {
                     ?.links?.map((link) => (
                       <li key={link.name}>
                         {link.disabled ? (
-                          <span className="block text-gray-500">
+                          <span className="block text-gray-500 cursor-not-allowed">
                             {link.name}
                           </span>
                         ) : (
