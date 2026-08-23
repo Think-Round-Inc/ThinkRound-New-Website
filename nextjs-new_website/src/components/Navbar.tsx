@@ -3,14 +3,16 @@
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import { ArrowLeft, Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [isMediumScreen, setIsMediumScreen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mobileSubmenu, setMobileSubmenu] = useState<string | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const ThinkRoundLogoPath = "/Think_Round_logo_NavBar.webp";
-  const largeDisplayClassName = "md";
   const menuItems = [
     {
       label: "ABOUT",
@@ -170,8 +172,109 @@ export default function Navbar() {
     };
   }, []);
 
-  if (!isMediumScreen) return null;
+  if (!isMediumScreen) {
+    return (
+      <div className="relative  bg-white">
+        <div className="relative z-20 flex items-center justify-between bg-white p-3">
+          <section className="w-70">
+            <Image
+              src={ThinkRoundLogoPath}
+              alt="Think Round Logo"
+              width={500}
+              height={196}
+            />
+          </section>
 
+          <button
+            type="button"
+            className="p-2 text-[#70169c] hover:text-[#FA7D00]"
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-navigation"
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+            onClick={() => {
+              setIsMobileMenuOpen((isOpen) => !isOpen);
+              setMobileSubmenu(null);
+            }}
+          >
+            {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
+        {isMobileMenuOpen && (
+          <div
+            id="mobile-navigation"
+            className="min-h-screen mobile-navigation-open border-t border-gray-200 px-6 py-4"
+          >
+            <ul className="flex flex-col gap-3">
+              {menuItems.map((menu) => (
+                <li key={menu.label}>
+                  {menu.links ? (
+                    <button
+                      type="button"
+                      className="block w-full text-left font-bold text-[#70169c] hover:text-[#FA7D00]"
+                      onClick={() => setMobileSubmenu(menu.label)}
+                    >
+                      {menu.label}
+                    </button>
+                  ) : (
+                    <Link
+                      href={menu.href!}
+                      className="block font-bold text-[#70169c] hover:text-[#FA7D00]"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {menu.label}
+                    </Link>
+                  )}
+                </li>
+              ))}
+            </ul>
+            {mobileSubmenu && (
+              <div
+                role="dialog"
+                aria-modal="true"
+                aria-label="Mobile submenu"
+                className="z-10 absolute inset-x-0 top-0 mt-10  min-h-screen overflow-y-auto bg-white px-6 pb-4 pt-28"
+              >
+                {mobileSubmenu && (
+                  <button
+                    type="button"
+                    className="mb-10 inline-flex items-center gap-1 font-bold text-[#70169c] hover:text-[#FA7D00]"
+                    onClick={() => setMobileSubmenu(null)}
+                  >
+                    <ArrowLeft size={20} aria-hidden="true" />
+                    <span>Back</span>
+                  </button>
+                )}
+                <ul className=" flex flex-col gap-3">
+                  {menuItems
+                    .find((menu) => menu.label === mobileSubmenu)
+                    ?.links?.map((link) => (
+                      <li key={link.name}>
+                        {link.disabled ? (
+                          <span className="block text-gray-500">
+                            {link.name}
+                          </span>
+                        ) : (
+                          <Link
+                            href={link.href}
+                            className="block font-bold text-black hover:text-[#FA7D00]"
+                            onClick={() => {
+                              setIsMobileMenuOpen(false);
+                              setMobileSubmenu(null);
+                            }}
+                          >
+                            {link.name}
+                          </Link>
+                        )}
+                      </li>
+                    ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  }
   return (
     <nav className=" bg-white grid grid-cols-[0.3fr_1.7fr] items-center xl:gap-x-10 p-8">
       <div>
