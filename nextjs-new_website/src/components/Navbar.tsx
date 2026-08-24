@@ -5,6 +5,11 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { ArrowLeft, Menu, X } from "lucide-react";
 
+const formatMenuLabel = (label: string) =>
+  label
+    .toLowerCase()
+    .replace(/(?<!['’])\b\w/g, (character) => character.toUpperCase());
+
 export default function Navbar() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [isMediumScreen, setIsMediumScreen] = useState(false);
@@ -202,28 +207,30 @@ export default function Navbar() {
         {isMobileMenuOpen && (
           <div
             id="mobile-navigation"
-            className="min-h-screen mobile-navigation-open border-t border-gray-200 px-6 py-4"
+            className="min-h-screen mobile-navigation-open border-t bg-[#68B7FD] border-gray-200 px-6 py-4"
           >
-            <ul className="flex flex-col gap-3">
+            <ul className="flex flex-col text-3xl gap-3">
               {menuItems.map((menu) => {
                 return (
                   <li key={menu.label}>
                     {menu.links ? (
                       <button
                         type="button"
-                        className="block w-full text-left font-bold text-[#70169c] hover:text-[#FA7D00]"
+                        // className="block w-full text-left font-bold text-[#70169c] hover:text-[#FA7D00]"
+                        className="block w-full text-left font-bold text-white cursor-pointer"
                         onClick={() => setMobileSubmenu(menu.label)}
                       >
-                        {menu.label}
-                        <span>{` >>`}</span>
+                        {formatMenuLabel(menu.label)}
+                        <span className="text-gray-600">{` >>`}</span>
                       </button>
                     ) : (
                       <Link
                         href={menu.href!}
-                        className="block font-bold text-[#70169c] hover:text-[#FA7D00]"
+                        // className="block font-bold text-[#70169c] hover:text-[#FA7D00]"
+                        className="block font-bold text-white "
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
-                        {menu.label}
+                        {formatMenuLabel(menu.label)}
                       </Link>
                     )}
                   </li>
@@ -235,37 +242,39 @@ export default function Navbar() {
                 role="dialog"
                 aria-modal="true"
                 aria-label="Mobile submenu"
-                className="z-10 absolute inset-x-0 top-0 mt-10  min-h-screen overflow-y-auto bg-white px-6 pb-4 pt-28"
+                className="z-10 absolute inset-x-0 top-0 mt-10  min-h-screen overflow-y-auto bg-[#68B7FD] px-6 pb-4 pt-28"
               >
                 {mobileSubmenu && (
                   <button
                     type="button"
-                    className="mb-10 inline-flex items-center gap-1 font-bold text-[#70169c] hover:text-[#FA7D00]"
+                    // className="mb-10 inline-flex items-center gap-1 font-bold text-[#70169c] hover:text-[#FA7D00]"
+                    className="mb-10 inline-flex items-center gap-1 font-bold text-white text-3xl cursor-pointer"
                     onClick={() => setMobileSubmenu(null)}
                   >
                     <ArrowLeft size={20} aria-hidden="true" />
                     <span>Back</span>
                   </button>
                 )}
-                <ul className=" flex flex-col gap-3">
+                <ul className=" flex flex-col text-xl gap-3">
                   {menuItems
                     .find((menu) => menu.label === mobileSubmenu)
                     ?.links?.map((link) => (
                       <li key={link.name}>
                         {link.disabled ? (
                           <span className="block text-gray-500 cursor-not-allowed">
-                            {link.name}
+                            {formatMenuLabel(link.name)}
                           </span>
                         ) : (
                           <Link
                             href={link.href}
-                            className="block font-bold text-black hover:text-[#FA7D00]"
+                            // className="block font-bold text-black hover:text-[#FA7D00]"
+                            className="block font-bold text-black "
                             onClick={() => {
                               setIsMobileMenuOpen(false);
                               setMobileSubmenu(null);
                             }}
                           >
-                            {link.name}
+                            {formatMenuLabel(link.name)}
                           </Link>
                         )}
                       </li>
