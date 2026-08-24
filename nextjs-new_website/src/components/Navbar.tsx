@@ -216,7 +216,6 @@ export default function Navbar() {
                     {menu.links ? (
                       <button
                         type="button"
-                        // className="block w-full text-left font-bold text-[#70169c] hover:text-[#FA7D00]"
                         className="block w-full text-left font-bold text-white cursor-pointer"
                         onClick={() => setMobileSubmenu(menu.label)}
                       >
@@ -226,7 +225,6 @@ export default function Navbar() {
                     ) : (
                       <Link
                         href={menu.href!}
-                        // className="block font-bold text-[#70169c] hover:text-[#FA7D00]"
                         className="block font-bold text-white "
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
@@ -247,7 +245,6 @@ export default function Navbar() {
                 {mobileSubmenu && (
                   <button
                     type="button"
-                    // className="mb-10 inline-flex items-center gap-1 font-bold text-[#70169c] hover:text-[#FA7D00]"
                     className="mb-10 inline-flex items-center gap-1 font-bold text-white text-3xl cursor-pointer"
                     onClick={() => setMobileSubmenu(null)}
                   >
@@ -267,7 +264,6 @@ export default function Navbar() {
                         ) : (
                           <Link
                             href={link.href}
-                            // className="block font-bold text-black hover:text-[#FA7D00]"
                             className="block font-bold text-black "
                             onClick={() => {
                               setIsMobileMenuOpen(false);
