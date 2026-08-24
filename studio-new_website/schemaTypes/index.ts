@@ -43,7 +43,7 @@ export const schemaTypes = [
   painting,
   volunteerSubmission,
   subscribeSubmission,
-  childrenMuralProgram
+  childrenMuralProgram,
   keep,
   familyArtsProgram,
 ]
