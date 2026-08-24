@@ -6,7 +6,7 @@ export const revalidate = 60;
 type Artist = {
   _id: string;
   name: string;
-  image?: any;
+  image?: Record<string, unknown>;
   bio?: string;
 };
 

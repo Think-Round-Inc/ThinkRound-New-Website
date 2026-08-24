@@ -21,7 +21,7 @@ export default async function PostPage({
   params: Promise<{ slug: string }>;
 }) {
   const resolvedParams = await params;
-  const slugRaw = (resolvedParams as any)?.slug ?? null;
+  const slugRaw = (resolvedParams as { slug?: string })?.slug ?? null;
   const slug = typeof slugRaw === "string" ? decodeURIComponent(slugRaw) : slugRaw;
 
   let post: SanityDocument | null = null;
