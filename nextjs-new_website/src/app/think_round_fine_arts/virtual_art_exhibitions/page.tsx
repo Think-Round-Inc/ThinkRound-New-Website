@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import { client } from "@/sanity/client";
 
+// TODO: Not exactly sure how sanity works yet so these interface field types may need to change
 interface PrefaceCard {
     imageSrc: string;
     text: string;
@@ -11,6 +12,7 @@ interface VirtualExhibitionCard {
     virtualExhibitLink: string;
 }
 
+// TODO: Need to setup the field in sanity and make the call to get data here
 async function GetPreface(): Promise<PrefaceCard> {
     return client.fetch<PrefaceCard>(
         `
