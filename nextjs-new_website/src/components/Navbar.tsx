@@ -181,14 +181,14 @@ export default function Navbar() {
     return (
       <div className="relative  bg-white">
         <div className="relative z-20 flex items-center justify-between bg-white p-3">
-          <section className="w-70">
+          <Link href="/" aria-label="Think Round home" className="w-70">
             <Image
               src={ThinkRoundLogoPath}
               alt="Think Round Logo"
               width={500}
               height={196}
             />
-          </section>
+          </Link>
 
           <button
             type="button"
@@ -286,14 +286,18 @@ export default function Navbar() {
   return (
     <nav className=" bg-white grid grid-cols-[0.3fr_1.7fr] items-center xl:gap-x-10 p-8">
       <div>
-        <section className=" md:max-lg:mx-10 md:max-lg:w-40 xl:w-sm ">
+        <Link
+          href="/"
+          aria-label="Think Round home"
+          className="md:max-lg:mx-10 md:max-lg:w-40 xl:w-sm"
+        >
           <Image
             src={ThinkRoundLogoPath}
             alt="Think Round Logo"
             width={500}
             height={196}
           />
-        </section>
+        </Link>
       </div>
       <div className="flex md:max-lg:flex-wrap flex-row justify-end  md:max-lg:text-sm p-4">
         {menuItems.map((menu) => (
