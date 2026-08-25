@@ -22,7 +22,7 @@ import {subscribeSubmission} from './subscribeSubmission'
 import {childrenMuralProgram} from './childrenMuralProgram'
 import keep from './keep'
 import familyArtsProgram from './familyArtsProgram'
-import { virtualExhibition } from './virtualExhibition'
+import { virtualExhibitions3D } from './virtualExhibitions3D'
 
 export const schemaTypes = [
   boardMember,
@@ -49,5 +49,5 @@ export const schemaTypes = [
   childrenMuralProgram,
   keep,
   familyArtsProgram,
-  virtualExhibition,
+  virtualExhibitions3D,
 ]
