@@ -131,19 +131,7 @@ export default function Navbar() {
         { name: "PARADISE PROJECT", href: "/paradise_project" },
       ],
     },
-    {
-      label: "VISIONS",
-      links: [
-        {
-          name: "PARADISE PROJECT - 7 INSTALLATIONS",
-          href: "/about/paradise_project_7_installations",
-        },
-        {
-          name: "PARADISE PROJECT",
-          href: "/paradise_project",
-        },
-      ],
-    },
+
     { label: "BLOGS", href: "/blogs" },
     { label: "VOLUNTEER", href: "/volunteer" },
     { label: "SUBSCRIBE", href: "/subscribe" },
