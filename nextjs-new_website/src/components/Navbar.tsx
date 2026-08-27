@@ -272,14 +272,11 @@ export default function Navbar() {
     );
   }
   return (
-    <nav className=" bg-white grid grid-cols-[0.3fr_1.7fr] items-center xl:gap-x-10 p-8">
+    <nav className=" bg-white grid grid-cols-[0.2fr_0.8fr] gap-x-5 items-center p-5 lg:p-15">
       <div>
-        <Link
-          href="/"
-          aria-label="Think Round home"
-          className="md:max-lg:mx-10 md:max-lg:w-40 xl:w-sm"
-        >
+        <Link href="/" aria-label="Think Round home">
           <Image
+            className="md:max-lg:mx-10 w-sm "
             src={ThinkRoundLogoPath}
             alt="Think Round Logo"
             width={500}
@@ -287,11 +284,11 @@ export default function Navbar() {
           />
         </Link>
       </div>
-      <div className="flex md:max-lg:flex-wrap flex-row justify-end  md:max-lg:text-sm p-4">
+      <div className="flex md:max-xl:flex-wrap flex-row justify-end  text-sm lg:text-xl xl:text-lg ">
         {menuItems.map((menu) => (
           <div
             key={menu.label}
-            className=" relative inline-flex  items-center "
+            className=" relative inline-flex  items-center lg:p-3 xl:p-0"
             onMouseEnter={
               menu.links ? () => handleMouseEnter(menu.label) : undefined
             }
@@ -325,7 +322,7 @@ export default function Navbar() {
                       ) : (
                         <Link
                           href={link.href}
-                          className={`block px-4  text-black font-bold hover:text-[#FA7D00]   whitespace-nowrap `}
+                          className={`block px-4  text-black font-bold hover:text-[#FA7D00]   whitespace-nowrap  `}
                           onClick={() => setOpenMenu(null)}
                         >
                           {link.name}
