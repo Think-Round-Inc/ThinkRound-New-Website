@@ -165,6 +165,14 @@ export default function Navbar() {
     };
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
+
   if (!isMediumScreen) {
     return (
       <div className="relative  bg-white">
@@ -195,9 +203,9 @@ export default function Navbar() {
         {isMobileMenuOpen && (
           <div
             id="mobile-navigation"
-            className="min-h-screen mobile-navigation-open border-t bg-[#68B7FD] border-gray-200 px-6 py-4"
+            className="fixed inset-0 z-10 h-[100dvh] max-h-[100dvh] mobile-navigation-open overflow-hidden overscroll-none border-t border-gray-200 bg-[#68B7FD] px-6 pb-4 pt-40"
           >
-            <ul className="flex flex-col text-3xl gap-3">
+            <ul className="flex h-full flex-col  gap-5 text-2xl leading-tight">
               {menuItems.map((menu) => {
                 return (
                   <li key={menu.label}>

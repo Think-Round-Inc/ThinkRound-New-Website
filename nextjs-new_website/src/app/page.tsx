@@ -87,7 +87,7 @@ export default async function IndexPage() {
   return (
     <>
       <Navbar />
-      <main className="[body:has(.mobile-navigation-open)_&]:hidden">
+      <main>
         {" "}
         <article className="min-h-screen bg-white py-24 px-6 md:px-12 w-full flex flex-col items-center ">
           <section className="prose prose-neutral w-full max-w-4xl text-left text-gray-800 prose-headings:text-left prose-p:text-left prose-p:leading-relaxed prose-blockquote:text-left">
@@ -97,7 +97,6 @@ export default async function IndexPage() {
             />
           </section>
         </article>
-        <Footer />
       </main>
     </>
   );
