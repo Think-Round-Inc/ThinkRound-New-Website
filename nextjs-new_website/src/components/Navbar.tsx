@@ -298,7 +298,7 @@ export default function Navbar() {
   }
   return (
     <main>
-      <div className="bg-[#68B7FD] p-5 flex justify-between ">
+      <div className="bg-[#68B7FD] px-5 py-2 flex justify-between ">
         <div className="flex flex-start pl-7 text-white">
           {" "}
           <a
