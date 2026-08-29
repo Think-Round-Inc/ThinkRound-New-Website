@@ -56,8 +56,9 @@ export default function Navbar() {
         },
         {
           name: "CHILDREN'S MURAL PROGRAM",
-          href: "nextjs-new_website\\src\\app\\programs\\children_mural_program\\page.tsx",
-        },
+          href: "/programs/children_mural_program",
+        },  
+
       ],
     },
     {
@@ -69,7 +70,7 @@ export default function Navbar() {
         },
         {
           name: "CURRENT & UPCOMING EXHIBITIONS",
-          href: "/about/current_upcoming_exhibitions",
+          href: "/think_round_fine_arts/current_upcoming_exhibitions",
         },
         {
           name: "PAST EXHIBITIONS",
