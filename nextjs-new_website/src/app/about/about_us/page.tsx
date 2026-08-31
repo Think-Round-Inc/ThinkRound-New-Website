@@ -2,7 +2,6 @@ import { client } from "@/sanity/client";
 import { urlFor } from "@/sanity/client"; 
 import Image from "next/image"; 
 import Link from "next/link"; 
-import Navbar from "@/components/Navbar"; 
 import Footer from "@/components/Footer"; 
 
 interface AboutUs {
@@ -65,7 +64,6 @@ export default async function AboutUsPage() {
   return (
     //need to map the menu and the actual text 
     <div className="flex flex-col min-h-screen">
-      <Navbar />
       <main className="flex-grow bg-[#f7f7f7]">
         {/* PAGE HEADER */} 
         <div className="bg-gray-100 border-b border-gray-200 py-16 px-4 mb-12">

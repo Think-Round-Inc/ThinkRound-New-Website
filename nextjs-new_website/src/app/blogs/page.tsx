@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { client } from "@/sanity/client";
-import Navbar from "@/components/Navbar";
 
 interface BlogCard {
   title: string;
@@ -38,8 +37,6 @@ export default async function BlogsPage() {
   };
 
   return (
-    <>
-      <Navbar />
       <div className="min-h-screen w-full bg-white px-6 py-16">
         <div className="max-w-[1400px] mx-auto">
           <div className="grid gap-x-12 gap-y-20 w-full grid-cols-1 [@media(min-width:500px)]:grid-cols-2 [@media(min-width:815px)]:grid-cols-3">
@@ -71,6 +68,5 @@ export default async function BlogsPage() {
           </div>
         </div>
       </div>
-    </>
   );
 }

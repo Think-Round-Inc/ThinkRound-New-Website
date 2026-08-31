@@ -1,7 +1,6 @@
 import { client, urlFor } from "@/sanity/client";
 import Link from "next/link";
 import { PortableText, PortableTextBlock } from "next-sanity";
-import Navbar from "@/components/Navbar";
 import ExhibitionGallery from "@/components/ExhibitionGallery";
 import ArtistCard from "@/components/ArtistCard";
 import type { Metadata } from "next";
@@ -193,7 +192,6 @@ export default async function CurrentExhibitionDetailPage({
   if (!exhibition) {
     return (
       <>
-        <Navbar />
         <main className="min-h-screen bg-white text-black p-8 flex flex-col justify-center items-center">
           <h1 className="text-4xl font-bold mb-4">Exhibition Not Found</h1>
           <Link
@@ -209,7 +207,6 @@ export default async function CurrentExhibitionDetailPage({
 
   return (
     <>
-      <Navbar />
       <main className="min-h-screen bg-white px-6 py-16">
         <div className="max-w-4xl mx-auto">
           <Link

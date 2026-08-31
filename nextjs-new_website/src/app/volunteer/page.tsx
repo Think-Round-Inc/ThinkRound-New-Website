@@ -1,5 +1,4 @@
 import { client } from "@/sanity/client";
-import Navbar from "@/components/Navbar";
 import VolunteerSubscribeFormClient from "@/components/volunteer-and-subscribe-page/VolunteerSubscribeFormClient";
 import { League_Spartan } from "next/font/google";
 import HeroSection from "@/components/volunteer-and-subscribe-page/HeroSection";
@@ -17,7 +16,6 @@ export default async function VolunteerPage() {
         letterSpacing: ".02em",
       }}
     >
-      <Navbar />
       <HeroSection
         heading2="Interested in volunteering with us?"
         paragraph="  Our projects provide a great opportunity to learn and hone your
