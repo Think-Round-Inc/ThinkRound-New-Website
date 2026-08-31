@@ -19,7 +19,11 @@ export default function Navbar() {
       ],
     },
     { label: "DONATE", href: "/donate" },
-    { label: "SHOP ART", href: "/shop_art" },
+    {
+      label: "SHOP ART",
+      href: "https://www.thinkround.shop",
+      external: true,
+    },
     {
       label: "PROGRAMS",
       links: [
@@ -133,6 +137,8 @@ export default function Navbar() {
           ) : (
             <Link
               href={menu.href!}
+              target={menu.external ? "_blank" : undefined}
+              rel={menu.external ? "noopener noreferrer" : undefined}
               className="inline-flex items-center h-10 px-3 py-2 font-medium text-gray-800 hover:text-blue-600 whitespace-nowrap"
             >
               {menu.label}
