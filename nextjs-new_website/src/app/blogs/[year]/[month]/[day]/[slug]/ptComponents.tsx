@@ -10,7 +10,7 @@ export const ptComponents = {
         height: 600,
       };
       return (
-        <div className="my-16 w-full flex justify-center">
+        <div className="mb-6 w-full flex justify-center">
           <Image
             src={urlFor(value).url()}
             alt={value.alt || "Blog content image"}
