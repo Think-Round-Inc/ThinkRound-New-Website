@@ -40,10 +40,16 @@ export default function Navbar() {
           href: "/programs/IAP",
         },
         { name: "CLASSES AT THINK ROUND", href: "/programs/classes" },
+        { name: "FAMILY ARTS PROGRAM", href: "/programs/family_arts_program" },
         {
           name: "TURNING THE TIDE OF TRAUMA",
           href: "/programs/turning_the_tide_of_trauma",
         },
+        {
+          name: "CHILDREN'S MURAL PROGRAM",
+          href: "/programs/children_mural_program",
+        },  
+
       ],
     },
     {
@@ -55,7 +61,7 @@ export default function Navbar() {
         },
         {
           name: "CURRENT & UPCOMING EXHIBITIONS",
-          href: "/about/current_upcoming_exhibitions",
+          href: "/think_round_fine_arts/current_upcoming_exhibitions",
         },
         {
           name: "PAST EXHIBITIONS",
