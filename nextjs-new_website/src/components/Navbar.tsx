@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { ArrowLeft, Menu, X, Search } from "lucide-react";
-import UpdatedSocialLinks from "./UpdatedSocialLinks";
 
 const formatMenuLabel = (label: string) =>
   label
@@ -57,8 +56,7 @@ export default function Navbar() {
         {
           name: "CHILDREN'S MURAL PROGRAM",
           href: "/programs/children_mural_program",
-        },  
-
+        },
       ],
     },
     {
