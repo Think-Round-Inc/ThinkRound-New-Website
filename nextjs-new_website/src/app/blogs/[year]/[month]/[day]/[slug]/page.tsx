@@ -49,7 +49,7 @@ export default async function BlogPostPage({
   return (
       <article className="min-h-screen bg-white py-24 px-6 md:px-12 w-full">
         <div className="max-w-3xl mx-auto flex flex-col items-start">
-          <div className="text-[11px] font-bold tracking-[0.2em] uppercase text-black mb-6">
+          <div className="text-[11px] font-bold tracking-[0.2em] uppercase text-gray-500 mb-6">
             {blog.author} <span className="mx-2 text-gray-300">•</span>{" "}
             {new Date(blog.publishedAt).toLocaleDateString("en-US", {
               month: "long",
@@ -59,12 +59,12 @@ export default async function BlogPostPage({
           </div>
 
           <header className="mb-12 w-full text-left">
-            <h1 className="text-4xl md:text-5xl font-light uppercase leading-tight tracking-tight text-black">
+            <h1 className="text-4xl md:text-4xl font-bold uppercase leading-tight tracking-tight text-gray-900">
               {blog.title}
             </h1>
           </header>
 
-          <section className="prose prose-neutral text-gray-800 max-w-none w-full text-left prose-p:text-justify prose-p:leading-relaxed prose-p:mb-8">
+          <section className="prose prose-neutral text-gray-700 max-w-none w-full text-left prose-p:text-justify prose-p:leading-relaxed prose-p:mb-8 prose-headings:font-normal  prose-headings:text-gray-900">
             <PortableText value={blog.body} components={ptComponents} />
           </section>
         </div>
