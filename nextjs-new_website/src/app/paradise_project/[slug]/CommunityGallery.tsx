@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import Navbar from "@/components/Navbar";
 import { Lato } from "next/font/google";
 
 const lato = Lato({ subsets: ["latin"], weight: ["400", "700"] });
@@ -84,7 +83,6 @@ export default function CommunityGallery({
 
   return (
     <div className={`${lato.className} min-h-screen flex flex-col bg-white`}>
-      <Navbar />
 
       <main className="flex-grow">
         {/* Header row */}

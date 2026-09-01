@@ -1,7 +1,6 @@
 import { client } from "@/sanity/client";
 import { PortableText, PortableTextBlock } from "@portabletext/react";
 import { ptComponents } from "./ptComponents";
-import Navbar from "@/components/Navbar";
 
 interface Blog {
   title: string;
@@ -48,8 +47,6 @@ export default async function BlogPostPage({
     );
 
   return (
-    <>
-      <Navbar />
       <article className="min-h-screen bg-white py-24 px-6 md:px-12 w-full">
         <div className="max-w-3xl mx-auto flex flex-col items-start">
           <div className="text-[11px] font-bold tracking-[0.2em] uppercase text-black mb-6">
@@ -72,6 +69,5 @@ export default async function BlogPostPage({
           </section>
         </div>
       </article>
-    </>
   );
 }
