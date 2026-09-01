@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import { client } from "@/sanity/client";
 
 import PressPost from "@/app/about/press/components/PressPost";
@@ -27,7 +26,6 @@ export default async function PressPage() {
 
   return (
     <div className="w-full min-h-screen mx-auto  bg-white">
-      <Navbar />
       <div className="flex flex-col  pt-40 gap-20 md:gap-0">
         {pressPosts.map((post) => {
           return <PressPost key={post._id} post={post} />;

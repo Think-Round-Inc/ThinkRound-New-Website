@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import { client } from "@/sanity/client";
 import Image from "next/image";
 import Link from "next/link";
@@ -45,7 +44,6 @@ export default async function ParadiseProjectPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
-      <Navbar />
       
       {/* 
         Main container: 

@@ -1,7 +1,6 @@
 import { client, urlFor } from "@/sanity/client";
 import Image from "next/image";
 import Link from "next/link";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import type { Metadata } from "next";
 
@@ -69,7 +68,6 @@ export default async function PastExhibitionsPage() {
   if (!exhibitions || exhibitions.length === 0) {
     return (
       <>
-        <Navbar />
         <main className="min-h-screen bg-white text-black p-8 flex justify-center items-center">
           <h1 className="text-4xl font-bold">No past exhibitions found.</h1>
         </main>
@@ -80,7 +78,6 @@ export default async function PastExhibitionsPage() {
 
   return (
     <>
-      <Navbar />
       <main className="min-h-screen bg-white px-6 py-16">
         <div className="max-w-[1400px] mx-auto">
           {/* Page Title */}
