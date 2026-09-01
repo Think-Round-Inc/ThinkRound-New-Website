@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { client } from "@/sanity/client";
-import Navbar from "@/components/Navbar";
 
 interface BlogCard {
   title: string;
@@ -38,11 +37,12 @@ export default async function BlogsPage() {
   };
 
   return (
-    <>
+     <>
       <Navbar />
       <div className="min-h-screen w-full bg-white px-6 py-20">
         <div className="max-w-[1300px] mx-auto">
           <div className="grid gap-x-10 gap-y-16 w-full grid-cols-1 [@media(min-width:500px)]:grid-cols-1 [@media(min-width:815px)]:grid-cols-3">
+
             {posts.map((post, index) => (
               <div key={index} className="w-full flex flex-col group">
                 <Link href={getPostUrl(post.publishedAt, post.slug.current)}>

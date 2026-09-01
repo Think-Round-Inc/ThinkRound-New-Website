@@ -1,6 +1,5 @@
 import { createClient } from 'next-sanity'
 import Image from 'next/image'
-import Navbar from '@/components/Navbar'
 
 
 
@@ -38,13 +37,22 @@ interface IapPageData {
   heroImages: ImageAsset[]
   body?: StudentBlock[]
   studentProjectsBody?: StudentBlock[]
+}
 
+interface SanityIapPageData {
+  title: string
+  heroImage1?: ImageAsset
+  heroImage2?: ImageAsset
+  heroImage3?: ImageAsset
+  heroImage4?: ImageAsset
+  body?: StudentBlock[]
+  studentProjectsBody?: StudentBlock[]
 }
 
 
 
 async function getIapPageData(): Promise<IapPageData> {
-  const data = await client.fetch<any>(`
+  const data = await client.fetch<SanityIapPageData>(`
     *[_type == "iapPage"][0] {
       title,
       heroImage1 { asset->{url, metadata{dimensions}} },
@@ -64,7 +72,7 @@ async function getIapPageData(): Promise<IapPageData> {
       data.heroImage2,
       data.heroImage3,
       data.heroImage4,
-    ],
+    ].filter((img): img is ImageAsset => img !== undefined),
     body: data.body,
     studentProjectsBody: data.studentProjectsBody,
 
@@ -137,7 +145,6 @@ export default async function IapPage() {
 
   return (
     <main className="bg-white min-h-screen text-gray-900">
-      <Navbar />
 
 
       <section className="pt-20 px-6 max-w-7xl mx-auto">
