@@ -7,26 +7,7 @@ export default function Navbar() {
     const [openMenu, setOpenMenu] = useState<string | null>(null);
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const menuItems = [
-    {
-      label: "ABOUT",
-      links: [
-        { name: "OUR BOARD", href: "/about/our_board" },
-        { name: "ABOUT US", href: "/about/about_us" },
-        { name: "OUR ARTISTS", href: "/about/our-artists" },
-        { name: "PRESS", href: "/about/press" },
-        { name: "CONTACT US", href: "/about/contact_us" },
-      ],
-    },
-    { label: "DONATE", href: "/donate" },
-    {
-      label: "SHOP ART",
-      href: "https://www.thinkround.shop",
-      external: true,
-    },
-    {
-      label: "PROGRAMS",
-      links: [
+    const menuItems = [
         {
             label: "ABOUT",
             links: [
@@ -38,7 +19,10 @@ export default function Navbar() {
             ],
         },
         { label: "DONATE", href: "/donate" },
-        { label: "SHOP ART", href: "/shop_art" },
+        { label: "SHOP ART",
+            href: "https://www.thinkround.shop",
+            external: true,
+        },
         {
             label: "PROGRAMS",
             links: [
@@ -173,34 +157,11 @@ export default function Navbar() {
         timeoutRef.current = setTimeout(() => setOpenMenu(null), 150);
     };
 
-  return (
-    <nav className='flex items-center gap-6 bg-gray-200 p-4'>
-      {menuItems.map((menu) => (
-        <div
-          key={menu.label}
-          className='relative inline-flex items-center'
-          onMouseEnter={
-            menu.links ? () => handleMouseEnter(menu.label) : undefined
-          }
-          onMouseLeave={menu.links ? handleMouseLeave : undefined}
-        >
-          {menu.links ? (
-            <button
-              className='inline-flex items-center h-10 px-3 py-2 font-medium text-gray-800 hover:text-blue-600 bg-transparent border-0 whitespace-nowrap'
-              type='button'
-            >
-              {menu.label}
-            </button>
-          ) : (
-            <Link
-              href={menu.href!}
-              target={menu.external ? '_blank' : undefined}
-              rel={menu.external ? 'noopener noreferrer' : undefined}
-              className='inline-flex items-center h-10 px-3 py-2 font-medium text-gray-800 hover:text-blue-600 whitespace-nowrap'
-            >
-              {menu.label}
-            </Link>
-          )}
+    useEffect(() => {
+        return () => {
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        };
+    }, []);
 
     return (
         <nav className='flex items-center gap-6 bg-gray-200 p-4'>
@@ -225,6 +186,8 @@ export default function Navbar() {
                     ) : (
                         <Link
                             href={menu.href!}
+                            target={menu.external ? '_blank' : undefined}
+                            rel={menu.external ? 'noopener noreferrer' : undefined}
                             className='inline-flex items-center h-10 px-3 py-2 font-medium text-gray-800 hover:text-blue-600 whitespace-nowrap'
                         >
                             {menu.label}
