@@ -2,7 +2,7 @@ import PostList from "@/components/PostList";
 import GalleryList from "@/components/GalleryList";
 import { client } from "@/sanity/client";
 import Footer from "@/components/Footer";
-
+import Navbar from "@/components/Navbar";
 import {
   PortableText,
   PortableTextBlock,
@@ -85,7 +85,6 @@ export default async function IndexPage() {
 
   return (
     <>
-      <Navbar />
       <main>
         {" "}
         <article className="min-h-screen bg-white py-24 px-6 md:px-12 w-full flex flex-col items-center ">
