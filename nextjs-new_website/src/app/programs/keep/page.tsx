@@ -81,7 +81,7 @@ export default async function KidsEnvironmentalEducationPage() {
   }
 
   return (
-    <div className="min-h-screen  text-[#2e2e2e]">
+    <div className=" text-[#2e2e2e]">
       <main className="keep-page">
         <section className="keep-hero">
           <h1 className="keep-logo-text">

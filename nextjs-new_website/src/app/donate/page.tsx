@@ -47,9 +47,8 @@ export default async function DonatePage() {
 
   return (
     <div className="min-h-screen bg-white text-[#2e2e2e]">
-
       <main
-        className=" flex flex-col max-w-7xl mx-auto mt-25 space-y-10 text-center"
+        className=" flex flex-col max-w-7xl mx-auto  space-y-10 text-center"
         style={{ fontFamily: leagueSpartan.style.fontFamily }}
       >
         {data.Image?.asset?.url && (
