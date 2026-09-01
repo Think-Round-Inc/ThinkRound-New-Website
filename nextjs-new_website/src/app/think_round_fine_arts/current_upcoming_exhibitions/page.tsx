@@ -1,7 +1,6 @@
 import { client, urlFor } from "@/sanity/client";
 import Image from "next/image";
 import Link from "next/link";
-import Navbar from "@/components/Navbar";
 import type { Metadata } from "next";
 
 export const revalidate = 30;
@@ -67,18 +66,13 @@ export default async function CurrentExhibitionsPage() {
 
   if (!exhibitions || exhibitions.length === 0) {
     return (
-      <>
-        <Navbar />
         <main className="min-h-screen bg-white text-black p-8 flex justify-center items-center">
           <h1 className="text-4xl font-bold">No current exhibitions found.</h1>
         </main>
-      </>
     );
   }
 
   return (
-    <>
-      <Navbar />
       <main className="min-h-screen bg-white px-6 py-16">
         <div className="max-w-[1400px] mx-auto">
           <h1 className="text-4xl md:text-5xl font-light uppercase leading-tight tracking-tight text-black text-center mb-16">
@@ -130,6 +124,5 @@ export default async function CurrentExhibitionsPage() {
           </div>
         </div>
       </main>
-    </>
   );
 }

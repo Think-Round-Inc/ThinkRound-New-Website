@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { client } from "@/sanity/client";
-import Navbar from "@/components/Navbar";
 import UpdatedSocialLinks from "@/components/UpdatedSocialLinks";
 import { League_Spartan } from "next/font/google";
 import Link from "next/link";
@@ -34,7 +33,6 @@ export default async function DonatePage() {
   if (!data) {
     return (
       <main className="min-h-screen bg-white text-[#2e2e2e]">
-        <Navbar />
         <div className="min-h-screen flex items-center justify-center">
           <div
             className="text-3xl"
@@ -49,7 +47,6 @@ export default async function DonatePage() {
 
   return (
     <div className="min-h-screen bg-white text-[#2e2e2e]">
-      <Navbar />
 
       <main
         className=" flex flex-col max-w-7xl mx-auto mt-25 space-y-10 text-center"
