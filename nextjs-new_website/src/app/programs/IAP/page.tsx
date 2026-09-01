@@ -1,6 +1,5 @@
 import { createClient } from 'next-sanity'
 import Image from 'next/image'
-import Navbar from '@/components/Navbar'
 
 
 
@@ -146,7 +145,6 @@ export default async function IapPage() {
 
   return (
     <main className="bg-white min-h-screen text-gray-900">
-      <Navbar />
 
 
       <section className="pt-20 px-6 max-w-7xl mx-auto">

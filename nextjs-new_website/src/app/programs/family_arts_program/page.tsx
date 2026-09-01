@@ -7,10 +7,8 @@ import {
 } from "@portabletext/react";
 import { client } from "@/sanity/client";
 import { urlFor } from "@/sanity/image";
-import Navbar from "@/components/Navbar";
 import { League_Spartan } from "next/font/google";
 import UpdatedSocialLinks from "@/components/UpdatedSocialLinks";
-import LazyImage from "@/app/about/press/components/LazyImage";
 
 const leagueSpartan = League_Spartan({
   subsets: ["latin"],
@@ -81,7 +79,6 @@ export default async function FamilyArtsProgramPage() {
   if (!data) {
     return (
       <div className=" min-h-screen bg-white  text-[#2e2e2e]">
-        <Navbar />
         <main
           className="keep-empty"
           style={{ fontFamily: leagueSpartan.style.fontFamily }}
@@ -98,12 +95,11 @@ export default async function FamilyArtsProgramPage() {
 
   return (
     <div className="min-h-screen bg-white  text-[#2e2e2e]">
-      <Navbar />
       <main
         className="mx-auto  px-4 py-8 sm:px-6 lg:px-8 "
         style={{ fontFamily: leagueSpartan.style.fontFamily }}
       >
-        <section className="grid items-center gap-12 grid-cols-[1fr_1fr] mt-20 lg:mt-40">
+        <section className="grid items-center gap-12 grid-cols-[1fr_1fr] ">
           {data.mainImage && (
             <div>
               <Image

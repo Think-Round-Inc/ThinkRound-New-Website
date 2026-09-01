@@ -4,7 +4,6 @@ import { PortableText, type PortableTextBlock } from "@portabletext/react";
 
 import { client } from "@/sanity/client";
 import { urlFor } from "@/sanity/image";
-import Navbar from "@/components/Navbar";
 
 const KEEP_QUERY = `
   *[_type == "keep"][0] {
@@ -73,7 +72,6 @@ export default async function KidsEnvironmentalEducationPage() {
   if (!data) {
     return (
       <div className=" min-h-screen bg-white  text-[#2e2e2e]">
-        <Navbar />
         <main className="keep-empty">
           <h1>KEEP page content was not found.</h1>
           <p>Please create and publish the KEEP document in Sanity Studio.</p>
@@ -83,8 +81,7 @@ export default async function KidsEnvironmentalEducationPage() {
   }
 
   return (
-    <div className="min-h-screen  text-[#2e2e2e]">
-      <Navbar />
+    <div className=" text-[#2e2e2e]">
       <main className="keep-page">
         <section className="keep-hero">
           <h1 className="keep-logo-text">
