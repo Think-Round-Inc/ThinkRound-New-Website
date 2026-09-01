@@ -34,21 +34,18 @@ export default function Navbar() {
     { label: "SHOP ART", href: "/shop_art" },
     {
       label: "PROGRAMS",
-      links: [
+     links: [
         {
-            label: "ABOUT",
-            links: [
-                { name: "OUR BOARD", href: "/about/our_board" },
-                { name: "ABOUT US", href: "/about/about_us" },
-                { name: "OUR ARTISTS", href: "/about/our-artists" },
-                { name: "PRESS", href: "/about/press" },
-                { name: "CONTACT US", href: "/about/contact_us" },
-            ],
+          name: "KEEP(KID’S ENVIRONMENTAL EDUCATION PROGRAM)",
+          href: "/programs/keep",
         },
-        { label: "DONATE", href: "/donate" },
-        { label: "SHOP ART",
-            href: "https://www.thinkround.shop",
-            external: true,
+        {
+          name: "STREAM OF CONSCIOUSNESS",
+          href: "/programs/stream_of_consciousness",
+        },
+        {
+          name: "INTERGENERATIONAL AFTER SCHOOL PROGRAM",
+          href: "/programs/IAP",
         },
         { name: "CLASSES AT THINK ROUND", href: "/programs/classes" },
         { name: "FAMILY ARTS PROGRAM", href: "/programs/family_arts_program" },
@@ -65,40 +62,7 @@ export default function Navbar() {
     {
       label: "THINK ROUND FINE ARTS",
       links: [
-        {
-            label: "PROGRAMS",
-            links: [
-                {
-                    name: "KEEP(KID’S ENVIRONMENTAL EDUCATION PROGRAM)",
-                    href: "/programs/keep",
-                },
-                {
-                    name: "STREAM OF CONSCIOUSNESS",
-                    href: "/programs/stream_of_consciousness",
-                },
-                {
-                    name: "INTERGENERATIONAL AFTER SCHOOL PROGRAM",
-                    href: "/programs/IAP",
-                },
-                { name: "CLASSES AT THINK ROUND", href: "/programs/classes" },
-                {
-                    name: "FAMILY ARTS PROGRAM",
-                    href: "/programs/family_arts_program",
-                },
-                {
-                    name: "TURNING THE TIDE OF TRAUMA",
-                    href: "/programs/turning_the_tide_of_trauma",
-                },
-                {
-                    name: "CHILDREN'S MURAL PROGRAM",
-                    href: "/programs/children_mural_program",
-                },
-            ],
-        },
-        {
-            label: "THINK ROUND FINE ARTS",
-            links: [
-                {
+         {
                     name: "VIRTUAL ART EXHIBITIONS",
                     href: "/think_round_fine_arts/virtual_art_exhibitions",
                 },
@@ -110,6 +74,7 @@ export default function Navbar() {
                     name: "PAST EXHIBITIONS",
                     href: "/think_round_fine_arts/past_exhibitions",
                 },
+
             ],
         },
         {
@@ -168,65 +133,8 @@ export default function Navbar() {
                 { name: "PARADISE PROJECT", href: "/paradise_project" },
             ],
         },
-      ],
-    },
-    {
-      label: "CENTER FOR THE HUMAN FAMILY",
-      links: [
-        {
-          name: "EXTERIOR",
-          href: "/center_for_human_family/exterior",
-          disabled: true,
-        },
-        {
-          name: "SUSTAINABLE LIVING - LEARNING CENTERS",
-          href: "/center_for_human_family/sustainable-living-learning-centers",
-          disabled: true,
-        },
-        {
-          name: "1ST FLOOR",
-          href: "/center_for_human_family/1st-floor",
-          disabled: true,
-        },
-        {
-          name: "LOBBY - STREAM OF CONSCIOUSNESS",
-          href: "/center_for_human_family/lobby-stream-of-consciousness",
-          disabled: true,
-        },
-        {
-          name: "AQUAPONICS & FISH FARMS",
-          href: "/center_for_human_family/aquaponics-fish-farms",
-          disabled: true,
-        },
-        {
-          name: "RESTAURANT / CAFE / CULINARY ACADEMY",
-          href: "/center_for_human_family/restaurant-cafe-culinary-academy",
-          disabled: true,
-        },
-        {
-          name: "2ND FLOOR",
-          href: "/center_for_human_family/2nd-floor",
-          disabled: true,
-        },
-        {
-          name: "HEALING ROOMS",
-          href: "/center_for_human_family/healing-rooms",
-          disabled: true,
-        },
-        {
-          name: "AIR, WATER, SOIL EXHIBIT",
-          href: "/center_for_human_family/air-water-soil-exhibit",
-          disabled: true,
-        },
-        {
-          name: "3RD FLOOR",
-          href: "/center_for_human_family/3rd-floor",
-          disabled: true,
-        },
-        { name: "PARADISE PROJECT", href: "/paradise_project" },
-      ],
-    },
-
+      
+    
     { label: "BLOGS", href: "/blogs" },
     { label: "VOLUNTEER", href: "/volunteer" },
     { label: "SUBSCRIBE", href: "/subscribe" },
