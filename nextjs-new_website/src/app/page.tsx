@@ -2,7 +2,7 @@ import PostList from "@/components/PostList";
 import GalleryList from "@/components/GalleryList";
 import { client } from "@/sanity/client";
 import Footer from "@/components/Footer";
-
+import Navbar from "@/components/Navbar";
 import {
   PortableText,
   PortableTextBlock,
