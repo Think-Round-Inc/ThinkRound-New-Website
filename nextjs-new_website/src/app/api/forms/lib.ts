@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerClient } from "@/sanity/client";
 
-export type ContactFormType = "volunteer" | "subscribe";
+export type ContactFormType = "volunteer" | "subscribe" | "contact";
 
 type ContactPayload = {
   firstName?: unknown;
@@ -13,7 +13,10 @@ type ContactPayload = {
 };
 
 function normalizeFormType(value: unknown): ContactFormType | null {
-  if (value === "volunteer" || value === "subscribe") {
+  if (value === "volunteer" || 
+      value === "subscribe" || 
+      value === "contact" 
+    ) {
     return value;
   }
 
@@ -61,7 +64,11 @@ export async function submitContactForm(
       );
     }
 
-    if (resolvedFormType === "subscribe" && !subject) {
+    if ( 
+    (resolvedFormType === "subscribe" ||
+         resolvedFormType === "contact") &&
+        !subject
+    ) {
       return NextResponse.json(
         { error: "Please provide a subject." },
         { status: 400 },
@@ -73,7 +80,9 @@ export async function submitContactForm(
     const typeName =
       resolvedFormType === "volunteer"
         ? "volunteerSubmission"
-        : "subscribeSubmission";
+        : resolvedFormType === "subscribe"
+            ? "subscribeSubmission"
+            : "contactSubmission";
 
     const existingCount = await client.fetch(
       "count(*[_type == $type && email == $email])",
@@ -87,25 +96,37 @@ export async function submitContactForm(
       );
     }
 
-    const document =
-      typeName === "volunteerSubmission"
-        ? await client.create({
-            _type: "volunteerSubmission",
-            firstName,
-            lastName,
-            email,
-            interest,
-            message,
-          })
-        : await client.create({
-            _type: "subscribeSubmission",
-            firstName,
-            lastName,
-            email,
-            subject,
-            message,
-          });
+    let document;
 
+    if (typeName === "volunteerSubmission") {
+      document = await client.create({
+        _type: "volunteerSubmission",
+        firstName,
+        lastName,
+        email,
+        interest,
+        message,
+      });
+    } else if (typeName === "subscribeSubmission") {
+      document = await client.create({
+        _type: "subscribeSubmission",
+        firstName,
+        lastName,
+        email,
+        subject,
+        message,
+      });
+    } else {
+      document = await client.create({
+        _type: "contactSubmission",
+        firstName,
+        lastName,
+        email,
+        subject,
+        message,
+      });
+    }
+    
     return NextResponse.json(
       { success: true, id: document._id },
       { status: 200 },
