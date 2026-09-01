@@ -85,7 +85,6 @@ export default async function IndexPage() {
 
   return (
     <>
-      <Navbar />
       <main>
         {" "}
         <article className="min-h-screen bg-white py-24 px-6 md:px-12 w-full flex flex-col items-center ">
