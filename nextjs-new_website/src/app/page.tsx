@@ -1,11 +1,5 @@
 import { client } from "@/sanity/client";
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
-import {
-  PortableText,
-  PortableTextBlock,
-  type SanityDocument,
-} from "next-sanity";
+import { PortableText, PortableTextBlock } from "next-sanity";
 
 import { homeComponents } from "./homeComponents";
 

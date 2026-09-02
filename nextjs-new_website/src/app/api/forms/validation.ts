@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const formTypeSchema = z.enum(['volunteer', 'subscribe']);
+export const formTypeSchema = z.enum(['volunteer', 'subscribe', 'contact']);
 
 export const baseFormSchema = z.object({
   formType: formTypeSchema,
@@ -20,7 +20,16 @@ export const subscribeFormSchema = baseFormSchema.extend({
   subject: z.string().trim().min(1, 'Please provide a subject').max(200),
 });
 
-export const formSchema = z.union([volunteerFormSchema, subscribeFormSchema]);
+export const contactFormSchema = baseFormSchema.extend({
+  formType: z.literal('contact'),
+  subject: z.string().trim().min(1, 'Please provide a subject').max(200),
+});
+
+export const formSchema = z.union([
+  volunteerFormSchema,
+  subscribeFormSchema,
+  contactFormSchema,
+]);
 
 export function parseFormPayload(input: unknown) {
   return formSchema.safeParse(input);
