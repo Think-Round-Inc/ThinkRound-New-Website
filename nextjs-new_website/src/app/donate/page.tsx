@@ -21,7 +21,7 @@ async function getDonatePage() {
     ButtonText,
     introText,
     supportingContent,
-    secondaryButtonText,
+  
    
   }`;
   return await client.fetch(query);
