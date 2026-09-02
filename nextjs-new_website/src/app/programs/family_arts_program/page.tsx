@@ -98,7 +98,7 @@ export default async function FamilyArtsProgramPage() {
         className="mx-auto  px-4 py-8 sm:px-6 lg:px-8 "
         style={{ fontFamily: leagueSpartan.style.fontFamily }}
       >
-        <section className="grid items-center gap-12 grid-cols-[1fr_1fr] mt-20 lg:mt-40">
+        <section className="grid items-center gap-12 grid-cols-[1fr_1fr] ">
           {data.mainImage && (
             <div>
               <Image

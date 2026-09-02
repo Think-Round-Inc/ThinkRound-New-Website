@@ -1,3 +1,4 @@
+import Navbar from "@/components/Navbar";
 import VolunteerSubscribeFormClient from "@/components/volunteer-and-subscribe-page/VolunteerSubscribeFormClient";
 import { League_Spartan } from "next/font/google";
 import HeroSection from "@/components/volunteer-and-subscribe-page/HeroSection";

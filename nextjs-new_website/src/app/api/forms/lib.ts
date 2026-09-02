@@ -2,10 +2,13 @@ import { NextResponse } from "next/server";
 import { getServerClient } from "@/sanity/client";
 import { parseFormPayload } from "./validation";
 
-export type ContactFormType = "volunteer" | "subscribe";
+export type ContactFormType = "volunteer" | "subscribe" | "contact";
 
 function normalizeFormType(value: unknown): ContactFormType | null {
-  if (value === "volunteer" || value === "subscribe") {
+  if (value === "volunteer" || 
+      value === "subscribe" || 
+      value === "contact" 
+    ) {
     return value;
   }
 
@@ -34,48 +37,37 @@ export async function submitContactForm(
 
     if (!payload.success) {
       return NextResponse.json(
-        {
-          error: payload.error.issues[0]?.message ?? "Invalid form payload.",
-        },
+        { error: "Missing required form fields." },
+        { status: 400 },
+      );
+    }
+
+    if (resolvedFormType === "volunteer" && !interest) {
+      return NextResponse.json(
+        { error: "Please select an interest option." },
+        { status: 400 },
+      );
+    }
+
+    if ( 
+    (resolvedFormType === "subscribe" ||
+         resolvedFormType === "contact") &&
+        !subject
+    ) {
+      return NextResponse.json(
+        { error: "Please provide a subject." },
         { status: 400 },
       );
     }
 
     const client = getServerClient();
 
-    if ("interest" in payload.data) {
-      const { firstName, lastName, email, message, interest } = payload.data;
-      const typeName = "volunteerSubmission";
-
-      const existingCount = await client.fetch(
-        "count(*[_type == $type && email == $email])",
-        { type: typeName, email },
-      );
-
-      if (existingCount > 0) {
-        return NextResponse.json(
-          { error: "This email has already been submitted." },
-          { status: 409 },
-        );
-      }
-
-      const document = await client.create({
-        _type: "volunteerSubmission",
-        firstName,
-        lastName,
-        email,
-        interest,
-        message,
-      });
-
-      return NextResponse.json(
-        { success: true, id: document._id },
-        { status: 200 },
-      );
-    }
-
-    const { firstName, lastName, email, message, subject } = payload.data;
-    const typeName = "subscribeSubmission";
+    const typeName =
+      resolvedFormType === "volunteer"
+        ? "volunteerSubmission"
+        : resolvedFormType === "subscribe"
+            ? "subscribeSubmission"
+            : "contactSubmission";
 
     const existingCount = await client.fetch(
       "count(*[_type == $type && email == $email])",
@@ -89,15 +81,37 @@ export async function submitContactForm(
       );
     }
 
-    const document = await client.create({
-      _type: "subscribeSubmission",
-      firstName,
-      lastName,
-      email,
-      subject,
-      message,
-    });
+    let document;
 
+    if (typeName === "volunteerSubmission") {
+      document = await client.create({
+        _type: "volunteerSubmission",
+        firstName,
+        lastName,
+        email,
+        interest,
+        message,
+      });
+    } else if (typeName === "subscribeSubmission") {
+      document = await client.create({
+        _type: "subscribeSubmission",
+        firstName,
+        lastName,
+        email,
+        subject,
+        message,
+      });
+    } else {
+      document = await client.create({
+        _type: "contactSubmission",
+        firstName,
+        lastName,
+        email,
+        subject,
+        message,
+      });
+    }
+    
     return NextResponse.json(
       { success: true, id: document._id },
       { status: 200 },

@@ -21,7 +21,7 @@ async function getDonatePage() {
     ButtonText,
     introText,
     supportingContent,
-    secondaryButtonText,
+  
    
   }`;
   return await client.fetch(query);
@@ -47,9 +47,8 @@ export default async function DonatePage() {
 
   return (
     <div className="min-h-screen bg-white text-[#2e2e2e]">
-
       <main
-        className=" flex flex-col max-w-7xl mx-auto mt-25 space-y-10 text-center"
+        className=" flex flex-col max-w-7xl mx-auto  space-y-10 text-center"
         style={{ fontFamily: leagueSpartan.style.fontFamily }}
       >
         {data.Image?.asset?.url && (
@@ -69,7 +68,12 @@ export default async function DonatePage() {
         >
           {data.title}
         </section>
-
+        <section className="  mx-10 md:mx-20 lg:mx-40 text-2xl md:text-4xl lg:text-6xl text-black-800">
+          {data.introText}
+        </section>
+        <section className=" mx-10 md:mx-20 lg:mx-40 text-xl md:text-2xl lg:text-3xl text-black-600">
+          {data.supportingContent}
+        </section>
         <section className="flex justify-center gap-4">
           <Link
             href="https://www.zeffy.com/en-US/donation-form/earth-is-home-humans-are-family"
@@ -77,15 +81,8 @@ export default async function DonatePage() {
             rel="noopener noreferrer"
             className="rounded-0 bg-purple-900 hover:bg-purple-800 text-white px-10 py-3 text-sm xl:text-2xl tracking-[0.2em] transition"
           >
-            Donate
+            {data.ButtonText}
           </Link>
-        </section>
-
-        <section className="  mx-10 md:mx-20 lg:mx-40 text-2xl md:text-4xl lg:text-6xl text-black-800">
-          {data.introText}
-        </section>
-        <section className=" mx-10 md:mx-20 lg:mx-40 text-xl md:text-2xl lg:text-3xl text-black-600">
-          {data.supportingContent}
         </section>
 
         <section className="mx-10 md:mx-20 lg:mx-40">
