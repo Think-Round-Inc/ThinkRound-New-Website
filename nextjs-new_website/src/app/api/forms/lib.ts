@@ -16,6 +16,40 @@ function normalizeFormType(value: unknown): ContactFormType | null {
   return null;
 }
 
+async function writeToGoogleSheet(
+  formType: ContactFormType,
+  payload: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    interest?: string;
+    subject?: string;
+    message: string;
+  },
+) {
+  const webhookUrl =
+    formType === "volunteer"
+      ? process.env.GOOGLE_SHEETS_VOLUNTEER_WEBHOOK_URL
+      : formType === "subscribe"
+        ? process.env.GOOGLE_SHEETS_SUBSCRIBE_WEBHOOK_URL
+        : process.env.GOOGLE_SHEETS_CONTACT_WEBHOOK_URL;
+
+  if (!webhookUrl) {
+    console.warn(`Webhook URL for ${formType} not set — skipping Sheet write.`);
+    return;
+  }
+
+  try {
+    await fetch(webhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+  } catch (error) {
+    console.error("Failed to write to Google Sheet:", error);
+  }
+}
+
 export async function submitContactForm(
   request: Request,
   formType?: ContactFormType,
@@ -72,6 +106,14 @@ export async function submitContactForm(
         message,
       });
 
+      await writeToGoogleSheet("volunteer", {
+        firstName,
+        lastName,
+        email,
+        interest,
+        message,
+      });
+
       return NextResponse.json(
         { success: true, id: document._id },
         { status: 200 },
@@ -103,6 +145,14 @@ export async function submitContactForm(
         message,
       });
 
+      await writeToGoogleSheet("contact", {
+        firstName,
+        lastName,
+        email,
+        subject,
+        message,
+      });
+
       return NextResponse.json(
         { success: true, id: document._id },
         { status: 200 },
@@ -126,6 +176,14 @@ export async function submitContactForm(
 
     const document = await client.create({
       _type: "subscribeSubmission",
+      firstName,
+      lastName,
+      email,
+      subject,
+      message,
+    });
+
+    await writeToGoogleSheet("subscribe", {
       firstName,
       lastName,
       email,
