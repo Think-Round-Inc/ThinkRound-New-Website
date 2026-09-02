@@ -1,8 +1,6 @@
-import { client } from "@/sanity/client"; 
-import { urlFor } from "@/sanity/client"; 
-import Image from "next/image"; 
-import Link from "next/link"; 
-import Footer from "@/components/Footer"; 
+import { client, urlFor } from "@/sanity/client";
+import Image from "next/image";
+import Link from "next/link";
 
 interface AboutUs {
   _id: string; 

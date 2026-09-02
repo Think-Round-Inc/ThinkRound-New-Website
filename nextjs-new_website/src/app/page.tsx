@@ -1,17 +1,8 @@
-import PostList from "@/components/PostList";
-import GalleryList from "@/components/GalleryList";
 import { client } from "@/sanity/client";
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
-import {
-  PortableText,
-  PortableTextBlock,
-  type SanityDocument,
-} from "next-sanity";
+import { PortableText, PortableTextBlock } from "next-sanity";
 
 import { homeComponents } from "./homeComponents";
 
-const home_QUERY = `*[_type in ["post", "gallery"]] | order(publishedAt desc)`;
 const options = { next: { revalidate: 30 } };
 
 interface Homepage {
@@ -73,14 +64,6 @@ async function getHomepage() {
 }
 
 export default async function IndexPage() {
-  // const contents = await client.fetch<SanityDocument[]>(
-  //   home_QUERY,
-  //   {},
-  //   options,
-  // );
-
-  //const posts = contents.filter((content) => content._type === "post");
-
   const homepage = await getHomepage();
 
   return (

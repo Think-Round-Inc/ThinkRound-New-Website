@@ -5,8 +5,7 @@ import {
   type PortableTextBlock,
   PortableTextComponents,
 } from "@portabletext/react";
-import { client } from "@/sanity/client";
-import { urlFor } from "@/sanity/image";
+import { client, urlFor } from "@/sanity/client";
 import { League_Spartan } from "next/font/google";
 import UpdatedSocialLinks from "@/components/UpdatedSocialLinks";
 
