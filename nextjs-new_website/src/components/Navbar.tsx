@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { ArrowLeft, Menu, X, Search } from "lucide-react";
@@ -12,6 +13,7 @@ const formatMenuLabel = (label: string) =>
     .replace(/(?<!['’])\b\w/g, (character) => character.toUpperCase());
 
 export default function Navbar() {
+  const router = useRouter();
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [isMediumScreen, setIsMediumScreen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -155,12 +157,9 @@ export default function Navbar() {
   };
 
   const handleSearch = () => {
-    if (searchTerm.trim()) {
-      console.log("Searching for:", searchTerm);
-      // Add your search functionality here
-      // For example: redirect to search results page
-      // window.location.href = `/search?q=${encodeURIComponent(searchTerm)}`;
-    }
+    const term = searchTerm.trim();
+
+    if (term) router.push(`/search?q=${encodeURIComponent(term)}`);
   };
 
   const handleSearchKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
