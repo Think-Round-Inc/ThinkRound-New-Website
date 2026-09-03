@@ -1,5 +1,7 @@
+// "use client";
 import Link from "next/link";
 import { client } from "@/sanity/client";
+import SearchBox from "./SearchBox";
 
 interface SearchDocument {
   _id: string;
@@ -176,12 +178,9 @@ export default async function SearchPage({
   return (
     <div className="min-h-[50vh] bg-white px-6 py-16 text-[#2e2e2e]">
       <main className="mx-auto max-w-4xl">
-        <h1 className="text-4xl font-bold">Search results</h1>
+        <SearchBox initialQuery={query} />
         {query ? (
           <>
-            <p className="mt-4 text-gray-600">
-              Results for &quot;{query}&quot;
-            </p>
             {results.length > 0 ? (
               <ul className="mt-10 divide-y divide-gray-200 border-y border-gray-200">
                 {results.map((result) => (
@@ -201,9 +200,7 @@ export default async function SearchPage({
               <p className="mt-10 text-gray-600">No results found.</p>
             )}
           </>
-        ) : (
-          <p className="mt-4 text-gray-600">Enter a term to search the site.</p>
-        )}
+        ) : null}
       </main>
     </div>
   );
