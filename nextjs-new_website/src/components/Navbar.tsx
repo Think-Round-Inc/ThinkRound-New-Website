@@ -158,7 +158,7 @@ export default function Navbar() {
 
   const handleSearch = () => {
     const term = searchTerm.trim();
-
+    setSearchTerm("");
     if (term) router.push(`/search?q=${encodeURIComponent(term)}`);
   };
 
