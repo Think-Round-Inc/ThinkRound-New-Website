@@ -19,7 +19,7 @@ export const homeComponents: PortableTextComponents = {
         <div className={`my-12 flex justify-center"}`}>
           <div className="max-w-full">
             <Image
-              src={urlFor(value).url()}
+              src={urlFor(value).width(Math.min(width, 1600)).auto("format").url()}
               alt={value.alt || "Homepage Image"}
               width={width}
               height={height}
