@@ -83,22 +83,22 @@ export default async function VirtualArtiExhibitionsPage() {
                         </div>
                     </div>
                     {/* Virtual Exhibitions */}
-                    <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 grid-rows-[auto_1fr] gap-8">
                         {virtualExhibitionsData.virtualExhibitions.map(
                             (
-                                exhibition: VirtualExhibitionCard,
-                                index: number,
+                                exhibition: VirtualExhibitionCard, 
+                                index: number
                             ) => (
-                                <div key={index}>
-                                    <h3 className='text-4xl font-semibold mb-4 text-[#424242]'>
+                                <div key={index} className="grid grid-rows-subgrid row-span-2 gap-4">
+                                    <h3 className="text-4xl font-semibold text-[#424242]">
                                         {exhibition.exhibitionTitle}
                                     </h3>
                                     <iframe
                                         src={exhibition.exhibitionUrl}
-                                        className='w-full min-h-[600px] rounded-lg border'
-                                        allow='fullscreen; xr-spatial-tracking'
+                                        className="w-full min-h-[600px] rounded-lg border"
+                                        allow="fullscreen; xr-spatial-tracking"
                                         allowFullScreen
-                                        loading='lazy'
+                                        loading="lazy"
                                     />
                                 </div>
                             ),
