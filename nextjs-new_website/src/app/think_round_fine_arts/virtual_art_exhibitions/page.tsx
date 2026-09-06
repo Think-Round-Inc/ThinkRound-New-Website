@@ -42,7 +42,9 @@ export default async function VirtualArtiExhibitionsPage() {
         return (
             <>
                 <main className='min-h-screen bg-white px-6 py-16'>
-                    <h1>Exhibition data not found.</h1>
+                    <h1 className='text-4xl md:text-5xl font-bold uppercase leading-tight tracking-tight text-black text-center mb-2'>
+                        Exhibition data not found.
+                    </h1>
                 </main>
             </>
         );
