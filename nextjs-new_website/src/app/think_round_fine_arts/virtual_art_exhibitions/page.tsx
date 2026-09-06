@@ -41,7 +41,6 @@ export default async function VirtualArtiExhibitionsPage() {
     if (!virtualExhibitionsData) {
         return (
             <>
-                <Navbar />
                 <main className='min-h-screen bg-white px-6 py-16'>
                     <h1>Exhibition data not found.</h1>
                 </main>
@@ -51,7 +50,6 @@ export default async function VirtualArtiExhibitionsPage() {
 
     return (
         <>
-            <Navbar />
             <main className='min-h-screen bg-white px-6 py-16 '>
                 <div className='max-w-[1400px] mx-auto'>
                     {/* Page Title */}
