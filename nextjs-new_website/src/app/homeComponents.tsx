@@ -16,7 +16,7 @@ export const homeComponents: PortableTextComponents = {
       const isRounded = value.rounded === true;
 
       return (
-        <div className={`my-12 flex justify-center"}`}>
+        <div className={"my-12 flex justify-center"}>
           <div className="max-w-full">
             <Image
               src={urlFor(value).url()}

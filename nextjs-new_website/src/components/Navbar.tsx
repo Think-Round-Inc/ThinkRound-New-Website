@@ -38,6 +38,10 @@ export default function Navbar() {
         { name: "CLASSES AT THINK ROUND", href: "/programs/classes" },
         { name: "FAMILY ARTS PROGRAM", href: "/programs/family_arts_program" },
         {
+          name: "MAGIC OF WHY",
+          href: "https://www.magicofwhy.com/",    
+        },
+        {
           name: "TURNING THE TIDE OF TRAUMA",
           href: "/programs/turning_the_tide_of_trauma",
         },
