@@ -4,7 +4,7 @@ import { PortableText, PortableTextBlock } from "next-sanity";
 import ExhibitionGallery from "@/components/ExhibitionGallery";
 import ArtistCard from "@/components/ArtistCard";
 import type { Metadata } from "next";
-import Footer from "@/components/Footer";
+
 export const revalidate = 30;
 
 interface Artist {
@@ -29,7 +29,7 @@ interface ExhibitionLink {
   url: string;
 }
 
-interface PastExhibitionDetail {
+interface CurrentExhibitionDetail {
   _id: string;
   title: string;
   slug: { current: string };
@@ -49,9 +49,9 @@ interface PastExhibitionDetail {
 
 async function getExhibition(
   slug: string,
-): Promise<PastExhibitionDetail | null> {
-  return client.fetch<PastExhibitionDetail | null>(
-    `*[_type == "pastExhibition" && slug.current == $slug][0]{
+): Promise<CurrentExhibitionDetail | null> {
+  return client.fetch<CurrentExhibitionDetail | null>(
+    `*[_type == "currentExhibition" && slug.current == $slug][0]{
       _id,
       title,
       slug,
@@ -82,7 +82,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${exhibition.title} | Past Exhibitions | ThinkRound`,
+    title: `${exhibition.title} | Current & Upcoming Exhibitions | ThinkRound`,
     description: `View details about the "${exhibition.title}" exhibition at ThinkRound.`,
     openGraph: {
       title: `${exhibition.title} | ThinkRound`,
@@ -106,7 +106,7 @@ export async function generateMetadata({
 
 export async function generateStaticParams() {
   const exhibitions = await client.fetch<{ slug: string }[]>(
-    `*[_type == "pastExhibition"]{ "slug": slug.current }`,
+    `*[_type == "currentExhibition"]{ "slug": slug.current }`,
   );
   return exhibitions.map((e) => ({ slug: e.slug }));
 }
@@ -181,7 +181,7 @@ function formatDateRange(startDate: string, endDate: string): string {
   return `${start.toLocaleDateString("en-US", opts)} – ${end.toLocaleDateString("en-US", opts)}`;
 }
 
-export default async function PastExhibitionDetailPage({
+export default async function CurrentExhibitionDetailPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
@@ -195,13 +195,12 @@ export default async function PastExhibitionDetailPage({
         <main className="min-h-screen bg-white text-black p-8 flex flex-col justify-center items-center">
           <h1 className="text-4xl font-bold mb-4">Exhibition Not Found</h1>
           <Link
-            href="/think_round_fine_arts/past_exhibitions"
+            href="/think_round_fine_arts/current_upcoming_exhibitions"
             className="text-blue-600 hover:underline"
           >
-            Back to Past Exhibitions
+            Back to Current & Upcoming Exhibitions
           </Link>
         </main>
-        <Footer />
       </>
     );
   }
@@ -210,15 +209,14 @@ export default async function PastExhibitionDetailPage({
     <>
       <main className="min-h-screen bg-white px-6 py-16">
         <div className="max-w-4xl mx-auto">
-          {/* Back Link */}
           <Link
-            href="/think_round_fine_arts/past_exhibitions"
+            href="/think_round_fine_arts/current_upcoming_exhibitions"
             className="inline-flex items-center text-gray-500 hover:text-black transition-colors mb-8"
           >
-            <span className="mr-2">&larr;</span> Back to Past Exhibitions
+            <span className="mr-2">&larr;</span> Back to Current & Upcoming
+            Exhibitions
           </Link>
 
-          {/* Title + Date */}
           <header className="mb-12">
             <h1 className="text-4xl md:text-5xl font-light uppercase leading-tight tracking-tight text-black">
               {exhibition.title}
@@ -233,7 +231,6 @@ export default async function PastExhibitionDetailPage({
             )}
           </header>
 
-          {/* Interactive Gallery (cover image + artwork thumbnails) */}
           <ExhibitionGallery
             images={[
               {
@@ -259,7 +256,6 @@ export default async function PastExhibitionDetailPage({
             ]}
           />
 
-          {/* Reception & Time-Sensitive Info */}
           {exhibition.receptionInfo && (
             <div className="bg-gray-50 rounded-lg p-6 mb-12 border border-gray-200">
               <h2 className="text-sm font-bold tracking-[0.2em] uppercase text-gray-400 mb-2">
@@ -271,7 +267,6 @@ export default async function PastExhibitionDetailPage({
             </div>
           )}
 
-          {/* Related Links (video, interviews, etc.) */}
           {exhibition.links && exhibition.links.length > 0 && (
             <div className="flex flex-wrap gap-4 mb-12">
               {exhibition.links.map((link, index) => (
@@ -289,7 +284,6 @@ export default async function PastExhibitionDetailPage({
             </div>
           )}
 
-          {/* Featured Artists */}
           {exhibition.artists && exhibition.artists.length > 0 && (
             <section className="mb-12">
               <h2 className="text-sm font-bold tracking-[0.2em] uppercase text-gray-400 mb-4">
@@ -312,7 +306,6 @@ export default async function PastExhibitionDetailPage({
             </section>
           )}
 
-          {/* Description */}
           {exhibition.description && (
             <section className="mb-16">
               <PortableText

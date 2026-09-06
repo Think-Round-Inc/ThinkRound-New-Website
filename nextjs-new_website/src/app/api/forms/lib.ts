@@ -1,23 +1,53 @@
 import { NextResponse } from "next/server";
 import { getServerClient } from "@/sanity/client";
+import { parseFormPayload } from "./validation";
 
-export type ContactFormType = "volunteer" | "subscribe";
-
-type ContactPayload = {
-  firstName?: unknown;
-  lastName?: unknown;
-  email?: unknown;
-  message?: unknown;
-  subject?: unknown;
-  interest?: unknown;
-};
+export type ContactFormType = "volunteer" | "subscribe" | "contact";
 
 function normalizeFormType(value: unknown): ContactFormType | null {
-  if (value === "volunteer" || value === "subscribe") {
+  if (
+    value === "volunteer" ||
+    value === "subscribe" ||
+    value === "contact"
+  ) {
     return value;
   }
 
   return null;
+}
+
+async function writeToGoogleSheet(
+  formType: ContactFormType,
+  payload: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    interest?: string;
+    subject?: string;
+    message: string;
+  },
+) {
+  const webhookUrl =
+    formType === "volunteer"
+      ? process.env.GOOGLE_SHEETS_VOLUNTEER_WEBHOOK_URL
+      : formType === "subscribe"
+        ? process.env.GOOGLE_SHEETS_SUBSCRIBE_WEBHOOK_URL
+        : process.env.GOOGLE_SHEETS_CONTACT_WEBHOOK_URL;
+
+  if (!webhookUrl) {
+    console.warn(`Webhook URL for ${formType} not set — skipping Sheet write.`);
+    return;
+  }
+
+  try {
+    await fetch(webhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+  } catch (error) {
+    console.error("Failed to write to Google Sheet:", error);
+  }
 }
 
 export async function submitContactForm(
@@ -25,9 +55,7 @@ export async function submitContactForm(
   formType?: ContactFormType,
 ) {
   try {
-    const body = (await request.json()) as ContactPayload & {
-      formType?: unknown;
-    };
+    const body = (await request.json()) as Record<string, unknown>;
     const resolvedFormType = formType ?? normalizeFormType(body.formType);
 
     if (!resolvedFormType) {
@@ -37,43 +65,102 @@ export async function submitContactForm(
       );
     }
 
-    const firstName =
-      typeof body.firstName === "string" ? body.firstName.trim() : "";
-    const lastName =
-      typeof body.lastName === "string" ? body.lastName.trim() : "";
-    const email = typeof body.email === "string" ? body.email.trim() : "";
-    const message = typeof body.message === "string" ? body.message.trim() : "";
-    const subject = typeof body.subject === "string" ? body.subject.trim() : "";
-    const interest =
-      typeof body.interest === "string" ? body.interest.trim() : "";
+    const payload = parseFormPayload({
+      ...body,
+      formType: resolvedFormType,
+    });
 
-    if (!firstName || !lastName || !email || !message) {
+    if (!payload.success) {
       return NextResponse.json(
-        { error: "Missing required form fields." },
-        { status: 400 },
-      );
-    }
-
-    if (resolvedFormType === "volunteer" && !interest) {
-      return NextResponse.json(
-        { error: "Please select an interest option." },
-        { status: 400 },
-      );
-    }
-
-    if (resolvedFormType === "subscribe" && !subject) {
-      return NextResponse.json(
-        { error: "Please provide a subject." },
+        {
+          error: payload.error.issues[0]?.message ?? "Invalid form payload.",
+        },
         { status: 400 },
       );
     }
 
     const client = getServerClient();
 
-    const typeName =
-      resolvedFormType === "volunteer"
-        ? "volunteerSubmission"
-        : "subscribeSubmission";
+    if (payload.data.formType === "volunteer") {
+      const { firstName, lastName, email, message, interest } = payload.data;
+      const typeName = "volunteerSubmission";
+
+      const existingCount = await client.fetch(
+        "count(*[_type == $type && email == $email])",
+        { type: typeName, email },
+      );
+
+      if (existingCount > 0) {
+        return NextResponse.json(
+          { error: "This email has already been submitted." },
+          { status: 409 },
+        );
+      }
+
+      const document = await client.create({
+        _type: "volunteerSubmission",
+        firstName,
+        lastName,
+        email,
+        interest,
+        message,
+      });
+
+      await writeToGoogleSheet("volunteer", {
+        firstName,
+        lastName,
+        email,
+        interest,
+        message,
+      });
+
+      return NextResponse.json(
+        { success: true, id: document._id },
+        { status: 200 },
+      );
+    }
+
+    if (payload.data.formType === "contact") {
+      const { firstName, lastName, email, message, subject } = payload.data;
+      const typeName = "contactSubmission";
+
+      const existingCount = await client.fetch(
+        "count(*[_type == $type && email == $email])",
+        { type: typeName, email },
+      );
+
+      if (existingCount > 0) {
+        return NextResponse.json(
+          { error: "This email has already been submitted." },
+          { status: 409 },
+        );
+      }
+
+      const document = await client.create({
+        _type: "contactSubmission",
+        firstName,
+        lastName,
+        email,
+        subject,
+        message,
+      });
+
+      await writeToGoogleSheet("contact", {
+        firstName,
+        lastName,
+        email,
+        subject,
+        message,
+      });
+
+      return NextResponse.json(
+        { success: true, id: document._id },
+        { status: 200 },
+      );
+    }
+
+    const { firstName, lastName, email, message, subject } = payload.data;
+    const typeName = "subscribeSubmission";
 
     const existingCount = await client.fetch(
       "count(*[_type == $type && email == $email])",
@@ -87,24 +174,22 @@ export async function submitContactForm(
       );
     }
 
-    const document =
-      typeName === "volunteerSubmission"
-        ? await client.create({
-            _type: "volunteerSubmission",
-            firstName,
-            lastName,
-            email,
-            interest,
-            message,
-          })
-        : await client.create({
-            _type: "subscribeSubmission",
-            firstName,
-            lastName,
-            email,
-            subject,
-            message,
-          });
+    const document = await client.create({
+      _type: "subscribeSubmission",
+      firstName,
+      lastName,
+      email,
+      subject,
+      message,
+    });
+
+    await writeToGoogleSheet("subscribe", {
+      firstName,
+      lastName,
+      email,
+      subject,
+      message,
+    });
 
     return NextResponse.json(
       { success: true, id: document._id },

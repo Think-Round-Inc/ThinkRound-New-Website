@@ -1,8 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import Navbar from "@/components/Navbar";
 import { Lato } from "next/font/google";
 
 const lato = Lato({ subsets: ["latin"], weight: ["400", "700"] });
@@ -84,7 +84,6 @@ export default function CommunityGallery({
 
   return (
     <div className={`${lato.className} min-h-screen flex flex-col bg-white`}>
-      <Navbar />
 
       <main className="flex-grow">
         {/* Header row */}
@@ -216,10 +215,12 @@ export default function CommunityGallery({
                 </button>
 
                 {selected?.imageUrl && (
-                  <img
+                  <Image
                     src={selected.imageUrl}
                     alt={selected.title || "Painting"}
-                    className="w-full h-full object-contain"
+                    fill
+                    className="object-contain"
+                    sizes="(max-width: 768px) 100vw, 70vw"
                   />
                 )}
               </div>
@@ -274,10 +275,12 @@ export default function CommunityGallery({
                       className="group relative aspect-square rounded-lg overflow-hidden bg-gray-200 transition-opacity"
                     >
                       {painting.imageUrl && (
-                        <img
+                        <Image
                           src={painting.imageUrl}
                           alt={painting.title || ""}
-                          className="w-full h-full object-cover"
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 50vw, 18vw"
                         />
                       )}
                       {isSelected ? (

@@ -179,15 +179,15 @@ export const homeComponents: PortableTextComponents = {
 
       return (
         <div className="my-10 flex flex-wrap items-center justify-center gap-4">
-          {buttons.map((button: any) => (
+          {buttons.map((button: Record<string, unknown>, index: number) => (
             <a
-              key={button?._key || `${button?.href}-${button?.label}`}
-              href={button?.href}
+              key={(button?._key as string) || `${button?.href}-${button?.label}-${index}`}
+              href={button?.href as string}
               target={button?.openInNewTab ? "_blank" : "_self"}
               rel={button?.openInNewTab ? "noopener noreferrer" : undefined}
-              className={`${baseStyle} ${getVariantClass(button?.variant)}`}
+              className={`${baseStyle} ${getVariantClass(button?.variant as string | undefined)}`}
             >
-              {button?.label}
+              {button?.label as React.ReactNode}
             </a>
           ))}
         </div>

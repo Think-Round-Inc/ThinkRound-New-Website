@@ -6,8 +6,8 @@ import { client } from "@/sanity/client";
 
 const builder = imageUrlBuilder(client);
 
-function urlFor(source: any) {
-  return builder.image(source);
+function urlFor(source: unknown) {
+  return builder.image(source as Record<string, unknown>);
 }
 
 interface GalleryListProps {

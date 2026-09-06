@@ -2,11 +2,24 @@
 
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
+import { ArrowLeft, Menu, X, Search } from "lucide-react";
+import UpdatedSocialLinksContent from "./UpdatedSocialLinksContent";
+
+const formatMenuLabel = (label: string) =>
+  label
+    .toLowerCase()
+    .replace(/(?<!['’])\b\w/g, (character) => character.toUpperCase());
 
 export default function Navbar() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [isMediumScreen, setIsMediumScreen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mobileSubmenu, setMobileSubmenu] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  const ThinkRoundLogoPath = "/Think_Round_logo_NavBar.webp";
   const menuItems = [
     {
       label: "ABOUT",
@@ -19,7 +32,7 @@ export default function Navbar() {
       ],
     },
     { label: "DONATE", href: "/donate" },
-    { label: "SHOP ART", href: "/shop_art" },
+    { label: "SHOP ART", href: "https://www.thinkround.shop", external: true },
     {
       label: "PROGRAMS",
       links: [
@@ -36,9 +49,14 @@ export default function Navbar() {
           href: "/programs/IAP",
         },
         { name: "CLASSES AT THINK ROUND", href: "/programs/classes" },
+        { name: "FAMILY ARTS PROGRAM", href: "/programs/family_arts_program" },
         {
           name: "TURNING THE TIDE OF TRAUMA",
           href: "/programs/turning_the_tide_of_trauma",
+        },
+        {
+          name: "CHILDREN'S MURAL PROGRAM",
+          href: "/programs/children_mural_program",
         },
       ],
     },
@@ -51,7 +69,7 @@ export default function Navbar() {
         },
         {
           name: "CURRENT & UPCOMING EXHIBITIONS",
-          href: "/about/current_upcoming_exhibitions",
+          href: "/think_round_fine_arts/current_upcoming_exhibitions",
         },
         {
           name: "PAST EXHIBITIONS",
@@ -62,32 +80,60 @@ export default function Navbar() {
     {
       label: "CENTER FOR THE HUMAN FAMILY",
       links: [
-        { name: "EXTERIOR", href: "/center_for_human_family/exterior", disabled: true },
-        { name: "SUSTAINABLE LIVING - LEARNING CENTERS", href: "/center_for_human_family/sustainable-living-learning-centers", disabled: true },
-        { name: "1ST FLOOR", href: "/center_for_human_family/1st-floor", disabled: true },
-        { name: "LOBBY - STREAM OF CONSCIOUSNESS", href: "/center_for_human_family/lobby-stream-of-consciousness", disabled: true },
-        { name: "AQUAPONICS & FISH FARMS", href: "/center_for_human_family/aquaponics-fish-farms", disabled: true },
-        { name: "RESTAURANT / CAFE / CULINARY ACADEMY", href: "/center_for_human_family/restaurant-cafe-culinary-academy", disabled: true },
-        { name: "2ND FLOOR", href: "/center_for_human_family/2nd-floor", disabled: true },
-        { name: "HEALING ROOMS", href: "/center_for_human_family/healing-rooms", disabled: true },
-        { name: "AIR, WATER, SOIL EXHIBIT", href: "/center_for_human_family/air-water-soil-exhibit", disabled: true },
-        { name: "3RD FLOOR", href: "/center_for_human_family/3rd-floor", disabled: true },
+        {
+          name: "EXTERIOR",
+          href: "/center_for_human_family/exterior",
+          disabled: true,
+        },
+        {
+          name: "SUSTAINABLE LIVING - LEARNING CENTERS",
+          href: "/center_for_human_family/sustainable-living-learning-centers",
+          disabled: true,
+        },
+        {
+          name: "1ST FLOOR",
+          href: "/center_for_human_family/1st-floor",
+          disabled: true,
+        },
+        {
+          name: "LOBBY - STREAM OF CONSCIOUSNESS",
+          href: "/center_for_human_family/lobby-stream-of-consciousness",
+          disabled: true,
+        },
+        {
+          name: "AQUAPONICS & FISH FARMS",
+          href: "/center_for_human_family/aquaponics-fish-farms",
+          disabled: true,
+        },
+        {
+          name: "RESTAURANT / CAFE / CULINARY ACADEMY",
+          href: "/center_for_human_family/restaurant-cafe-culinary-academy",
+          disabled: true,
+        },
+        {
+          name: "2ND FLOOR",
+          href: "/center_for_human_family/2nd-floor",
+          disabled: true,
+        },
+        {
+          name: "HEALING ROOMS",
+          href: "/center_for_human_family/healing-rooms",
+          disabled: true,
+        },
+        {
+          name: "AIR, WATER, SOIL EXHIBIT",
+          href: "/center_for_human_family/air-water-soil-exhibit",
+          disabled: true,
+        },
+        {
+          name: "3RD FLOOR",
+          href: "/center_for_human_family/3rd-floor",
+          disabled: true,
+        },
         { name: "PARADISE PROJECT", href: "/paradise_project" },
       ],
     },
-    {
-      label: "VISIONS",
-      links: [
-        {
-          name: "PARADISE PROJECT - 7 INSTALLATIONS",
-          href: "/about/paradise_project_7_installations",
-        },
-        {
-          name: "PARADISE PROJECT",
-          href: "/paradise_project",
-        },
-      ],
-    },
+
     { label: "BLOGS", href: "/blogs" },
     { label: "VOLUNTEER", href: "/volunteer" },
     { label: "SUBSCRIBE", href: "/subscribe" },
@@ -103,67 +149,251 @@ export default function Navbar() {
 
   const handleMouseLeave = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => setOpenMenu(null), 150);
+    timeoutRef.current = setTimeout(() => {
+      setOpenMenu(null);
+    }, 150);
+  };
+
+  const handleSearch = () => {
+    if (searchTerm.trim()) {
+      console.log("Searching for:", searchTerm);
+      // Add your search functionality here
+      // For example: redirect to search results page
+      // window.location.href = `/search?q=${encodeURIComponent(searchTerm)}`;
+    }
+  };
+
+  const handleSearchKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
   };
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 768px)");
+    const updateScreenSize = () => setIsMediumScreen(mediaQuery.matches);
+
+    updateScreenSize();
+    mediaQuery.addEventListener("change", updateScreenSize);
+
     return () => {
+      mediaQuery.removeEventListener("change", updateScreenSize);
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
   }, []);
 
-  return (
-    <nav className="flex items-center gap-6 bg-gray-200 p-4">
-      {menuItems.map((menu) => (
-        <div
-          key={menu.label}
-          className="relative inline-flex items-center"
-          onMouseEnter={
-            menu.links ? () => handleMouseEnter(menu.label) : undefined
-          }
-          onMouseLeave={menu.links ? handleMouseLeave : undefined}
-        >
-          {menu.links ? (
-            <button
-              className="inline-flex items-center h-10 px-3 py-2 font-medium text-gray-800 hover:text-blue-600 bg-transparent border-0 whitespace-nowrap"
-              type="button"
-            >
-              {menu.label}
-            </button>
-          ) : (
-            <Link
-              href={menu.href!}
-              className="inline-flex items-center h-10 px-3 py-2 font-medium text-gray-800 hover:text-blue-600 whitespace-nowrap"
-            >
-              {menu.label}
-            </Link>
-          )}
+  useEffect(() => {
+    document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
 
-          {menu.links && openMenu === menu.label && (
-            <div className="absolute left-0 top-full mt-1 w-80 rounded-md border bg-white shadow-lg z-50">
-              <ul className="flex flex-col">
-                {menu.links.map((link) => (
-                  <li key={link.name}>
-                    {link.disabled ? (
-                      <span className="block px-4 py-2 whitespace-nowrap text-gray-400 cursor-not-allowed select-none">
-                        {link.name}
-                      </span>
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
+
+  if (!isMediumScreen) {
+    return (
+      <div className="relative  bg-white">
+        <div className="relative z-20 flex items-center justify-between bg-white p-3">
+          <Link href="/" aria-label="Think Round home" className="w-70">
+            <Image
+              src={ThinkRoundLogoPath}
+              alt="Think Round Logo"
+              width={500}
+              height={196}
+            />
+          </Link>
+
+          <button
+            type="button"
+            className="p-2 text-[#70169c] hover:text-[#FA7D00]"
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-navigation"
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+            onClick={() => {
+              setIsMobileMenuOpen((isOpen) => !isOpen);
+              setMobileSubmenu(null);
+            }}
+          >
+            {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
+        {isMobileMenuOpen && (
+          <div
+            id="mobile-navigation"
+            className="fixed inset-0 z-10 h-[100dvh] max-h-[100dvh] mobile-navigation-open overflow-hidden overscroll-none border-t border-gray-200 bg-[#68B7FD] px-6 pb-4 pt-40"
+          >
+            <ul className="flex h-full flex-col  gap-5 text-2xl leading-tight">
+              {menuItems.map((menu) => {
+                return (
+                  <li key={menu.label}>
+                    {menu.links ? (
+                      <button
+                        type="button"
+                        className="block w-full text-left font-bold text-white cursor-pointer"
+                        onClick={() => setMobileSubmenu(menu.label)}
+                      >
+                        {formatMenuLabel(menu.label)}
+                        <span className="text-gray-600">{` >>`}</span>
+                      </button>
                     ) : (
                       <Link
-                        href={link.href}
-                        className="block px-4 py-2 hover:bg-gray-100 whitespace-nowrap"
-                        onClick={() => setOpenMenu(null)}
+                        href={menu.href!}
+                        target={menu.external ? "_blank" : undefined}
+                        rel={menu.external ? "noopener noreferrer" : undefined}
+                        className="block font-bold text-white "
+                        onClick={() => setIsMobileMenuOpen(false)}
                       >
-                        {link.name}
+                        {formatMenuLabel(menu.label)}
                       </Link>
                     )}
                   </li>
-                ))}
-              </ul>
-            </div>
-          )}
+                );
+              })}
+            </ul>
+            {mobileSubmenu && (
+              <div
+                role="dialog"
+                aria-modal="true"
+                aria-label="Mobile submenu"
+                className="z-10 absolute inset-x-0 top-0 mt-10  min-h-screen overflow-y-auto bg-[#68B7FD] px-6 pb-4 pt-28"
+              >
+                {mobileSubmenu && (
+                  <button
+                    type="button"
+                    className="mb-10 inline-flex items-center gap-1 font-bold text-white text-3xl cursor-pointer"
+                    onClick={() => setMobileSubmenu(null)}
+                  >
+                    <ArrowLeft size={20} aria-hidden="true" />
+                    <span>Back</span>
+                  </button>
+                )}
+                <ul className=" flex flex-col text-xl gap-3">
+                  {menuItems
+                    .find((menu) => menu.label === mobileSubmenu)
+                    ?.links?.map((link) => (
+                      <li key={link.name}>
+                        {link.disabled ? (
+                          <span className="block text-gray-500 cursor-not-allowed">
+                            {formatMenuLabel(link.name)}
+                          </span>
+                        ) : (
+                          <Link
+                            href={link.href}
+                            className="block font-bold text-black "
+                            onClick={() => {
+                              setIsMobileMenuOpen(false);
+                              setMobileSubmenu(null);
+                            }}
+                          >
+                            {formatMenuLabel(link.name)}
+                          </Link>
+                        )}
+                      </li>
+                    ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  }
+  return (
+    <main>
+      <div className="bg-[#68B7FD] px-5 py-2 flex justify-between ">
+        <div className="flex flex-start pl-7 text-white">
+          {" "}
+          <UpdatedSocialLinksContent />
         </div>
-      ))}
-    </nav>
+        <div className="pr-7 ">
+          <div className="relative flex items-center">
+            <input
+              type="search"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={handleSearchKeyPress}
+              className="bg-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:border-white placeholder-gray-500 text-gray-800 text-md transition-all duration-200 pr-10"
+              placeholder="SEARCH"
+            />
+            <button
+              type="button"
+              onClick={handleSearch}
+              className="absolute right-3 text-gray-500 hover:cursor-pointer transition-colors duration-200 flex items-center justify-center"
+              aria-label="Search"
+            >
+              <Search size={20} />
+            </button>
+          </div>
+        </div>
+      </div>
+      <nav className=" bg-white grid grid-cols-[0.2fr_0.8fr] gap-x-5 items-center p-5 lg:p-15">
+        <div>
+          <Link href="/" aria-label="Think Round home">
+            <Image
+              className="md:max-lg:mx-10 w-sm "
+              src={ThinkRoundLogoPath}
+              alt="Think Round Logo"
+              width={500}
+              height={196}
+            />
+          </Link>
+        </div>
+        <div className="flex md:max-xl:flex-wrap flex-row justify-end  text-sm lg:text-xl xl:text-lg ">
+          {menuItems.map((menu) => (
+            <div
+              key={menu.label}
+              className=" relative inline-flex  items-center lg:p-3 xl:p-0"
+              onMouseEnter={
+                menu.links ? () => handleMouseEnter(menu.label) : undefined
+              }
+              onMouseLeave={menu.links ? handleMouseLeave : undefined}
+            >
+              {menu.links ? (
+                <button
+                  className={` inline-flex items-center h-7 px-3 py-2 font-bold text-[#70169c] hover:text-[#FA7D00] border-0 whitespace-nowrap ${openMenu === menu.label ? "text-[#FA7D00]" : ""}`}
+                  type="button"
+                >
+                  {menu.label}
+                </button>
+              ) : (
+                <Link
+                  href={menu.href!}
+                  target={menu.external ? "_blank" : undefined}
+                  rel={menu.external ? "noopener noreferrer" : undefined}
+                  onClick={() => setOpenMenu(null)}
+                  className={` inline-flex  items-center h-7 px-3 py-2 font-bold  text-[#70169c] hover:text-[#FA7D00] whitespace-nowrap `}
+                >
+                  {menu.label}
+                </Link>
+              )}
+
+              {menu.links && openMenu === menu.label && (
+                <div className="absolute left-0 top-full w-auto z-1 pt-2">
+                  <ul className="flex flex-col bg-white ">
+                    {menu.links.map((link) => (
+                      <li key={link.name}>
+                        {link.disabled ? (
+                          <span className="block px-4  whitespace-nowrap text-gray-500 cursor-not-allowed select-none">
+                            {link.name}
+                          </span>
+                        ) : (
+                          <Link
+                            href={link.href}
+                            className={`block px-4  text-black font-bold hover:text-[#FA7D00]   whitespace-nowrap  `}
+                            onClick={() => setOpenMenu(null)}
+                          >
+                            {link.name}
+                          </Link>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </nav>
+    </main>
   );
 }

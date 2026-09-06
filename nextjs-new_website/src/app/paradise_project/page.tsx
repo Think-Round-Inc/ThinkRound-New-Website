@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import { client } from "@/sanity/client";
 import Image from "next/image";
 import Link from "next/link";
@@ -45,7 +44,6 @@ export default async function ParadiseProjectPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
-      <Navbar />
       
       {/* 
         Main container: 
@@ -206,10 +204,9 @@ export default async function ParadiseProjectPage() {
                     </div>
                   </div>
                   <div className="w-[15rem] flex-shrink-0 p-3 flex items-stretch">
-                    <div className="flex-1 rounded-lg overflow-hidden bg-gray-200">
+                    <div className="flex-1 rounded-lg overflow-hidden bg-gray-200 relative">
                       {imageUrl && (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={imageUrl} alt={community.image?.alt || community.name} className="w-full h-full object-cover block" />
+                        <Image src={imageUrl} alt={community.image?.alt || community.name} fill className="object-cover" sizes="(max-width: 768px) 100vw, 30vw" />
                       )}
                     </div>
                   </div>
@@ -238,8 +235,7 @@ export default async function ParadiseProjectPage() {
                 <div className="w-[15rem] flex-shrink-0 p-3 flex items-stretch">
                   <div className="flex-1 rounded-lg overflow-hidden bg-gray-200">
                     {imageUrl && (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={imageUrl} alt={community.image?.alt || community.name} className="w-full h-full object-cover block" />
+                      <Image src={imageUrl} alt={community.image?.alt || community.name} fill className="object-cover" sizes="(max-width: 768px) 100vw, 30vw" />
                     )}
                   </div>
                 </div>

@@ -1,18 +1,17 @@
 import { client, urlFor } from "@/sanity/client";
 import Image from "next/image";
 import Link from "next/link";
-import Footer from "@/components/Footer";
 import type { Metadata } from "next";
 
 export const revalidate = 30;
 
 export const metadata: Metadata = {
-  title: "Past Exhibitions Archive | ThinkRound",
+  title: "Current & Upcoming Exhibitions | ThinkRound",
   description:
-    "Browse ThinkRound's archive of past fine art exhibitions featuring diverse artists and mediums.",
+    "Browse ThinkRound's current and upcoming fine art exhibitions featuring diverse artists and mediums.",
 };
 
-interface PastExhibitionCard {
+interface CurrentExhibitionCard {
   _id: string;
   title: string;
   cardTitle?: string;
@@ -26,9 +25,9 @@ interface PastExhibitionCard {
   };
 }
 
-async function getExhibitions(): Promise<PastExhibitionCard[]> {
-  return client.fetch<PastExhibitionCard[]>(
-    `*[_type == "pastExhibition"] | order(startDate desc) {
+async function getExhibitions(): Promise<CurrentExhibitionCard[]> {
+  return client.fetch<CurrentExhibitionCard[]>(
+    `*[_type == "currentExhibition"] | order(startDate asc) {
       _id,
       title,
       cardTitle,
@@ -36,7 +35,7 @@ async function getExhibitions(): Promise<PastExhibitionCard[]> {
       startDate,
       endDate,
       coverImage
-    }`
+    }`,
   );
 }
 
@@ -62,43 +61,34 @@ function getYear(dateStr: string): string {
   return y;
 }
 
-export default async function PastExhibitionsPage() {
+export default async function CurrentExhibitionsPage() {
   const exhibitions = await getExhibitions();
 
   if (!exhibitions || exhibitions.length === 0) {
     return (
-      <>
         <main className="min-h-screen bg-white text-black p-8 flex justify-center items-center">
-          <h1 className="text-4xl font-bold">No past exhibitions found.</h1>
+          <h1 className="text-4xl font-bold">No current exhibitions found.</h1>
         </main>
-        <Footer />
-      </>
     );
   }
 
   return (
-    <>
       <main className="min-h-screen bg-white px-6 py-16">
         <div className="max-w-[1400px] mx-auto">
-          {/* Page Title */}
           <h1 className="text-4xl md:text-5xl font-light uppercase leading-tight tracking-tight text-black text-center mb-16">
-            Past Exhibitions Archive
+            Current & Upcoming Exhibitions
           </h1>
 
-          {/* Exhibition Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {exhibitions.map((exhibition, index) => (
               <Link
                 key={exhibition._id}
-                href={`/think_round_fine_arts/past_exhibitions/${exhibition.slug.current}`}
+                href={`/think_round_fine_arts/current_upcoming_exhibitions/${exhibition.slug.current}`}
                 className="group block overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300"
               >
-                {/* Image Container - fixed height, image contained within */}
                 <div className="relative aspect-[4/3] bg-white overflow-hidden">
                   <Image
-                    src={urlFor(exhibition.coverImage)
-                      .width(1200)
-                      .url()}
+                    src={urlFor(exhibition.coverImage).width(1200).url()}
                     alt={
                       exhibition.coverImage.alt ||
                       `${exhibition.title} exhibition cover`
@@ -118,7 +108,6 @@ export default async function PastExhibitionsPage() {
                   />
                 </div>
 
-                {/* Card Text */}
                 <div className="px-4 py-3 bg-white">
                   <h2 className="text-sm font-semibold text-black group-hover:text-gray-600 transition-colors">
                     {exhibition.cardTitle ?? exhibition.title}{" "}
@@ -135,7 +124,5 @@ export default async function PastExhibitionsPage() {
           </div>
         </div>
       </main>
-      <Footer />
-    </>
   );
 }

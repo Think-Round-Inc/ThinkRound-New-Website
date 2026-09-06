@@ -31,10 +31,5 @@ export default defineType({
       title: 'Supporting content',
       type: 'text',
     }),
-    defineField({
-      name: 'secondaryButtonText',
-      title: 'Secondary Button Text',
-      type: 'string',
-    }),
   ],
 })
