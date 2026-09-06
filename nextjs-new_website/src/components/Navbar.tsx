@@ -65,7 +65,7 @@ export default function Navbar() {
       links: [
         {
           name: "VIRTUAL ART EXHIBITIONS",
-          href: "/about/virtual_art_exhibitions",
+          href: "/think_round_fine_arts/virtual_art_exhibitions",
         },
         {
           name: "CURRENT & UPCOMING EXHIBITIONS",
