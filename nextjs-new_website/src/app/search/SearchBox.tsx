@@ -45,12 +45,12 @@ export default function SearchBox({ initialQuery }: SearchBoxProps) {
         type="search"
         value={searchTerm}
         onChange={(event) => setSearchTerm(event.target.value)}
-        className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 pr-12 text-gray-800 shadow-sm focus:border-[#70169c] focus:outline-none focus:ring-2 focus:ring-[#70169c]/30"
+        className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 pr-12 text-gray-800  text-2xl shadow-sm focus:border-[#70169c] focus:outline-none focus:ring-2 focus:ring-[#70169c]/30"
         placeholder="Search the site"
         autoComplete="off"
       />
       <Search
-        size={20}
+        size={25}
         aria-hidden="true"
         className="pointer-events-none absolute right-4 text-gray-500"
       />
