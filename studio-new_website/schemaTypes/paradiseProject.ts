@@ -44,6 +44,11 @@ export default defineType({
               type: 'string',
             }),
             defineField({
+              name: 'subtitle',
+              title: 'Subtitle (e.g., "The Human Family Tree")',
+              type: 'string',
+            }),
+            defineField({
               name: 'slug',
               title: 'Slug (used in URL)',
               type: 'slug',
