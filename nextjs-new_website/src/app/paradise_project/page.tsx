@@ -2,6 +2,7 @@ import { client } from "@/sanity/client";
 import Image from "next/image";
 import Link from "next/link";
 import { Cormorant_SC, Cormorant_Infant, Lato } from "next/font/google";
+import CommunitiesSection from "./CommunitiesSection";
 
 const cormorantSC = Cormorant_SC({
   subsets: ["latin"],
@@ -18,6 +19,30 @@ const lato = Lato({
   weight: ["400", "700"],
 });
 
+type OtherExhibit = {
+  _type: "currentExhibition" | "pastExhibition";
+  _id: string;
+  title: string;
+  cardTitle?: string;
+  slug: { current: string };
+  coverImage?: { asset?: { url: string }; alt?: string };
+  artists?: { name: string }[];
+};
+
+async function getOtherExhibits(): Promise<OtherExhibit[]> {
+  return client.fetch<OtherExhibit[]>(
+    `*[_type in ["currentExhibition", "pastExhibition"]] | order(startDate desc) [0...6] {
+      _type,
+      _id,
+      title,
+      cardTitle,
+      slug,
+      coverImage { asset->{ url }, alt },
+      artists[] { name }
+    }`
+  );
+}
+
 export default async function ParadiseProjectPage() {
   const query = `*[_type == "paradiseProject"][0]{
     ...,
@@ -27,6 +52,7 @@ export default async function ParadiseProjectPage() {
     },
     communities[] {
       name,
+      subtitle,
       slug,
       image { asset->{ url }, alt },
       familyCount,
@@ -40,7 +66,10 @@ export default async function ParadiseProjectPage() {
     }
   }`;
 
-  const data = await client.fetch(query);
+  const [data, otherExhibits] = await Promise.all([
+    client.fetch(query),
+    getOtherExhibits(),
+  ]);
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
@@ -173,94 +202,62 @@ export default async function ParadiseProjectPage() {
         <div id="content-section" className="h-px lg:absolute lg:top-[68.75rem]" />
       </main>
 
-      {/* Community Grid Section */}
-      <section className="bg-white w-full py-12 px-[2.3125rem]">
-        <div className="max-w-[114rem] mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* Communities Section (grid/list toggle) */}
+      <CommunitiesSection communities={data?.communities ?? []} viewAll={data?.viewAll} />
 
-          {data?.communities?.map((community: {
-            name: string;
-            slug: { current: string };
-            image?: { asset?: { url: string }; alt?: string };
-            familyCount?: number;
-            paintingCount?: number;
-            comingSoon?: boolean;
-            launchDate?: string;
-          }) => {
-            const slug = community.slug?.current;
-            const imageUrl = community.image?.asset?.url;
+      {/* Discover Other Exhibits Section */}
+      {otherExhibits.length > 0 && (
+        <section className="bg-white w-full py-12 px-[2.3125rem]">
+          <div className="max-w-[114rem] mx-auto">
+            <h2 className={`${lato.className} text-[2rem] font-normal text-black text-center mb-8`}>
+              Discover other exhibits that might catch your eye
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {otherExhibits.map((exhibit) => {
+                const href =
+                  exhibit._type === "currentExhibition"
+                    ? `/think_round_fine_arts/current_upcoming_exhibitions/${exhibit.slug.current}`
+                    : `/think_round_fine_arts/past_exhibitions/${exhibit.slug.current}`;
+                const imageUrl = exhibit.coverImage?.asset?.url;
+                const artistNames = exhibit.artists?.map((a) => a.name).join(" & ");
 
-            if (community.comingSoon) {
-              return (
-                <div key={slug} className="border border-gray-200 rounded-xl overflow-hidden flex flex-row h-[15rem]">
-                  <div className="flex flex-col justify-between p-8 flex-1">
-                    <div>
-                      <h3 className={`${lato.className} text-[2.75rem] font-normal leading-tight text-black`}>{community.name}</h3>
-                      <p className={`${lato.className} text-[1.25rem] text-black mt-3`}>Coming soon</p>
-                    </div>
-                    <div className="mt-6">
-                      <span className={`${lato.className} inline-flex items-center gap-1 border border-black rounded-none px-3 py-1 text-[1.125rem]`}>
-                        {community.launchDate || '4/5/24'} <span>›</span>
-                      </span>
-                    </div>
-                  </div>
-                  <div className="w-[15rem] flex-shrink-0 p-3 flex items-stretch">
-                    <div className="flex-1 rounded-lg overflow-hidden bg-gray-200 relative">
+                return (
+                  <Link
+                    key={exhibit._id}
+                    href={href}
+                    className="group block overflow-hidden rounded-lg border border-gray-200 hover:shadow-md transition-shadow"
+                  >
+                    <div className="relative aspect-[4/3] bg-gray-100">
                       {imageUrl && (
-                        <Image src={imageUrl} alt={community.image?.alt || community.name} fill className="object-cover" sizes="(max-width: 768px) 100vw, 30vw" />
+                        <Image
+                          src={imageUrl}
+                          alt={exhibit.coverImage?.alt || exhibit.title}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        />
                       )}
                     </div>
-                  </div>
-                </div>
-              );
-            }
-
-            return (
-              <Link key={slug} href={`/paradise_project/${slug}`} className="group border border-gray-200 rounded-xl overflow-hidden flex flex-row h-[15rem] hover:shadow-md transition-shadow">
-                <div className="flex flex-col justify-between p-8 flex-1">
-                  <div>
-                    <h3 className={`${lato.className} text-[2.75rem] font-normal leading-tight text-black`}>{community.name}</h3>
-                    <p className={`${lato.className} text-[1.25rem] text-black mt-3`}>
-                      {community.familyCount ? `${community.familyCount} families` : 'X number of families'}
-                    </p>
-                    <p className={`${lato.className} text-[1.25rem] text-black`}>
-                      {community.paintingCount ? `${community.paintingCount} paintings` : 'X number of paintings'}
-                    </p>
-                  </div>
-                  <div className="mt-6">
-                    <span className={`${lato.className} inline-flex items-center gap-1 border border-black rounded-none px-3 py-1 text-[1.125rem] group-hover:bg-black group-hover:text-white transition-colors`}>
-                      Explore <span>›</span>
-                    </span>
-                  </div>
-                </div>
-                <div className="w-[15rem] flex-shrink-0 p-3 flex items-stretch">
-                  <div className="flex-1 rounded-lg overflow-hidden bg-gray-200">
-                    {imageUrl && (
-                      <Image src={imageUrl} alt={community.image?.alt || community.name} fill className="object-cover" sizes="(max-width: 768px) 100vw, 30vw" />
-                    )}
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
-
-          {/* View All — always last */}
-          <Link href="/paradise_project/all" className="group border border-gray-200 rounded-xl overflow-hidden flex flex-col items-center justify-center p-8 min-h-[15rem] hover:shadow-md transition-shadow">
-            <h3 className={`${lato.className} text-[2.75rem] font-normal leading-tight text-black text-center`}>View All</h3>
-            <p className={`${lato.className} text-[1.25rem] text-black mt-3 text-center`}>
-              {data?.viewAll?.familyCount ? `${data.viewAll.familyCount} families` : 'X number of families'}
-            </p>
-            <p className={`${lato.className} text-[1.25rem] text-black text-center`}>
-              {data?.viewAll?.paintingCount ? `${data.viewAll.paintingCount} paintings` : 'X number of paintings'}
-            </p>
-            <div className="mt-6">
-              <span className={`${lato.className} inline-flex items-center gap-1 border border-black rounded-none px-3 py-1 text-[1.125rem] group-hover:bg-black group-hover:text-white transition-colors`}>
-                Explore <span>›</span>
-              </span>
+                    <div className="p-4 text-center">
+                      <h3 className={`${lato.className} text-[1.25rem] font-medium text-black`}>
+                        {exhibit.cardTitle ?? exhibit.title}
+                      </h3>
+                      {artistNames && (
+                        <p className={`${lato.className} text-[0.95rem] text-gray-500 mt-1`}>
+                          {artistNames}
+                        </p>
+                      )}
+                      <span className={`${lato.className} inline-flex items-center gap-1 border border-black rounded-none px-3 py-1 text-[1rem] mt-3 group-hover:bg-black group-hover:text-white transition-colors`}>
+                        View Exhibit <span>›</span>
+                      </span>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
-          </Link>
-
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
     </div>
   );
 }
