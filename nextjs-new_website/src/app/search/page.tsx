@@ -40,6 +40,7 @@ const resultLabels: Record<string, string> = {
   paradiseProject: "PARADISE PROJECT",
   volunteerPage: "VOLUNTEER",
   subscribePage: "SUBSCRIBE",
+  ourArtistsPage: "OUR ARTISTS",
 };
 
 const staticPages: SearchDocument[] = [
@@ -56,6 +57,13 @@ const staticPages: SearchDocument[] = [
     title:
       "Subscribe to Think Round, Inc.'s Mailing List to receive Invites, Reminders, and our Newsletter",
     description: "Please complete the form below.",
+  },
+  {
+    _id: "search-page-our-artists",
+    _type: "ourArtistsPage",
+    title: "Think Round Fine Arts Exhibiting Artists",
+    description:
+      "Meet the exhibiting artists featured by Think Round Fine Arts.",
   },
 ];
 
@@ -105,6 +113,22 @@ function getMatchingSentence(document: SearchDocument, term: string) {
   return text.slice(sentenceStart, sentenceEnd).trim();
 }
 
+function highlightSearchTerm(sentence: string, term: string) {
+  const matchIndex = sentence
+    .toLocaleLowerCase()
+    .indexOf(term.toLocaleLowerCase());
+
+  if (matchIndex < 0) return sentence;
+
+  return (
+    <>
+      {sentence.slice(0, matchIndex)}
+      <em>{sentence.slice(matchIndex, matchIndex + term.length)}</em>
+      {sentence.slice(matchIndex + term.length)}
+    </>
+  );
+}
+
 function getDocumentHref(document: SearchDocument) {
   if (
     document._type === "blogs" &&
@@ -135,6 +159,7 @@ function getDocumentHref(document: SearchDocument) {
     virtualExhibitions3D: "/think_round_fine_arts/virtual_art_exhibitions",
     volunteerPage: "/volunteer",
     subscribePage: "/subscribe",
+    ourArtistsPage: "/about/our-artists",
   };
 
   return routes[document._type] ?? "/search";
@@ -186,11 +211,11 @@ export default async function SearchPage({
                 {results.map((result) => (
                   <li key={result.id} className="py-6">
                     <Link href={result.href} className="group block">
-                      <p className="text-sm font-bold uppercase tracking-widest text-[#70169c]">
+                      <p className="text-xl font-bold uppercase tracking-widest text-[#70169c]">
                         {result.label}
                       </p>
-                      <p className="mt-2 text-lg leading-relaxed group-hover:text-[#70169c]">
-                        {result.sentence}
+                      <p className="mt-2 text-xl leading-relaxed group-hover:text-[#70169c]">
+                        {highlightSearchTerm(result.sentence, query)}
                       </p>
                     </Link>
                   </li>
