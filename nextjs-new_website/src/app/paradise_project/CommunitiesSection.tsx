@@ -115,7 +115,7 @@ export default function CommunitiesSection({ communities, viewAll }: Props) {
                     </div>
                   </div>
                   <div className="w-[15rem] flex-shrink-0 p-3 flex items-stretch">
-                    <div className="flex-1 rounded-lg overflow-hidden bg-gray-200">
+                    <div className="flex-1 rounded-lg overflow-hidden bg-gray-200 relative">
                       {imageUrl && (
                         <Image src={imageUrl} alt={community.image?.alt || community.name} fill className="object-cover" sizes="(max-width: 768px) 100vw, 30vw" />
                       )}
