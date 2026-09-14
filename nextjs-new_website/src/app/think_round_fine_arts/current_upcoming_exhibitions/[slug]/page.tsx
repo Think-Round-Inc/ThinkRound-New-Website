@@ -234,10 +234,11 @@ export default async function CurrentExhibitionDetailPage({
           <ExhibitionGallery
             images={[
               {
-                src: urlFor(exhibition.coverImage).width(1200).url(),
+                src: urlFor(exhibition.coverImage).width(1200).auto("format").url(),
                 thumbSrc: urlFor(exhibition.coverImage)
                   .width(160)
                   .height(160)
+                  .auto("format")
                   .url(),
                 blurDataURL: urlFor(exhibition.coverImage)
                   .width(20)
@@ -247,8 +248,12 @@ export default async function CurrentExhibitionDetailPage({
                   exhibition.coverImage.alt || `${exhibition.title} exhibition`,
               },
               ...(exhibition.artworkGallery || []).map((artwork, index) => ({
-                src: urlFor(artwork.image).width(1200).url(),
-                thumbSrc: urlFor(artwork.image).width(160).height(160).url(),
+                src: urlFor(artwork.image).width(1200).auto("format").url(),
+                thumbSrc: urlFor(artwork.image)
+                  .width(160)
+                  .height(160)
+                  .auto("format")
+                  .url(),
                 blurDataURL: urlFor(artwork.image).width(20).blur(10).url(),
                 alt: artwork.alt || artwork.caption || `Artwork ${index + 1}`,
                 caption: artwork.caption,

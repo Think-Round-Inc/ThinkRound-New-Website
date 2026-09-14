@@ -17,6 +17,8 @@ type Painting = {
   description: string;
   category?: string;
   imageUrl: string;
+  displayImageUrl: string;
+  thumbnailUrl: string;
 };
 
 type Community = {
@@ -216,7 +218,7 @@ export default function CommunityGallery({
 
                 {selected?.imageUrl && (
                   <Image
-                    src={selected.imageUrl}
+                    src={selected.displayImageUrl}
                     alt={selected.title || "Painting"}
                     fill
                     className="object-contain"
@@ -276,7 +278,7 @@ export default function CommunityGallery({
                     >
                       {painting.imageUrl && (
                         <Image
-                          src={painting.imageUrl}
+                          src={painting.thumbnailUrl}
                           alt={painting.title || ""}
                           fill
                           className="object-cover"

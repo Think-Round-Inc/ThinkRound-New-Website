@@ -126,10 +126,11 @@ export default async function FamilyArtsProgramPage() {
           {data.image1 && (
             <section className="sm:max-xl:mx-20">
               <Image
-                src={urlFor(data.image1).width(973).height(761).url()}
+                src={urlFor(data.image1).width(973).height(761).auto("format").url()}
                 alt="Family Arts Program Image 1"
                 width={973}
                 height={761}
+                sizes="(max-width: 768px) 100vw, 896px"
               />
             </section>
           )}
@@ -143,10 +144,11 @@ export default async function FamilyArtsProgramPage() {
           {data.image2 && (
             <section className="sm:max-xl:mx-20">
               <Image
-                src={urlFor(data.image2).width(1000).height(670).url()}
+                src={urlFor(data.image2).width(1000).height(670).auto("format").url()}
                 alt="Family Arts Program Image 2"
                 width={1000}
                 height={670}
+                sizes="(max-width: 768px) 100vw, 896px"
               />
             </section>
           )}
@@ -160,10 +162,11 @@ export default async function FamilyArtsProgramPage() {
           {data.image3 && (
             <section className="sm:max-xl:mx-20">
               <Image
-                src={urlFor(data.image3).width(1000).height(1494).url()}
+                src={urlFor(data.image3).width(1000).height(1494).auto("format").url()}
                 alt="Family Arts Program Image 3"
                 width={1000}
                 height={1494}
+                sizes="(max-width: 768px) 100vw, 896px"
               />
             </section>
           )}
@@ -196,10 +199,11 @@ export default async function FamilyArtsProgramPage() {
           {data.image4 && (
             <section className="sm:max-xl:mx-20">
               <Image
-                src={urlFor(data.image4).width(1000).height(645).url()}
+                src={urlFor(data.image4).width(1000).height(645).auto("format").url()}
                 alt="Free family arts making classes"
                 width={1000}
                 height={645}
+                sizes="(max-width: 768px) 100vw, 896px"
               />
             </section>
           )}

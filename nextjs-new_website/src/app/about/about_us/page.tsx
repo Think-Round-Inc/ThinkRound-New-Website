@@ -99,13 +99,14 @@ export default async function AboutUsPage() {
               target="_blank"
               >
               <div className="w-full px-4 md:px-8 lg:px-12">
-                <Image
-                  src={urlFor(partner.logo).url()}
-                  alt="Current Partners"
-                  width={2000}
-                  height={800}
-                  className="w-full px-2"
-                  />
+              <Image
+                src={urlFor(partner.logo).width(1600).auto("format").url()}
+                alt="Current Partners"
+                width={2000}
+                height={800}
+                className="w-full px-2"
+                sizes="(max-width: 768px) 100vw, 1200px"
+              />
               </div>
               </Link>
               ))}
