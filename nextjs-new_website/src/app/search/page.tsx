@@ -20,6 +20,7 @@ interface SearchResult {
 
 const resultLabels: Record<string, string> = {
   aboutUs: "ABOUT US",
+  contactUs: "CONTACT US",
   partnerCurrent: "ABOUT US",
   partnerPast: "ABOUT US",
   boardMember: "OUR BOARD",
@@ -141,6 +142,7 @@ function getDocumentHref(document: SearchDocument) {
 
   const routes: Record<string, string> = {
     aboutUs: "/about/about_us",
+    contactUs: "/about/contact_us",
     boardMember: "/about/our_board",
     blogs: "/blogs",
     post: "/about/press",
