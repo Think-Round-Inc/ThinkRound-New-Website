@@ -1,5 +1,4 @@
-import { NextResponse } from "next/server";
-import { getServerClient } from "@/sanity/client";
+import { after, NextResponse } from "next/server";
 import { parseFormPayload } from "./validation";
 
 export type ContactFormType = "volunteer" | "subscribe" | "contact";
@@ -44,6 +43,7 @@ async function writeToGoogleSheet(
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(8000),
     });
   } catch (error) {
     console.error("Failed to write to Google Sheet:", error);
@@ -79,122 +79,42 @@ export async function submitContactForm(
       );
     }
 
-    const client = getServerClient();
-
     if (payload.data.formType === "volunteer") {
       const { firstName, lastName, email, message, interest } = payload.data;
-      const typeName = "volunteerSubmission";
-
-      const existingCount = await client.fetch(
-        "count(*[_type == $type && email == $email])",
-        { type: typeName, email },
-      );
-
-      if (existingCount > 0) {
-        return NextResponse.json(
-          { error: "This email has already been submitted." },
-          { status: 409 },
-        );
-      }
-
-      const document = await client.create({
-        _type: "volunteerSubmission",
+      after(() => writeToGoogleSheet("volunteer", {
         firstName,
         lastName,
         email,
         interest,
         message,
-      });
+      }));
 
-      await writeToGoogleSheet("volunteer", {
-        firstName,
-        lastName,
-        email,
-        interest,
-        message,
-      });
-
-      return NextResponse.json(
-        { success: true, id: document._id },
-        { status: 200 },
-      );
+      return NextResponse.json({ success: true }, { status: 200 });
     }
 
     if (payload.data.formType === "contact") {
       const { firstName, lastName, email, message, subject } = payload.data;
-      const typeName = "contactSubmission";
-
-      const existingCount = await client.fetch(
-        "count(*[_type == $type && email == $email])",
-        { type: typeName, email },
-      );
-
-      if (existingCount > 0) {
-        return NextResponse.json(
-          { error: "This email has already been submitted." },
-          { status: 409 },
-        );
-      }
-
-      const document = await client.create({
-        _type: "contactSubmission",
+      after(() => writeToGoogleSheet("contact", {
         firstName,
         lastName,
         email,
         subject,
         message,
-      });
+      }));
 
-      await writeToGoogleSheet("contact", {
-        firstName,
-        lastName,
-        email,
-        subject,
-        message,
-      });
-
-      return NextResponse.json(
-        { success: true, id: document._id },
-        { status: 200 },
-      );
+      return NextResponse.json({ success: true }, { status: 200 });
     }
 
     const { firstName, lastName, email, message, subject } = payload.data;
-    const typeName = "subscribeSubmission";
-
-    const existingCount = await client.fetch(
-      "count(*[_type == $type && email == $email])",
-      { type: typeName, email },
-    );
-
-    if (existingCount > 0) {
-      return NextResponse.json(
-        { error: "This email has already been submitted." },
-        { status: 409 },
-      );
-    }
-
-    const document = await client.create({
-      _type: "subscribeSubmission",
+    after(() => writeToGoogleSheet("subscribe", {
       firstName,
       lastName,
       email,
       subject,
       message,
-    });
+    }));
 
-    await writeToGoogleSheet("subscribe", {
-      firstName,
-      lastName,
-      email,
-      subject,
-      message,
-    });
-
-    return NextResponse.json(
-      { success: true, id: document._id },
-      { status: 200 },
-    );
+    return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
     console.error("Sanity form submission failed:", error);
 
