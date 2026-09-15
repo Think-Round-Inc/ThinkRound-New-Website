@@ -20,6 +20,7 @@ interface SearchResult {
 
 const resultLabels: Record<string, string> = {
   aboutUs: "ABOUT US",
+  contactUs: "CONTACT US",
   partnerCurrent: "ABOUT US",
   partnerPast: "ABOUT US",
   boardMember: "OUR BOARD",
@@ -36,7 +37,7 @@ const resultLabels: Record<string, string> = {
   iapPage: "INTERGENERATIONAL AFTER SCHOOL PROGRAM",
   keep: "KEEP(KID’S ENVIRONMENTAL EDUCATION PROGRAM)",
   streamOfConsciousness: "STREAM OF CONSCIOUSNESS",
-  turningTheTideOfTrauma: "TURNING THE TIDE OF TRAUMA",
+  turningTheTide: "TURNING THE TIDE OF TRAUMA",
   paradiseProject: "PARADISE PROJECT",
   volunteerPage: "VOLUNTEER",
   subscribePage: "SUBSCRIBE",
@@ -141,6 +142,7 @@ function getDocumentHref(document: SearchDocument) {
 
   const routes: Record<string, string> = {
     aboutUs: "/about/about_us",
+    contactUs: "/about/contact_us",
     boardMember: "/about/our_board",
     blogs: "/blogs",
     post: "/about/press",
@@ -153,7 +155,7 @@ function getDocumentHref(document: SearchDocument) {
     keep: "/programs/keep",
     paradiseProject: "/paradise_project",
     streamOfConsciousness: "/programs/stream_of_consciousness",
-    turningTheTideOfTrauma: "/programs/turning_the_tide_of_trauma",
+    turningTheTide: "/programs/turning_the_tide_of_trauma",
     currentExhibition: "/think_round_fine_arts/current_upcoming_exhibitions",
     pastExhibition: "/think_round_fine_arts/past_exhibitions",
     virtualExhibitions3D: "/think_round_fine_arts/virtual_art_exhibitions",
