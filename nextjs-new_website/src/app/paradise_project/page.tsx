@@ -4,6 +4,8 @@ import Link from "next/link";
 import { Cormorant_SC, Cormorant_Infant, Lato } from "next/font/google";
 import CommunitiesSection from "./CommunitiesSection";
 
+export const revalidate = 30;
+
 const cormorantSC = Cormorant_SC({
   subsets: ["latin"],
   weight: ["400", "500"],
