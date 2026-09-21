@@ -61,7 +61,7 @@ export default async function BlogsPage() {
                                         <h1 className='text-2xl md:text-3xl font-light leading-snug mb-6 uppercase tracking-wide'>
                                             {post.title}
                                         </h1>
-                                        <p className='text-gray-600 font-light leading-relaxed text-lg mb-8 line-clamp-4'>
+                                        <p className='text-secondary font-light leading-relaxed text-lg mb-8 line-clamp-4'>
                                             {post.excerpt}
                                         </p>
                                         <div className='flex items-center text-black font-medium text-lg'>
