@@ -19,9 +19,26 @@ html {
 @theme {
     --color-background: var(--background);
     --color-foreground: var(--foreground);
+    --color-dark: #2e2e2e;
     --color-secondary: #6a7282;
+    --color-test: red;
     --font-sans: var(--font-geist-sans);
     --font-mono: var(--font-geist-mono);
+}
+
+@layer base {
+    h1 {
+        color: #2e2e2e;
+    }
+    h2 {
+        color: #363636;
+    }
+    h3 {
+        color: #424242;
+    }
+    h4 {
+        color: #424242;
+    }
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -41,21 +58,6 @@ body {
     background-color: var(--background);
     color: var(--foreground);
     font-family: Arial, Helvetica, sans-serif;
-}
-
-@layer base {
-    h1 {
-        color: #2e2e2e;
-    }
-    h2 {
-        color: #363636;
-    }
-    h3 {
-        color: #424242;
-    }
-    h4 {
-        color: #424242;
-    }
 }
 
 img {

@@ -79,7 +79,7 @@ export default async function FamilyArtsProgramPage() {
 
     if (!data) {
         return (
-            <div className=' min-h-screen bg-white  text-[#2e2e2e]'>
+            <div className=' min-h-screen'>
                 <Navbar />
                 <main
                     className='keep-empty'
@@ -96,7 +96,7 @@ export default async function FamilyArtsProgramPage() {
     }
 
     return (
-        <div className='min-h-screen bg-white  text-[#2e2e2e]'>
+        <div className='min-h-screen'>
             <Navbar />
             <main
                 className='mx-auto  px-4 py-8 sm:px-6 lg:px-8 '
@@ -118,9 +118,9 @@ export default async function FamilyArtsProgramPage() {
                     )}
 
                     {data.title && (
-                        <div className='mb-8 text-2xl lg:text-8xl font-bold'>
+                        <h1 className='mb-8 text-2xl lg:text-8xl font-bold'>
                             {data.title}
-                        </div>
+                        </h1>
                     )}
                 </section>
                 <div className='max-w-4xl text-2xl lg:text-3xl mx-0 sm:mx-15 md:mx-25 lg:mx-auto'>

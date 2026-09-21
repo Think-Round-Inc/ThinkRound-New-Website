@@ -739,9 +739,8 @@ export default async function ChildrenMuralProgramPage() {
           min-h-screen
           items-center
           justify-center
-          bg-white
           p-8
-          text-black
+   
         '
             >
                 <div className='text-center'>
@@ -749,7 +748,7 @@ export default async function ChildrenMuralProgramPage() {
                         CMP content not found
                     </h1>
 
-                    <p className='mt-4 text-gray-600'>
+                    <p className='mt-4 text-secondary'>
                         Create and publish the Children&apos;s Mural Program
                         document in Sanity Studio.
                     </p>
@@ -854,7 +853,7 @@ export default async function ChildrenMuralProgramPage() {
                   px-7
                   py-3
                   font-semibold
-                  text-white
+                  text-black
                   transition
                   hover:bg-purple-700
                 '
@@ -1069,7 +1068,6 @@ export default async function ChildrenMuralProgramPage() {
                       text-sm
                       font-semibold
                       leading-6
-                      text-[#7a6d5c]
                     '
                                     />
                                 )}
@@ -1116,7 +1114,6 @@ export default async function ChildrenMuralProgramPage() {
                 mb-12
                 text-sm
                 font-semibold
-                text-[#828282]
                 leading-6
                 sm:text-base
               '
