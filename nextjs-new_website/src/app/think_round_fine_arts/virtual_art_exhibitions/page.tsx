@@ -41,8 +41,8 @@ export default async function VirtualArtiExhibitionsPage() {
     if (!virtualExhibitionsData) {
         return (
             <>
-                <main className='min-h-screen bg-white px-6 py-16'>
-                    <h1 className='text-4xl md:text-5xl font-bold uppercase leading-tight tracking-tight text-black text-center mb-2'>
+                <main className="virtual-exhibitions-page">
+                    <h1 className="virtual-exhibitions-title">
                         Exhibition data not found.
                     </h1>
                 </main>
@@ -52,19 +52,19 @@ export default async function VirtualArtiExhibitionsPage() {
 
     return (
         <>
-            <main className='min-h-screen bg-white px-6 py-16 '>
-                <div className='max-w-[1400px] mx-auto'>
+            <main className="virtual-exhibitions-page">
+                <div className="virtual-exhibitions-container">
                     {/* Page Title */}
-                    <h1 className='text-4xl md:text-5xl font-bold uppercase leading-tight tracking-tight text-black text-center mb-2'>
+                    <h1 className="virtual-exhibitions-title">
                         {virtualExhibitionsData.mainTitle}
                     </h1>
                     {/* Page Sub Title */}
-                    <p className='text-2xl md:text-2xl font-bold leading-tight tracking-tight text-black text-center mb-4'>
+                    <p className="virtual-exhibitions-subtitle">
                         {virtualExhibitionsData?.subTitle}
                     </p>
                     {/* Image */}
-                    <div className='grid grid-cols-12 mb-4'>
-                        <div className='col-span-12 md:col-span-6 md:col-start-4'>
+                    <div className="virtual-exhibitions-image-row">
+                        <div className="virtual-exhibitions-image-col">
                             <Image
                                 src={urlFor(virtualExhibitionsData.image)
                                     .width(1200)
@@ -72,12 +72,12 @@ export default async function VirtualArtiExhibitionsPage() {
                                 alt={virtualExhibitionsData.mainTitle}
                                 width={0}
                                 height={0}
-                                className='mb-6 rounded-lg mx-auto'
-                                sizes='100vw'
+                                className="virtual-exhibitions-image"
+                                sizes="100vw"
                                 style={{ width: "100%", height: "auto" }}
                             />
                             {/* Description */}
-                            <div className='mb-10 text-[#777777] text-[12px]'>
+                            <div className="virtual-exhibitions-description">
                                 <PortableText
                                     value={virtualExhibitionsData.description}
                                 />
@@ -85,19 +85,19 @@ export default async function VirtualArtiExhibitionsPage() {
                         </div>
                     </div>
                     {/* Virtual Exhibitions */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 grid-rows-[auto_1fr] gap-8">
+                    <div className="virtual-exhibitions-grid">
                         {virtualExhibitionsData.virtualExhibitions.map(
                             (
-                                exhibition: VirtualExhibitionCard, 
+                                exhibition: VirtualExhibitionCard,
                                 index: number
                             ) => (
-                                <div key={index} className="grid grid-rows-subgrid row-span-2 gap-4">
-                                    <h3 className="text-4xl font-semibold text-[#424242]">
+                                <div key={index} className="virtual-exhibitions-card">
+                                    <h3 className="virtual-exhibitions-card-title">
                                         {exhibition.exhibitionTitle}
                                     </h3>
                                     <iframe
                                         src={exhibition.exhibitionUrl}
-                                        className="w-full min-h-[600px] rounded-lg border"
+                                        className="virtual-exhibitions-iframe"
                                         allow="fullscreen; xr-spatial-tracking"
                                         allowFullScreen
                                         loading="lazy"
