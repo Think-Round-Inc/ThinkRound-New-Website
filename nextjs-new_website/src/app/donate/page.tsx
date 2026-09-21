@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import UpdatedSocialLinks from "@/components/UpdatedSocialLinks";
 import { client } from "@/sanity/client";
 import { League_Spartan } from "next/font/google";
@@ -22,7 +21,7 @@ async function getDonatePage() {
     ButtonText,
     introText,
     supportingContent,
-    secondaryButtonText,
+  
    
   }`;
     return await client.fetch(query);
@@ -34,7 +33,6 @@ export default async function DonatePage() {
     if (!data) {
         return (
             <main className='min-h-screen'>
-                <Navbar />
                 <div className='min-h-screen flex items-center justify-center'>
                     <div
                         className='text-3xl'
@@ -49,10 +47,8 @@ export default async function DonatePage() {
 
     return (
         <div className='min-h-screen'>
-            <Navbar />
-
             <main
-                className=' flex flex-col max-w-7xl mx-auto mt-25 space-y-10 text-center'
+                className=' flex flex-col max-w-7xl mx-auto  space-y-10 text-center'
                 style={{ fontFamily: leagueSpartan.style.fontFamily }}
             >
                 {data.Image?.asset?.url && (
@@ -66,13 +62,18 @@ export default async function DonatePage() {
                     </section>
                 )}
 
-                <h1
+                <section
                     className='text-3xl font-bold leading-tight md:text-5xl lg:text-7xl mx-20 lg:mx-40'
                     style={{ letterSpacing: "0.01em" }}
                 >
                     {data.title}
-                </h1>
-
+                </section>
+                <section className='  mx-10 md:mx-20 lg:mx-40 text-2xl md:text-4xl lg:text-6xl text-dark'>
+                    {data.introText}
+                </section>
+                <section className=' mx-10 md:mx-20 lg:mx-40 text-xl md:text-2xl lg:text-3xl text-dark'>
+                    {data.supportingContent}
+                </section>
                 <section className='flex justify-center gap-4'>
                     <Link
                         href='https://www.zeffy.com/en-US/donation-form/earth-is-home-humans-are-family'
@@ -80,18 +81,9 @@ export default async function DonatePage() {
                         rel='noopener noreferrer'
                         className='rounded-0 bg-purple-900 hover:bg-purple-800 text-white px-10 py-3 text-sm xl:text-2xl tracking-[0.2em] transition'
                     >
-                        Donate
+                        {data.ButtonText}
                     </Link>
                 </section>
-
-                <div className='text-dark'>
-                    <section className='mx-10 md:mx-20 lg:mx-40 text-2xl md:text-4xl lg:text-6xl text-black-800'>
-                        {data.introText}
-                    </section>
-                    <section className=' mx-10 md:mx-20 lg:mx-40 text-xl md:text-2xl lg:text-3xl text-black-600'>
-                        {data.supportingContent}
-                    </section>
-                </div>
 
                 <section className='mx-10 md:mx-20 lg:mx-40'>
                     <UpdatedSocialLinks />

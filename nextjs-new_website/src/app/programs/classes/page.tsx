@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import { client } from "@/sanity/client";
 
 interface ClassesData {
@@ -53,8 +52,7 @@ export default async function ClassesPage() {
 
     return (
         <div className='flex flex-col min-h-screen'>
-            <Navbar />
-            <main className='flex-grow container mx-auto max-w-5xl p-4 md:p-20 py-12 bg-white'>
+            <main className='flex-grow container mx-auto max-w-5xl p-4 md:p-20 py-12'>
                 <div className='space-y-8'>
                     <h1
                         className='classes-h1'

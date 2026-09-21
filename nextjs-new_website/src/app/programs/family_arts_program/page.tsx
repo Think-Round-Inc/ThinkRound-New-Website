@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import UpdatedSocialLinks from "@/components/UpdatedSocialLinks";
 import { client } from "@/sanity/client";
 import { urlFor } from "@/sanity/image";
@@ -8,8 +7,6 @@ import {
     PortableTextComponents,
 } from "@portabletext/react";
 import { League_Spartan } from "next/font/google";
-import Image from "next/image";
-import Link from "next/link";
 
 const leagueSpartan = League_Spartan({
     subsets: ["latin"],
@@ -80,7 +77,6 @@ export default async function FamilyArtsProgramPage() {
     if (!data) {
         return (
             <div className=' min-h-screen'>
-                <Navbar />
                 <main
                     className='keep-empty'
                     style={{ fontFamily: leagueSpartan.style.fontFamily }}
@@ -97,12 +93,11 @@ export default async function FamilyArtsProgramPage() {
 
     return (
         <div className='min-h-screen'>
-            <Navbar />
             <main
                 className='mx-auto  px-4 py-8 sm:px-6 lg:px-8 '
                 style={{ fontFamily: leagueSpartan.style.fontFamily }}
             >
-                <section className='grid items-center gap-12 grid-cols-[1fr_1fr] mt-20 lg:mt-40'>
+                <section className='grid items-center gap-12 grid-cols-[1fr_1fr] '>
                     {data.mainImage && (
                         <div>
                             <Image
@@ -139,10 +134,12 @@ export default async function FamilyArtsProgramPage() {
                                 src={urlFor(data.image1)
                                     .width(973)
                                     .height(761)
+                                    .auto("format")
                                     .url()}
                                 alt='Family Arts Program Image 1'
                                 width={973}
                                 height={761}
+                                sizes='(max-width: 768px) 100vw, 896px'
                             />
                         </section>
                     )}
@@ -162,10 +159,12 @@ export default async function FamilyArtsProgramPage() {
                                 src={urlFor(data.image2)
                                     .width(1000)
                                     .height(670)
+                                    .auto("format")
                                     .url()}
                                 alt='Family Arts Program Image 2'
                                 width={1000}
                                 height={670}
+                                sizes='(max-width: 768px) 100vw, 896px'
                             />
                         </section>
                     )}
@@ -185,10 +184,12 @@ export default async function FamilyArtsProgramPage() {
                                 src={urlFor(data.image3)
                                     .width(1000)
                                     .height(1494)
+                                    .auto("format")
                                     .url()}
                                 alt='Family Arts Program Image 3'
                                 width={1000}
                                 height={1494}
+                                sizes='(max-width: 768px) 100vw, 896px'
                             />
                         </section>
                     )}
@@ -217,7 +218,7 @@ export default async function FamilyArtsProgramPage() {
                     </section>
 
                     {data.paragraph5 && data.paragraph5.length > 0 && (
-                        <section className='mt-12 pt-12 lg:mt-24  leading-relaxed   text-[#777777] border-t border-gray-200'>
+                        <section className='mt-12 pt-12 lg:mt-24  leading-relaxed   text-secondary border-t border-gray-200'>
                             <PortableText
                                 value={data.paragraph5}
                                 components={components}
@@ -230,10 +231,12 @@ export default async function FamilyArtsProgramPage() {
                                 src={urlFor(data.image4)
                                     .width(1000)
                                     .height(645)
+                                    .auto("format")
                                     .url()}
                                 alt='Free family arts making classes'
                                 width={1000}
                                 height={645}
+                                sizes='(max-width: 768px) 100vw, 896px'
                             />
                         </section>
                     )}

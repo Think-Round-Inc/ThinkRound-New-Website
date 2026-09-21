@@ -15,6 +15,25 @@ export const homeComponents: PortableTextComponents = {
             // Read custom fields directly from the 'value' object
             const isRounded = value.rounded === true;
 
+      return (
+        <div className={`my-12 flex justify-center"}`}>
+          <div className="max-w-full">
+            <Image
+              src={urlFor(value).width(Math.min(width, 1600)).auto("format").url()}
+              alt={value.alt || "Homepage Image"}
+              width={width}
+              height={height}
+              className={`h-auto w-full ${isRounded ? "rounded-lg shadow-md" : ""}`}
+            />
+            {value.caption && (
+              <p className="text-sm mt-3 text-center italic">
+                {value.caption}
+              </p>
+            )}
+          </div>
+        </div>
+      );
+    },
             return (
                 <div className={`my-12 flex justify-center"}`}>
                     <div className='max-w-full'>

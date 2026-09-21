@@ -72,8 +72,7 @@ export default async function KidsEnvironmentalEducationPage() {
 
     if (!data) {
         return (
-            <div className=' min-h-screen bg-white'>
-                <Navbar />
+            <div className=' min-h-screen'>
                 <main className='keep-empty'>
                     <h1>KEEP page content was not found.</h1>
                     <p>
@@ -86,7 +85,7 @@ export default async function KidsEnvironmentalEducationPage() {
     }
 
     return (
-        <div className='min-h-screen'>
+        <div className='min-h-screen '>
             <Navbar />
             <main className='keep-page'>
                 <section className='keep-hero'>

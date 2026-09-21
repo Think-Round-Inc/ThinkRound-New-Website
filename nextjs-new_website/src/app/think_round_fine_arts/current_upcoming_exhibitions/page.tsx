@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import { client, urlFor } from "@/sanity/client";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -67,79 +66,72 @@ export default async function CurrentExhibitionsPage() {
 
     if (!exhibitions || exhibitions.length === 0) {
         return (
-            <>
-                <Navbar />
-                <main className='min-h-screen p-8 flex justify-center items-center'>
-                    <h1 className='text-4xl font-bold'>
-                        No current exhibitions found.
-                    </h1>
-                </main>
-            </>
+            <main className='min-h-screen  p-8 flex justify-center items-center'>
+                <h1 className='text-4xl font-bold'>
+                    No current exhibitions found.
+                </h1>
+            </main>
         );
     }
 
     return (
-        <>
-            <Navbar />
-            <main className='min-h-screen px-6 py-16'>
-                <div className='max-w-[1400px] mx-auto'>
-                    <h1 className='text-4xl md:text-5xl font-light uppercase leading-tight tracking-tight text-black text-center mb-16'>
-                        Current & Upcoming Exhibitions
-                    </h1>
+        <main className='min-h-screenpx-6 py-16'>
+            <div className='max-w-[1400px] mx-auto'>
+                <h1 className='text-4xl md:text-5xl font-light uppercase leading-tight tracking-tight text-black text-center mb-16'>
+                    Current & Upcoming Exhibitions
+                </h1>
 
-                    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8'>
-                        {exhibitions.map((exhibition, index) => (
-                            <Link
-                                key={exhibition._id}
-                                href={`/think_round_fine_arts/current_upcoming_exhibitions/${exhibition.slug.current}`}
-                                className='group block overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300'
-                            >
-                                <div className='relative aspect-[4/3] overflow-hidden'>
-                                    <Image
-                                        src={urlFor(exhibition.coverImage)
-                                            .width(1200)
-                                            .url()}
-                                        alt={
-                                            exhibition.coverImage.alt ||
-                                            `${exhibition.title} exhibition cover`
-                                        }
-                                        fill
-                                        className='object-cover transition-transform duration-500 group-hover:scale-105'
-                                        {...(index < 4
-                                            ? { priority: true }
-                                            : {
-                                                  placeholder: "blur" as const,
-                                                  blurDataURL: urlFor(
-                                                      exhibition.coverImage,
-                                                  )
-                                                      .width(20)
-                                                      .blur(10)
-                                                      .url(),
-                                              })}
-                                        sizes='(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw'
-                                    />
-                                </div>
+                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8'>
+                    {exhibitions.map((exhibition, index) => (
+                        <Link
+                            key={exhibition._id}
+                            href={`/think_round_fine_arts/current_upcoming_exhibitions/${exhibition.slug.current}`}
+                            className='group block overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300'
+                        >
+                            <div className='relative aspect-[4/3] overflow-hidden'>
+                                <Image
+                                    src={urlFor(exhibition.coverImage)
+                                        .width(1200)
+                                        .url()}
+                                    alt={
+                                        exhibition.coverImage.alt ||
+                                        `${exhibition.title} exhibition cover`
+                                    }
+                                    fill
+                                    className='object-cover transition-transform duration-500 group-hover:scale-105'
+                                    {...(index < 4
+                                        ? { priority: true }
+                                        : {
+                                              placeholder: "blur" as const,
+                                              blurDataURL: urlFor(
+                                                  exhibition.coverImage,
+                                              )
+                                                  .width(20)
+                                                  .blur(10)
+                                                  .url(),
+                                          })}
+                                    sizes='(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw'
+                                />
+                            </div>
 
-                                <div className='px-4 py-3 bg-white'>
-                                    <h2 className='text-sm font-semibold group-hover:text-gray-600 transition-colors'>
-                                        {exhibition.cardTitle ??
-                                            exhibition.title}{" "}
-                                        <span className='text-secondary font-normal'>
-                                            ({getYear(exhibition.startDate)})
-                                        </span>
-                                    </h2>
-                                    <p className='text-xs text-secondary mt-0.5'>
-                                        {formatDateRange(
-                                            exhibition.startDate,
-                                            exhibition.endDate,
-                                        )}
-                                    </p>
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
+                            <div className='px-4 py-3 bg-white'>
+                                <h2 className='text-sm font-semibold text-black group-hover:text-secondary transition-colors'>
+                                    {exhibition.cardTitle ?? exhibition.title}{" "}
+                                    <span className='text-gray-400 font-normal'>
+                                        ({getYear(exhibition.startDate)})
+                                    </span>
+                                </h2>
+                                <p className='text-xs text-gray-500 mt-0.5'>
+                                    {formatDateRange(
+                                        exhibition.startDate,
+                                        exhibition.endDate,
+                                    )}
+                                </p>
+                            </div>
+                        </Link>
+                    ))}
                 </div>
-            </main>
-        </>
+            </div>
+        </main>
     );
 }

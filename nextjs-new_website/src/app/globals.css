@@ -321,6 +321,7 @@ img {
 
     .keep-title {
         margin: 40px auto;
+        font-size: clamp(38px, 12vw, 54px);
     }
 
     .keep-wide-section {
@@ -379,6 +380,14 @@ img {
 @media (max-width: 480px) {
     .keep-hero {
         padding-top: 55px;
+    }
+
+    .keep-logo-text {
+        font-size: 72px;
+    }
+
+    .keep-title {
+        font-size: 38px;
     }
 
     .keep-button {

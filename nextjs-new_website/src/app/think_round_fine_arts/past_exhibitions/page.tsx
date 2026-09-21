@@ -69,8 +69,7 @@ export default async function PastExhibitionsPage() {
     if (!exhibitions || exhibitions.length === 0) {
         return (
             <>
-                <Navbar />
-                <main className='min-h-screen bg-white text-black p-8 flex justify-center items-center'>
+                <main className='min-h-screen  p-8 flex justify-center items-center'>
                     <h1 className='text-4xl font-bold'>
                         No past exhibitions found.
                     </h1>

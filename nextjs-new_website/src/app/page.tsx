@@ -1,11 +1,8 @@
-import Navbar from "@/components/Navbar";
 import { client } from "@/sanity/client";
-
 import { PortableText, PortableTextBlock } from "next-sanity";
 
 import { homeComponents } from "./homeComponents";
 
-const home_QUERY = `*[_type in ["post", "gallery"]] | order(publishedAt desc)`;
 const options = { next: { revalidate: 30 } };
 
 interface Homepage {
@@ -67,27 +64,21 @@ async function getHomepage() {
 }
 
 export default async function IndexPage() {
-    // const contents = await client.fetch<SanityDocument[]>(
-    //   home_QUERY,
-    //   {},
-    //   options,
-    // );
-
-    //const posts = contents.filter((content) => content._type === "post");
-
     const homepage = await getHomepage();
 
     return (
         <>
-            <Navbar />
-            <article className='min-h-screen py-24 px-6 md:px-12 w-full flex flex-col items-center'>
-                <section className='prose prose-neutral w-full max-w-4xl text-left prose-headings:text-left prose-p:text-left prose-p:leading-relaxed prose-blockquote:text-left'>
-                    <PortableText
-                        value={homepage.content}
-                        components={homeComponents}
-                    />
-                </section>
-            </article>
+            <main>
+                {" "}
+                <article className='min-h-screen py-24 px-6 md:px-12 w-full flex flex-col items-center '>
+                    <section className='prose prose-neutral w-full max-w-4xl text-left prose-headings:text-left prose-p:text-left prose-p:leading-relaxed prose-blockquote:text-left'>
+                        <PortableText
+                            value={homepage.content}
+                            components={homeComponents}
+                        />
+                    </section>
+                </article>
+            </main>
         </>
     );
 }

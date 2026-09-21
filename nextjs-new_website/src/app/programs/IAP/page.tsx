@@ -1,6 +1,5 @@
-import Navbar from "@/components/Navbar";
-import UpdatedSocialLinks from "@/components/UpdatedSocialLinks";
 import { createClient } from "next-sanity";
+import { League_Spartan } from "next/font/google";
 import Image from "next/image";
 
 const client = createClient({
@@ -8,6 +7,10 @@ const client = createClient({
     dataset: "production",
     apiVersion: "2023-05-03",
     useCdn: false,
+});
+
+const leagueSpartan = League_Spartan({
+    subsets: ["latin"],
 });
 
 interface ImageAsset {
@@ -82,8 +85,23 @@ function RenderBlocks({ blocks }: { blocks?: StudentBlock[] }) {
             {blocks.map((block, index) => {
                 if (block._type === "block") {
                     return (
-                        <p key={index} className='text-lg leading-relaxed'>
-                            {block.children?.map((c) => c.text).join("")}
+                        <p
+                            key={index}
+                            style={{
+                                fontFamily: leagueSpartan.style.fontFamily,
+                            }}
+                            className='text-2xl md:text-3xl lg:text-4xl font-normal leading-[1.6em] text-gray-500'
+                        >
+                            {block.children?.map(
+                                (c: { text: string; marks?: string[] }, i) =>
+                                    c.marks?.includes("strong") ? (
+                                        <strong key={i} className='font-bold'>
+                                            {c.text}
+                                        </strong>
+                                    ) : (
+                                        <span key={i}>{c.text}</span>
+                                    ),
+                            )}
                         </p>
                     );
                 }
@@ -102,12 +120,11 @@ function RenderBlocks({ blocks }: { blocks?: StudentBlock[] }) {
                         : "1/1";
 
                     return (
-                        <div key={index} className='flex justify-center'>
+                        <div key={index}>
                             <div
                                 className='relative rounded-lg overflow-hidden'
                                 style={{
                                     width: `${block.widthPercentage ?? 100}%`,
-                                    maxWidth: "600px",
                                     aspectRatio,
                                 }}
                             >
@@ -121,7 +138,6 @@ function RenderBlocks({ blocks }: { blocks?: StudentBlock[] }) {
                         </div>
                     );
                 }
-
                 return null;
             })}
         </div>
@@ -132,23 +148,67 @@ export default async function IapPage() {
     const iap = await getIapPageData();
 
     return (
-        <main className='bg-white min-h-screen'>
-            <Navbar />
-
-            <section className='pt-20 px-6 max-w-7xl mx-auto'>
-                <h1 className='text-5xl md:text-6xl font-bold text-center mb-20'>
-                    {iap.title}
-                </h1>
-
-                <div className='grid md:grid-cols-2 gap-6'>
-                    {iap.heroImages.map((img, i) => (
+        <main className=' min-h-screen '>
+            <section className='pt-20 px-4 md:px-6 max-w-7xl mx-auto'>
+                <div className='grid md:grid-cols-2 gap-4 md:gap-6'>
+                    {iap.heroImages[0] && (
                         <div
-                            key={i}
-                            className='relative w-full rounded-lg overflow-hidden shadow-lg'
+                            className='md:col-span-2 relative w-full rounded-lg overflow-hidden shadow-lg'
+                            style={{
+                                aspectRatio: iap.heroImages[0]?.asset?.metadata
+                                    ?.dimensions
+                                    ? `${iap.heroImages[0].asset.metadata.dimensions.width}/${iap.heroImages[0].asset.metadata.dimensions.height}`
+                                    : "16/9",
+                            }}
+                        >
+                            {iap.heroImages[0]?.asset?.url && (
+                                <Image
+                                    src={iap.heroImages[0].asset.url}
+                                    alt='Hero image'
+                                    fill
+                                    className='object-contain'
+                                />
+                            )}
+                        </div>
+                    )}
+
+                    {iap.heroImages[1] && (
+                        <div className='md:col-span-2 flex flex-row gap-4 md:gap-6'>
+                            <div
+                                className='relative w-[65%] rounded-lg overflow-hidden  shadow-lg'
+                                style={{
+                                    aspectRatio: iap.heroImages[1]?.asset
+                                        ?.metadata?.dimensions
+                                        ? `${iap.heroImages[1].asset.metadata.dimensions.width}/${iap.heroImages[1].asset.metadata.dimensions.height}`
+                                        : "1/1",
+                                }}
+                            >
+                                {iap.heroImages[1]?.asset?.url && (
+                                    <Image
+                                        src={iap.heroImages[1].asset.url}
+                                        alt='Hero image'
+                                        fill
+                                        className='object-contain'
+                                    />
+                                )}
+                            </div>
+
+                            <div className='flex items-center justify-center w-[40%]'>
+                                <h1 className='text-xl sm:text-2xl md:text-4xl lg:text-6xl font-bold'>
+                                    {iap.title}
+                                </h1>
+                            </div>
+                        </div>
+                    )}
+
+                    {iap.heroImages.slice(2).map((img, i) => (
+                        <div
+                            key={i + 2}
+                            className='md:col-span-2 relative w-full rounded-lg overflow-hidden shadow-lg'
                             style={{
                                 aspectRatio: img?.asset?.metadata?.dimensions
                                     ? `${img.asset.metadata.dimensions.width}/${img.asset.metadata.dimensions.height}`
-                                    : "1/1",
+                                    : "16/9",
                             }}
                         >
                             {img?.asset?.url && (
@@ -164,15 +224,11 @@ export default async function IapPage() {
                 </div>
             </section>
 
-            <section className='py-20 px-6 max-w-5xl mx-auto prose prose-lg'>
+            <section className='pt-20 px-6 max-w-5xl mx-auto prose prose-lg'>
                 <RenderBlocks blocks={iap.body} />
             </section>
 
-            <section className='py-20 px-6 max-w-5xl mx-auto'>
-                <h2 className='text-5xl font-bold text-center mb-16'>
-                    Student Art Works 🎨
-                </h2>
-
+            <section className='py-10 px-6 max-w-5xl mx-auto'>
                 {[iap.studentProjectsBody].some(
                     (section) => section?.length,
                 ) && (

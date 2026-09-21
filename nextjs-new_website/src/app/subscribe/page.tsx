@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/volunteer-and-subscribe-page/HeroSection";
 
 import VolunteerSubscribeFormClient from "@/components/volunteer-and-subscribe-page/VolunteerSubscribeFormClient";
@@ -16,7 +15,6 @@ export default function SubscribePage() {
                 letterSpacing: ".02em",
             }}
         >
-            <Navbar />
             <HeroSection
                 heading2='Subscribe to Think Round, Inc.’s Mailing List to receive Invites,
             Reminders, and our Newsletter'

@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "vitest run"
   },
   "dependencies": {
     "@portabletext/react": "^4.0.3",
@@ -18,7 +19,8 @@
     "next-sanity": "^11.4.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "styled-components": "^6.3.8"
+    "styled-components": "^6.3.8",
+    "zod": "^4.5.4"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -29,6 +31,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.5.4",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.11"
   }
 }

@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import { client, urlFor } from "@/sanity/client";
 import Image from "next/image";
 import Link from "next/link";
@@ -60,7 +59,6 @@ export default async function AboutUsPage() {
     return (
         //need to map the menu and the actual text
         <div className='flex flex-col min-h-screen'>
-            <Navbar />
             <main className='flex-grow'>
                 {/* PAGE HEADER */}
                 <div className='border-b py-16 px-4 mb-12'>
@@ -130,11 +128,15 @@ export default async function AboutUsPage() {
                                 >
                                     <div className='w-full px-4 md:px-8 lg:px-12'>
                                         <Image
-                                            src={urlFor(partner.logo).url()}
+                                            src={urlFor(partner.logo)
+                                                .width(1600)
+                                                .auto("format")
+                                                .url()}
                                             alt='Current Partners'
                                             width={2000}
                                             height={800}
                                             className='w-full px-2'
+                                            sizes='(max-width: 768px) 100vw, 1200px'
                                         />
                                     </div>
                                 </Link>

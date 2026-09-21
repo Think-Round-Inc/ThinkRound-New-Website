@@ -1,7 +1,6 @@
 import { client, urlFor } from "@/sanity/client";
 import Link from "next/link";
 import { PortableText, PortableTextBlock } from "next-sanity";
-import Navbar from "@/components/Navbar";
 import ExhibitionGallery from "@/components/ExhibitionGallery";
 import ArtistCard from "@/components/ArtistCard";
 import type { Metadata } from "next";
@@ -193,7 +192,6 @@ export default async function CurrentExhibitionDetailPage({
   if (!exhibition) {
     return (
       <>
-        <Navbar />
         <main className="min-h-screen bg-white text-black p-8 flex flex-col justify-center items-center">
           <h1 className="text-4xl font-bold mb-4">Exhibition Not Found</h1>
           <Link
@@ -209,7 +207,6 @@ export default async function CurrentExhibitionDetailPage({
 
   return (
     <>
-      <Navbar />
       <main className="min-h-screen bg-white px-6 py-16">
         <div className="max-w-4xl mx-auto">
           <Link
@@ -237,10 +234,11 @@ export default async function CurrentExhibitionDetailPage({
           <ExhibitionGallery
             images={[
               {
-                src: urlFor(exhibition.coverImage).width(1200).url(),
+                src: urlFor(exhibition.coverImage).width(1200).auto("format").url(),
                 thumbSrc: urlFor(exhibition.coverImage)
                   .width(160)
                   .height(160)
+                  .auto("format")
                   .url(),
                 blurDataURL: urlFor(exhibition.coverImage)
                   .width(20)
@@ -250,8 +248,12 @@ export default async function CurrentExhibitionDetailPage({
                   exhibition.coverImage.alt || `${exhibition.title} exhibition`,
               },
               ...(exhibition.artworkGallery || []).map((artwork, index) => ({
-                src: urlFor(artwork.image).width(1200).url(),
-                thumbSrc: urlFor(artwork.image).width(160).height(160).url(),
+                src: urlFor(artwork.image).width(1200).auto("format").url(),
+                thumbSrc: urlFor(artwork.image)
+                  .width(160)
+                  .height(160)
+                  .auto("format")
+                  .url(),
                 blurDataURL: urlFor(artwork.image).width(20).blur(10).url(),
                 alt: artwork.alt || artwork.caption || `Artwork ${index + 1}`,
                 caption: artwork.caption,

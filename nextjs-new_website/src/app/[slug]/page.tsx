@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { PortableText, type SanityDocument } from "next-sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
@@ -27,7 +28,6 @@ export default async function PostPage({
   let post: SanityDocument | null = null;
   try {
     post = await client.fetch<SanityDocument>(POST_QUERY, { slug }, options);
-    console.log("[PostPage] fetched post (first attempt):", post);
   } catch (err) {
     console.error("[PostPage] error fetching post for slug (first attempt):", slug, err);
     throw err;
@@ -44,9 +44,7 @@ export default async function PostPage({
       .replace(/[^a-z0-9-]/g, "");
     if (slugified && slugified !== slug) {
       try {
-        console.log("[PostPage] trying fallback slugified value:", slugified);
         post = await client.fetch<SanityDocument>(POST_QUERY, { slug: slugified }, options);
-        console.log("[PostPage] fetched post (fallback attempt):", post);
       } catch (err) {
         console.error("[PostPage] error fetching post for slug (fallback attempt):", slugified, err);
       }
@@ -68,12 +66,12 @@ export default async function PostPage({
         ← Back to posts
       </Link>
       {postImageUrl && (
-        <img
+        <Image
           src={postImageUrl}
-          alt={post.title}
+          alt={typeof post.title === "string" ? post.title : "Post image"}
           className="aspect-video rounded-xl"
-          width="550"
-          height="310"
+          width={550}
+          height={310}
         />
       )}
       <h1 className="text-4xl font-bold mb-8">{post.title}</h1>
