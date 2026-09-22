@@ -19,13 +19,13 @@ html {
 @theme {
     --color-background: var(--background);
     --color-foreground: var(--foreground);
-    --color-white: green;
+    --color-white: white;
     --color-black: black;
     --color-dark: #2e2e2e;
     --color-secondary: #6a7282;
-    --color-test: red;
     --font-sans: var(--font-geist-sans);
     --font-mono: var(--font-geist-mono);
+    --color-test: red;
 }
 
 @layer base {

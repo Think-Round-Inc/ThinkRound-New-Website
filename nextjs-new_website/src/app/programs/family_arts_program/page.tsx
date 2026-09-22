@@ -7,6 +7,8 @@ import {
     PortableTextComponents,
 } from "@portabletext/react";
 import { League_Spartan } from "next/font/google";
+import Image from "next/image";
+import Link from "next/link";
 
 const leagueSpartan = League_Spartan({
     subsets: ["latin"],

@@ -1,3 +1,4 @@
+import UpdatedSocialLinks from "@/components/UpdatedSocialLinks";
 import { createClient } from "next-sanity";
 import { League_Spartan } from "next/font/google";
 import Image from "next/image";

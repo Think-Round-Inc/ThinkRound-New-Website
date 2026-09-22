@@ -1,4 +1,5 @@
 import { client } from "@/sanity/client";
+import { Link } from "lucide-react";
 
 interface BlogCard {
     title: string;
