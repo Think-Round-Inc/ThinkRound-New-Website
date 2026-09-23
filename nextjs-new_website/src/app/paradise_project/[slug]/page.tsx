@@ -1,4 +1,4 @@
-import { client } from "@/sanity/client";
+import { client, urlFor } from "@/sanity/client";
 import { notFound } from "next/navigation";
 import CommunityGallery from "./CommunityGallery";
 
@@ -8,6 +8,21 @@ type Community = {
   comingSoon: boolean;
 };
 
+type RawPainting = {
+  _id: string;
+  title: string;
+  artistName: string;
+  dateProduced: string;
+  description: string;
+  category?: string;
+  image: {
+    asset: {
+      _ref: string;
+      _type: "reference";
+    };
+  };
+};
+
 export default async function CommunityPage({
   params,
 }: {
@@ -15,7 +30,7 @@ export default async function CommunityPage({
 }) {
   const { slug } = await params;
 
-  const [projectData, paintings] = await Promise.all([
+  const [projectData, rawPaintings] = await Promise.all([
     client.fetch(`*[_type == "paradiseProject"][0]{
       communities[] {
         name,
@@ -31,11 +46,24 @@ export default async function CommunityPage({
         dateProduced,
         description,
         category,
-        "imageUrl": image.asset->url
+        image
       }`,
       { slug }
     ),
   ]);
+
+  const paintings = (rawPaintings ?? []).map((painting: RawPainting) => ({    ...painting,
+    imageUrl: urlFor(painting.image).url(),
+    displayImageUrl: urlFor(painting.image)
+      .width(1200)
+      .auto("format")
+      .url(),
+    thumbnailUrl: urlFor(painting.image)
+      .width(400)
+      .height(400)
+      .auto("format")
+      .url(),
+  }));
 
   const communities: Community[] = projectData?.communities ?? [];
   const community = communities.find((c) => c.slug?.current === slug);

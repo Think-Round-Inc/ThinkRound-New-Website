@@ -7,6 +7,7 @@ import {streamOfConsciousness} from './streamOfConsciousness'
 import donatePage from './donatePage'
 import blogs from './blogs'
 import pastExhibition from './pastExhibition'
+import currentExhibition from './currentExhibition'
 import iapPage from './iap'
 import classes from './classes'
 import turningTheTide from './turningTheTideOfTrauma'
@@ -18,18 +19,25 @@ import paradiseProject from './paradiseProject'
 import painting from './painting'
 import {volunteerSubmission} from './volunteerSubmission'
 import {subscribeSubmission} from './subscribeSubmission'
+import {childrenMuralProgram} from './childrenMuralProgram'
 import keep from './keep'
+import familyArtsProgram from './familyArtsProgram'
+import {contactUs} from './contactUs'
+import {contactSubmission} from './contactSubmission'
+import {virtualExhibitions3D} from './virtualExhibitions3D'
 
 export const schemaTypes = [
   boardMember,
   postType,
   aboutUs,
+  contactSubmission,
   partnerPast,
   partnerCurrent,
   streamOfConsciousness,
   donatePage,
   blogs,
   pastExhibition,
+  currentExhibition,
   iapPage,
   classes,
   turningTheTide,
@@ -41,5 +49,9 @@ export const schemaTypes = [
   painting,
   volunteerSubmission,
   subscribeSubmission,
+  childrenMuralProgram,
   keep,
+  familyArtsProgram,
+  contactUs,
+  virtualExhibitions3D,
 ]

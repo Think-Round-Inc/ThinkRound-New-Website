@@ -6,7 +6,7 @@ export const revalidate = 60;
 type Artist = {
   _id: string;
   name: string;
-  image?: any;
+  image?: Record<string, unknown>;
   bio?: string;
 };
 
@@ -68,10 +68,15 @@ export default async function OurArtistsPage() {
             {artist.image && (
               <div className="relative w-full h-[330px] mb-4">
                 <Image
-                  src={urlFor(artist.image).url()}
+                  src={urlFor(artist.image)
+                    .width(600)
+                    .height(660)
+                    .auto("format")
+                    .url()}
                   alt={artist.name}
                   fill
                   className="object-cover"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 />
               </div>
             )}

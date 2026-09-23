@@ -6,7 +6,6 @@ import {
 } from "@portabletext/react";
 import Image from "next/image";
 import Link from "next/link";
-import Navbar from "@/components/Navbar";
 import { League_Spartan } from "next/font/google";
 import UpdatedSocialLinks from "@/components/UpdatedSocialLinks";
 
@@ -45,30 +44,36 @@ const portableTextComponents: PortableTextComponents = {
         {children}
       </h1>
     ),
+
     h2: ({ children }) => (
       <h2 className="mb-4 mt-8 text-3xl font-semibold text-[#2e2e2e] md:text-4xl">
         {children}
       </h2>
     ),
+
     h3: ({ children }) => (
-      <h3 className="mb-4 mt-8 text-2xl font-semibold text-[#2e2e2e] md:text-3xl">
+      <h3 className="mb-4 mt-6 text-[22px] font-semibold leading-[1.3] text-[#2e2e2e] md:text-[24px]">
         {children}
       </h3>
     ),
+
     normal: ({ children }) => (
-      <p className="mb-5 text-2xl text-center leading-8 text-[#4b556392]">
+      <p className="mb-5 text-center text-[18px] leading-[1.45] text-[#9ca3af] md:text-[19px]">
         {children}
       </p>
     ),
+
     blockquote: ({ children }) => (
-      <blockquote className="my-8 border-l-1 border-[#4b556392] pl-5 text-2xl text-[#4b556392]">
+      <blockquote className="my-8 border-l border-[#9ca3af] pl-5 text-[18px] leading-[1.45] text-[#9ca3af] md:text-[19px]">
         {children}
       </blockquote>
     ),
   },
+
   marks: {
     link: ({ children, value }) => {
       const href = value.href;
+
       return (
         <a
           href={href}
@@ -81,14 +86,16 @@ const portableTextComponents: PortableTextComponents = {
       );
     },
   },
+
   list: {
     bullet: ({ children }) => (
-      <ul className="mb-6 list-disc space-y-2 pl-6 text-lg text-[#575757]">
+      <ul className="mb-6 list-disc space-y-2 pl-6 text-[18px] leading-[1.45] text-[#575757]">
         {children}
       </ul>
     ),
+
     number: ({ children }) => (
-      <ol className="mb-6 list-decimal space-y-2 pl-6 text-lg text-[#575757]">
+      <ol className="mb-6 list-decimal space-y-2 pl-6 text-[18px] leading-[1.45] text-[#575757]">
         {children}
       </ol>
     ),
@@ -97,11 +104,18 @@ const portableTextComponents: PortableTextComponents = {
 
 const leftAlignedComponents: PortableTextComponents = {
   ...portableTextComponents,
+
   block: {
     normal: ({ children }) => (
-      <p className="mb-5 text-2xl text-left leading-8 text-[#4b556392]">
+      <p className="mb-5 text-left text-[18px] leading-[1.45] text-[#9ca3af] md:text-[19px]">
         {children}
       </p>
+    ),
+
+    blockquote: ({ children }) => (
+      <blockquote className="my-8 border-l border-[#9ca3af] pl-5 text-left text-[18px] leading-[1.45] text-[#9ca3af] md:text-[19px]">
+        {children}
+      </blockquote>
     ),
   },
 };
@@ -117,7 +131,7 @@ async function getTtoT() {
     solution,
     action,
     quote1,
-  paragraph3,
+    paragraph3,
     quote2,
     links[],
     footer
@@ -139,45 +153,56 @@ export default async function TtoTPage() {
 
   return (
     <div className="min-h-screen bg-white text-[#2e2e2e]">
-      <Navbar />
+      <main className="mx-auto flex w-full max-w-6xl flex-col px-6 pt-24 pb-16 sm:px-8 lg:px-12">
 
-      <main className=" flex flex-col w-full max-w-4xl  mx-auto px-6 py-16 sm:px-8 lg:px-12">
-        <section className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="space-y-6">
-            <h1 className="text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl">
-              {ttot.title}
-            </h1>
-          </div>
+        {/* Banner */}
+        <section className="flex w-full flex-col items-center">
+          <h1 className="max-w-[900px] text-center text-[44px] font-bold uppercase leading-[1.02] tracking-[-0.02em] sm:text-[56px] lg:text-[64px]">
+            {ttot.title}
+          </h1>
 
           {ttot.mainImage && (
-            <div className="flex justify-center lg:justify-end">
+            <div className="mt-10 w-full max-w-[1080px]">
               <Image
-                src={urlFor(ttot.mainImage).width(900).height(900).url()}
+                src={urlFor(ttot.mainImage)
+                  .width(1600)
+                  .auto("format")
+                  .url()}
                 alt={ttot.title}
-                width={900}
-                height={900}
-                className="h-auto w-full max-w-[520px] rounded-2xl object-cover shadow-xl"
+                width={1600}
+                height={1200}
+                sizes="(max-width: 900px) 100vw, 1080px"
+                className="h-auto w-full"
+                priority
               />
             </div>
           )}
         </section>
+
+        {/* Quote and body content */}
         <section>
           <div
-            className="my-8 text-3xl sm:text-4xl lg:text-5xl  text-center leading-8 "
+            className="mx-auto mt-10 mb-10 max-w-[760px] text-center text-[30px]"
             style={{
               fontWeight: 500,
               color: "#828282",
               fontFamily: leagueSpartan.style.fontFamily,
-              lineHeight: "1.15em",
+              lineHeight: "1.2em",
               letterSpacing: ".02em",
             }}
           >
-            {ttot.description && <PortableText value={ttot.description} />}
+            {ttot.description && (
+              <PortableText value={ttot.description} />
+            )}
           </div>
-          <div className="mb-5 text-2xl text-center leading-8 text-[#000000]">
-            {ttot.paragraph1 && <PortableText value={ttot.paragraph1} />}
+
+          <div className="mx-auto mb-7 max-w-[800px] text-center text-[22px] font-semibold leading-[1.25] text-[#000000] md:text-[24px]">
+            {ttot.paragraph1 && (
+              <PortableText value={ttot.paragraph1} />
+            )}
           </div>
-          <div>
+
+          <div className="mx-auto max-w-[900px]">
             {ttot.paragraph2 && (
               <PortableText
                 value={ttot.paragraph2}
@@ -185,7 +210,8 @@ export default async function TtoTPage() {
               />
             )}
           </div>
-          <div>
+
+          <div className="mx-auto max-w-[900px]">
             {ttot.solution && (
               <PortableText
                 value={ttot.solution}
@@ -193,7 +219,8 @@ export default async function TtoTPage() {
               />
             )}
           </div>
-          <div>
+
+          <div className="mx-auto max-w-[900px]">
             {ttot.action && (
               <PortableText
                 value={ttot.action}
@@ -201,7 +228,8 @@ export default async function TtoTPage() {
               />
             )}
           </div>
-          <div>
+
+          <div className="mx-auto max-w-[900px]">
             {ttot.quote1 && (
               <PortableText
                 value={ttot.quote1}
@@ -209,7 +237,8 @@ export default async function TtoTPage() {
               />
             )}
           </div>
-          <div>
+
+          <div className="mx-auto max-w-[900px]">
             {ttot.paragraph3 && (
               <PortableText
                 value={ttot.paragraph3}
@@ -217,7 +246,8 @@ export default async function TtoTPage() {
               />
             )}
           </div>
-          <div>
+
+          <div className="mx-auto max-w-[900px]">
             {ttot.quote2 && (
               <PortableText
                 value={ttot.quote2}
@@ -227,17 +257,24 @@ export default async function TtoTPage() {
           </div>
         </section>
 
+        {/* Links */}
         {ttot.links && ttot.links.length > 0 && (
           <section className="my-10 flex flex-wrap justify-center gap-4">
             {ttot.links.map((link) => (
               <Link
                 key={link._key ?? link.linkname}
                 href={link.linkurl ?? "#"}
-                target={link.linkurl?.startsWith("http") ? "_blank" : undefined}
-                rel={
-                  link.linkurl?.startsWith("http") ? "noreferrer" : undefined
+                target={
+                  link.linkurl?.startsWith("http")
+                    ? "_blank"
+                    : undefined
                 }
-                className="rounded-0 bg-purple-900 px-6 py-3 xl:px-10 xl:py-5 text-center text-sm xl:text-lg font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-purple-800"
+                rel={
+                  link.linkurl?.startsWith("http")
+                    ? "noreferrer"
+                    : undefined
+                }
+                className="bg-purple-900 px-6 py-3 text-center text-sm font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-purple-800 xl:px-10 xl:py-5 xl:text-lg"
               >
                 {link.linkname}
               </Link>
@@ -245,16 +282,16 @@ export default async function TtoTPage() {
           </section>
         )}
 
-        <section>
-          <div>
-            {ttot.footer && (
-              <PortableText
-                value={ttot.footer}
-                components={leftAlignedComponents}
-              />
-            )}
-          </div>
+        {/* Footer content */}
+        <section className="mx-auto w-full max-w-[900px]">
+          {ttot.footer && (
+            <PortableText
+              value={ttot.footer}
+              components={leftAlignedComponents}
+            />
+          )}
         </section>
+
         <UpdatedSocialLinks />
       </main>
     </div>
