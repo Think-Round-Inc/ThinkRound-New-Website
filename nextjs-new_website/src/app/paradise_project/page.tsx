@@ -81,131 +81,267 @@ export default async function ParadiseProjectPage() {
         - Desktop (lg): Fixed 1920px (120rem) artboard, relative for absolute overlays.
         - Mobile: Flex column for sequential flow.
       */}
-      <main className="flex-grow flex flex-col lg:relative max-w-[120rem] mx-auto w-full lg:min-h-[68.75rem] overflow-hidden">
-        
-        {/* 
-          Hero Section Wrapper:
-          Contains the image and the overlayed headings.
-        */}
-        <div className="relative w-full lg:h-0">
-          
-          {/* Hero Image */}
-          <div 
-            className="relative lg:absolute w-full lg:w-[87.15rem] h-[40vh] lg:h-[41.925rem] lg:left-[-4rem] lg:top-[9rem]"
+<main
+  className="
+    relative
+    w-full
+    max-w-[120rem]
+    mx-auto
+    min-h-[54rem]
+    lg:min-h-[58rem]
+    overflow-hidden
+    bg-cover
+    bg-center
+    bg-no-repeat
+  "
+  style={{
+    backgroundImage: data?.heroImage?.asset?.url
+      ? `url(${data.heroImage.asset.url})`
+      : "none",
+  }}
+>
+  {/* LEFT READABILITY GRADIENT */}
+  <div
+    className="
+      absolute
+      inset-0
+      z-0
+      pointer-events-none
+      bg-gradient-to-r
+      from-[#f6f2e9]/95
+      via-[#f6f2e9]/72
+      via-[35%]
+      to-transparent
+      lg:to-[65%]
+    "
+  />
+
+  {/* HERO CONTENT */}
+  <div
+    className="
+      relative
+      z-10
+      min-h-[54rem]
+      lg:min-h-[58rem]
+      flex
+      items-center
+      px-6
+      sm:px-10
+      md:px-14
+      lg:px-20
+      xl:px-24
+    "
+  >
+    <div className="w-full max-w-[38rem]">
+
+      {/* THE */}
+      <div className="mb-2">
+        <span
+          className={`
+            ${cormorantSC.className}
+            text-[1.5rem]
+            sm:text-[1.8rem]
+            lg:text-[2rem]
+            leading-none
+            text-black
+          `}
+          style={{ letterSpacing: "0.35em" }}
+        >
+          The
+        </span>
+      </div>
+
+      {/* PARADISE */}
+      <h1
+        className={`
+          ${cormorantSC.className}
+          text-[3.4rem]
+          sm:text-[4.5rem]
+          md:text-[5.5rem]
+          lg:text-[6.5rem]
+          leading-[0.9]
+          text-black
+          font-normal
+        `}
+        style={{ letterSpacing: "0.12em" }}
+      >
+        Paradise
+      </h1>
+
+      {/* PROJECT */}
+      <h1
+        className={`
+          ${cormorantSC.className}
+          text-[3.4rem]
+          sm:text-[4.5rem]
+          md:text-[5.5rem]
+          lg:text-[6.5rem]
+          leading-[0.9]
+          text-black
+          font-normal
+          mt-2
+        `}
+        style={{ letterSpacing: "0.12em" }}
+      >
+        Project
+      </h1>
+
+      {/* SUB HEADER */}
+      {data?.subHeader && (
+        <div className="flex items-center gap-4 mt-8 lg:mt-10">
+          <div className="w-12 lg:w-16 h-[1px] bg-[#8a5a22]" />
+
+          <h2
+            className={`
+              ${cormorantSC.className}
+              text-[1rem]
+              sm:text-[1.1rem]
+              lg:text-[1.25rem]
+              text-black
+              font-medium
+              uppercase
+            `}
+            style={{ letterSpacing: "0.22em" }}
           >
-            {data?.heroImage?.asset?.url ? (
-              <div className="relative w-full h-full transform scale-x-[-1]">
-                <Image
-                  src={data.heroImage.asset.url}
-                  alt={data.heroImage.alt || "Paradise Project"}
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </div>
-            ) : (
-              <div className="w-full h-full bg-gray-100 border border-dashed border-gray-300" />
-            )}
-          </div>
-
-          {/* Heading Overlays (The Paradise Project) */}
-          <div className="absolute top-0 left-0 w-full h-full pointer-events-none flex flex-col items-start justify-center pl-24 pr-6 lg:block lg:contents">
-             {/* 'The' */}
-             <div className="relative lg:absolute lg:top-[14.25rem] lg:left-[12.125rem] mb-1 lg:mb-0">
-                <span className={`${cormorantSC.className} text-[2rem] lg:text-[3.125rem] leading-none text-black bg-transparent lg:bg-transparent`} style={{ letterSpacing: '0.3em' }}>
-                  The
-                </span>
-             </div>
-             
-             {/* 'Paradise' */}
-             <div className="relative lg:absolute lg:top-[18.0625rem] lg:left-[12.125rem] mb-1 lg:mb-0">
-                <span className={`${cormorantSC.className} text-[2rem] lg:text-[6.25rem] leading-none text-black bg-transparent lg:bg-transparent`} style={{ letterSpacing: '0.3em' }}>
-                  Paradise
-                </span>
-             </div>
-
-             {/* 'Project' */}
-             <div className="relative lg:absolute lg:top-[25.625rem] lg:left-[12.125rem]">
-                <span className={`${cormorantSC.className} text-[2rem] lg:text-[6.25rem] leading-none text-black bg-transparent lg:bg-transparent`} style={{ letterSpacing: '0.3em' }}>
-                  Project
-                </span>
-             </div>
-          </div>
+            {data.subHeader}
+          </h2>
         </div>
+      )}
 
-        {/* 
-          Sequential Content (SubHeader & BodyText):
-          - Mobile: Spaced below the hero image.
-          - Desktop: Back to their absolute positions on the right.
-        */}
-        <div className="flex flex-col gap-6 pl-6 pr-6 pb-12 pt-4 lg:contents lg:p-0">
-          
-          {/* Sub-Header */}
-          {data?.subHeader && (
-            <div className="relative lg:absolute lg:left-[61.5rem] lg:top-[20.6875rem] lg:w-[24.75rem] lg:h-[2.25rem]">
-               <h2 className={`${cormorantSC.className} text-[1.25rem] lg:text-[1.875rem] leading-tight text-black font-medium text-center whitespace-normal lg:whitespace-nowrap`} style={{ letterSpacing: '0.15em' }}>
-                 {data.subHeader}
-               </h2>
-            </div>
-          )}
-
-          {/* Body Text */}
-          {data?.bodyText && (
-            <div className="relative lg:absolute lg:left-[61.5rem] lg:top-[28.25rem] lg:w-[55.5rem] lg:max-w-full">
-               <p className={`${cormorantInfant.className} text-[1.125rem] lg:text-[1.875rem] leading-relaxed lg:leading-[2.25rem] text-black font-medium whitespace-pre-wrap`}>
-                 {data.bodyText}
-               </p>
-            </div>
-          )}
+      {/* BODY TEXT */}
+      {data?.bodyText && (
+        <div className="mt-7 max-w-[34rem]">
+          <p
+            className={`
+              ${cormorantInfant.className}
+              text-[1.1rem]
+              sm:text-[1.2rem]
+              lg:text-[1.4rem]
+              leading-[1.55]
+              text-black
+              font-medium
+              whitespace-pre-wrap
+            `}
+          >
+            {data.bodyText}
+          </p>
         </div>
+      )}
 
-        {/* 
-          CTA Section:
-          - Mobile: Centered row with flanking lines.
-          - Desktop: Absolute bottom layout with flanking lines at specific coords.
-        */}
-        <div className="flex items-center justify-center w-full px-4 py-12 lg:contents lg:py-0">
-          
-          {/* Left Line */}
-          <div className="flex-grow lg:flex-none border-t-2 border-black/20 lg:border-black/50 lg:absolute lg:top-[61.375rem] lg:left-[3.03125rem] lg:w-[48.5rem]" />
+      {/* CTA */}
+      <div className="hidden mt-8 lg:mt-10">
+        <a
+          href="#content-section"
+          className="
+            group
+            inline-flex
+            items-center
+            justify-between
+            gap-10
+            min-w-[17rem]
+            bg-[#173b2a]
+            text-white
+            px-7
+            py-4
+            hover:bg-black
+            transition-colors
+            duration-300
+          "
+        >
+          <span
+            className={`
+              ${cormorantSC.className}
+              text-[0.95rem]
+              lg:text-[1rem]
+              uppercase
+            `}
+            style={{ letterSpacing: "0.2em" }}
+          >
+            {data?.ctaLabel || "Enter Paradise"}
+          </span>
 
-          {/* Enter Paradise Button Area (Wrapped Anchor) */}
-          <div className="mx-4 lg:mx-0 relative lg:absolute lg:left-[54.53125rem] lg:top-[59.75rem] lg:w-[10.9375rem]">
-              <a 
-                href="#content-section" 
-                className="group flex flex-col lg:block text-black no-underline hover:opacity-70 transition-opacity"
-              >
-                {/* Text */}
-                <span className={`${cormorantInfant.className} block text-[1.25rem] lg:text-[1.875rem] font-normal lg:font-medium leading-none text-center lg:h-[2.25rem] flex items-end justify-center mt-4 lg:mt-0`}>
-                  {data?.ctaLabel || 'Enter Paradise'}
-                </span>
+          <span
+            className="
+              text-[1.4rem]
+              transition-transform
+              duration-300
+              group-hover:translate-x-1
+            "
+          >
+            →
+          </span>
+        </a>
+      </div>
 
-                {/* Arrow (Desktop) */}
-                <div className="hidden lg:flex items-center justify-center absolute lg:left-[50%] lg:ml-[-1.3125rem] lg:top-[1.875rem] lg:w-[2.625rem] lg:h-[2.625rem]">
-                  <svg width="21" height="13" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-[1.3125rem] h-auto">
-                    <path d="M2.4675 0L10.5 8.015L18.5325 0L21 2.4675L10.5 12.9675L0 2.4675L2.4675 0Z" fill="black"/>
-                  </svg>
-                </div>
+    </div>
+  </div>
 
-                {/* Arrow (Mobile - Inside flex flow) */}
-                <div className="lg:hidden flex justify-center mt-2 text-black/80">
-                  <svg width="21" height="13" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-[1rem] h-auto">
-                    <path d="M2.4675 0L10.5 8.015L18.5325 0L21 2.4675L10.5 12.9675L0 2.4675L2.4675 0Z" fill="currentColor"/>
-                  </svg>
-                </div>
-              </a>
-          </div>
+  {/* SCROLL INDICATOR */}
+  <a
+    href="#content-section"
+    className="
+      absolute
+      z-10
+      bottom-7
+      left-1/2
+      -translate-x-1/2
+      hidden
+      md:flex
+      flex-col
+      items-center
+      text-white
+      group
+    "
+  >
+    <span
+      className={`
+        ${lato.className}
+        text-[0.65rem]
+        uppercase
+        tracking-[0.3em]
+        mb-3
+      `}
+    >
+      Scroll to explore
+    </span>
 
-          {/* Right Line */}
-          <div className="flex-grow lg:flex-none border-t-2 border-black/20 lg:border-black/50 lg:absolute lg:top-[61.375rem] lg:left-[68.46875rem] lg:w-[48.5rem]" />
-        </div>
+    <div
+      className="
+        w-10
+        h-10
+        rounded-full
+        border
+        border-white/80
+        flex
+        items-center
+        justify-center
+        group-hover:bg-white
+        group-hover:text-black
+        transition
+      "
+    >
+      ↓
+    </div>
+  </a>
 
-        {/* Anchors for interaction */}
-        <div id="content-section" className="h-px lg:absolute lg:top-[68.75rem]" />
-      </main>
-
-      {/* Communities Section (grid/list toggle) */}
-      <CommunitiesSection communities={data?.communities ?? []} viewAll={data?.viewAll} />
+  <div
+    id="content-section"
+    className="absolute bottom-0 h-px"
+  />
+</main>
+      {/* Community Grid Section */}
+      <section
+  className="
+    bg-[#faf8f3]
+    w-full
+    py-16
+    lg:py-20
+    px-6
+    md:px-10
+    lg:px-16
+  "
+>
+        <div className="max-w-[114rem] mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
 
       {/* Discover Other Exhibits Section */}
       {otherExhibits.length > 0 && (
@@ -240,26 +376,236 @@ export default async function ParadiseProjectPage() {
                         />
                       )}
                     </div>
-                    <div className="p-4 text-center">
-                      <h3 className={`${lato.className} text-[1.25rem] font-medium text-black`}>
-                        {exhibit.cardTitle ?? exhibit.title}
-                      </h3>
-                      {artistNames && (
-                        <p className={`${lato.className} text-[0.95rem] text-gray-500 mt-1`}>
-                          {artistNames}
-                        </p>
-                      )}
-                      <span className={`${lato.className} inline-flex items-center gap-1 border border-black rounded-none px-3 py-1 text-[1rem] mt-3 group-hover:bg-black group-hover:text-white transition-colors`}>
-                        View Exhibit <span>›</span>
-                      </span>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
+                  </div>
+                </div>
+              );
+            }
+
+return (
+  <Link
+    key={slug}
+    href={`/paradise_project/${slug}`}
+    className="
+      group
+      border
+      border-black/10
+      bg-[#fffdf8]
+      rounded-lg
+      overflow-hidden
+      flex
+      flex-col
+      sm:flex-row
+      min-h-[17rem]
+      hover:shadow-lg
+      hover:-translate-y-1
+      transition-all
+      duration-300
+    "
+  >
+    {/* IMAGE */}
+    <div className="sm:w-[42%] p-3 lg:p-4">
+      <div className="w-full h-[15rem] sm:h-full overflow-hidden rounded-md bg-gray-100">
+        {imageUrl && (
+          <img
+            src={imageUrl}
+            alt={community.image?.alt || community.name}
+            className="
+              w-full
+              h-full
+              object-cover
+              block
+              transition-transform
+              duration-500
+              group-hover:scale-[1.03]
+            "
+          />
+        )}
+      </div>
+    </div>
+
+    {/* CONTENT */}
+    <div
+      className="
+        flex-1
+        p-6
+        lg:p-8
+        flex
+        flex-col
+        justify-center
+      "
+    >
+      <p
+        className={`
+          ${lato.className}
+          text-[0.7rem]
+          uppercase
+          tracking-[0.2em]
+          text-[#9b6c35]
+          mb-3
+        `}
+      >
+        Faith & Community
+      </p>
+
+      <h3
+        className={`
+          ${cormorantInfant.className}
+          text-[2.2rem]
+          lg:text-[2.8rem]
+          leading-none
+          text-black
+        `}
+      >
+        {community.name}
+      </h3>
+
+      <p
+        className={`
+          ${lato.className}
+          text-[0.95rem]
+          text-black/70
+          mt-4
+        `}
+      >
+        Explore families, traditions, culture and shared stories.
+      </p>
+
+      <div className="flex items-end justify-between mt-8">
+        <div className="flex items-center gap-5">
+          <div>
+            <p
+              className={`
+                ${cormorantInfant.className}
+                text-[1.5rem]
+                text-black
+                leading-none
+              `}
+            >
+              {community.paintingCount || "X"}
+            </p>
+
+            <p className={`${lato.className} text-[0.7rem] text-black/60 mt-1`}>
+              paintings
+            </p>
           </div>
-        </section>
-      )}
+
+          <div className="w-px h-10 bg-black/15" />
+
+          <div>
+            <p
+              className={`
+                ${cormorantInfant.className}
+                text-[1.5rem]
+                text-black
+                leading-none
+              `}
+            >
+              {community.familyCount || "X"}
+            </p>
+
+            <p className={`${lato.className} text-[0.7rem] text-black/60 mt-1`}>
+              families
+            </p>
+          </div>
+        </div>
+
+        
+      </div>
+    </div>
+  </Link>
+);
+})}           
+
+          {/* View All — always last */}
+  <Link
+  href="/paradise_project/all"
+  className="
+    group
+    border
+    border-black/10
+    bg-[#fffdf8]
+    rounded-lg
+    overflow-hidden
+    flex
+    flex-col
+    items-center
+    justify-center
+    p-8
+    min-h-[17rem]
+    hover:shadow-lg
+    hover:-translate-y-1
+    transition-all
+    duration-300
+  "
+>
+  <p
+    className={`
+      ${lato.className}
+      text-[0.7rem]
+      uppercase
+      tracking-[0.2em]
+      text-[#9b6c35]
+      mb-3
+    `}
+  >
+    Explore Everything
+  </p>
+
+  <h3
+    className={`
+      ${cormorantInfant.className}
+      text-[2.8rem]
+      lg:text-[3.2rem]
+      text-black
+      text-center
+    `}
+  >
+    View All
+  </h3>
+
+  <div className="flex items-center gap-5 mt-6">
+    <div className="text-center">
+      <p className={`${cormorantInfant.className} text-[1.5rem]`}>
+        {data?.viewAll?.paintingCount || "X"}
+      </p>
+      <p className={`${lato.className} text-[0.7rem] text-black/60`}>
+        paintings
+      </p>
+    </div>
+
+    <div className="w-px h-10 bg-black/15" />
+
+    <div className="text-center">
+      <p className={`${cormorantInfant.className} text-[1.5rem]`}>
+        {data?.viewAll?.familyCount || "X"}
+      </p>
+      <p className={`${lato.className} text-[0.7rem] text-black/60`}>
+        families
+      </p>
+    </div>
+  </div>
+
+  <div
+    className="
+      mt-7
+      w-11
+      h-11
+      rounded-full
+      bg-[#b4874e]
+      text-white
+      flex
+      items-center
+      justify-center
+      text-xl
+      group-hover:bg-black
+      transition-colors
+    "
+  >
+    →
+  </div>
+</Link>
+</div>
+      </section>
     </div>
   );
 }
