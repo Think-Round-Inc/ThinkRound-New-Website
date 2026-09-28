@@ -1,9 +1,9 @@
-import {client, urlFor} from '@/sanity/client'
-import {Instrument_Sans, League_Spartan} from 'next/font/google'
-import {PortableText, type PortableTextBlock} from 'next-sanity'
-import type {PortableTextComponents} from '@portabletext/react'
+import { client, urlFor } from '@/sanity/client'
+import { Instrument_Sans, League_Spartan } from 'next/font/google'
+import { PortableText, type PortableTextBlock } from 'next-sanity'
+import type { PortableTextComponents } from '@portabletext/react'
 import Image from 'next/image'
-import type {CSSProperties, ReactNode} from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import SocialLinks from '@/components/SocialLinks'
 
 /*
@@ -133,7 +133,7 @@ const fontFamilies: Record<string, string> = {
 
 const portableTextComponents: PortableTextComponents = {
   block: {
-    display: ({children}) => (
+    display: ({ children }) => (
       <h1
         className="
           my-6
@@ -148,49 +148,49 @@ const portableTextComponents: PortableTextComponents = {
       </h1>
     ),
 
-    h1: ({children}) => (
+    h1: ({ children }) => (
       <h1 className="my-6 text-5xl font-bold leading-tight text-[#2e2e2e]">
         {children}
       </h1>
     ),
 
-    h2: ({children}) => (
+    h2: ({ children }) => (
       <h2 className="my-5 text-4xl font-bold leading-tight text-[#363636]">
         {children}
       </h2>
     ),
 
-    h3: ({children}) => (
+    h3: ({ children }) => (
       <h3 className="my-4 text-3xl font-bold leading-tight text-[#424242]">
         {children}
       </h3>
     ),
 
-    h4: ({children}) => (
+    h4: ({ children }) => (
       <h4 className="my-3 text-2xl font-bold leading-tight text-[#424242]">
         {children}
       </h4>
     ),
 
-    large: ({children}) => (
+    large: ({ children }) => (
       <p className="mb-5 text-xl leading-9 sm:text-2xl">
         {children}
       </p>
     ),
 
-    small: ({children}) => (
+    small: ({ children }) => (
       <p className="mb-4 text-sm leading-6 sm:text-base">
         {children}
       </p>
     ),
 
-    center: ({children}) => (
+    center: ({ children }) => (
       <p className="mb-5 text-center leading-8">
         {children}
       </p>
     ),
 
-    headingCenter: ({children}) => (
+    headingCenter: ({ children }) => (
       <h2
         className="
           my-6
@@ -207,13 +207,13 @@ const portableTextComponents: PortableTextComponents = {
       </h2>
     ),
 
-    normal: ({children}) => (
+    normal: ({ children }) => (
       <p className="mb-5 leading-8 last:mb-0">
         {children}
       </p>
     ),
 
-    blockquote: ({children}) => (
+    blockquote: ({ children }) => (
       <blockquote
         className="
           my-6
@@ -231,13 +231,13 @@ const portableTextComponents: PortableTextComponents = {
   },
 
   list: {
-    bullet: ({children}) => (
+    bullet: ({ children }) => (
       <ul className="mb-5 list-disc space-y-2 pl-7">
         {children}
       </ul>
     ),
 
-    number: ({children}) => (
+    number: ({ children }) => (
       <ol className="mb-5 list-decimal space-y-2 pl-7">
         {children}
       </ol>
@@ -245,19 +245,19 @@ const portableTextComponents: PortableTextComponents = {
   },
 
   marks: {
-    underline: ({children}) => (
+    underline: ({ children }) => (
       <span className="underline">
         {children}
       </span>
     ),
 
-    'strike-through': ({children}) => (
+    'strike-through': ({ children }) => (
       <span className="line-through">
         {children}
       </span>
     ),
 
-    link: ({children, value}) => {
+    link: ({ children, value }) => {
       const target = value?.openInNewTab
         ? '_blank'
         : undefined
@@ -284,7 +284,7 @@ const portableTextComponents: PortableTextComponents = {
       )
     },
 
-    textColor: ({children, value}) => (
+    textColor: ({ children, value }) => (
       <span
         style={{
           color: value?.hex,
@@ -294,7 +294,7 @@ const portableTextComponents: PortableTextComponents = {
       </span>
     ),
 
-    fontSize: ({children, value}) => (
+    fontSize: ({ children, value }) => (
       <span
         style={{
           fontSize: value?.size,
@@ -304,7 +304,7 @@ const portableTextComponents: PortableTextComponents = {
       </span>
     ),
 
-    fontFamily: ({children, value}) => {
+    fontFamily: ({ children, value }) => {
       const family =
         fontFamilies[value?.family] ||
         value?.family
@@ -321,7 +321,7 @@ const portableTextComponents: PortableTextComponents = {
     },
   },
 
-  unknownMark: ({children}) => (
+  unknownMark: ({ children }) => (
     <>
       {children}
     </>
@@ -528,10 +528,9 @@ function ImageGallery({
                 justify-center
                 overflow-hidden
                 bg-white
-                ${
-                  centerThumbnails
-                    ? ''
-                    : 'min-h-[400px] sm:min-h-[500px]'
+                ${centerThumbnails
+                  ? ''
+                  : 'min-h-[400px] sm:min-h-[500px]'
                 }
               `}
             >
@@ -633,10 +632,9 @@ function ImageGallery({
             w-full
             gap-2
             pb-2
-            ${
-              centerThumbnails
-                ? 'flex-wrap justify-center'
-                : 'overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'
+            ${centerThumbnails
+              ? 'flex-wrap justify-center'
+              : 'overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'
             }
           `}
         >
@@ -884,31 +882,31 @@ export default async function ChildrenMuralProgramPage() {
 
         {(data.bookletIntroduction?.length ||
           data.bookletUrl) && (
-          <Section
-            className="
+            <Section
+              className="
               flex
               flex-col
               items-center
               text-center
             "
-          >
-            <RichTextContent
-              value={data.bookletIntroduction}
-              className="
+            >
+              <RichTextContent
+                value={data.bookletIntroduction}
+                className="
                 mb-2
                 w-full
                 text-xl
                 leading-relaxed
                 sm:text-2xl
               "
-            />
+              />
 
-            {data.bookletUrl && (
-              <a
-                href={data.bookletUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="
+              {data.bookletUrl && (
+                <a
+                  href={data.bookletUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="
                   mt-4
                   inline-flex
                   rounded-full
@@ -920,18 +918,18 @@ export default async function ChildrenMuralProgramPage() {
                   transition
                   hover:bg-purple-700
                 "
-              >
-                {data.bookletButtonText?.length ? (
-                  <RichTextContent
-                    value={data.bookletButtonText}
-                  />
-                ) : (
-                  'Download The CMP Booklet Here →'
-                )}
-              </a>
-            )}
-          </Section>
-        )}
+                >
+                  {data.bookletButtonText?.length ? (
+                    <RichTextContent
+                      value={data.bookletButtonText}
+                    />
+                  ) : (
+                    'Download The CMP Booklet Here →'
+                  )}
+                </a>
+              )}
+            </Section>
+          )}
 
         {/* History section */}
 
@@ -1118,11 +1116,13 @@ export default async function ChildrenMuralProgramPage() {
             />
 
             {data.finalCelebrations.image && (
-              <figure>
-                <ResponsiveImage
-                  image={data.finalCelebrations.image}
-                  alt="CMP Final Celebration"
-                />
+              <figure className="w-[249px] max-w-full mx-auto">
+                <div className="aspect-[300/235] overflow-hidden [&_img]:h-full [&_img]:object-cover">
+                  <ResponsiveImage
+                    image={data.finalCelebrations.image}
+                    alt="CMP Final Celebration"
+                  />
+                </div>
 
                 {/* Short note under image */}
                 {data.finalCelebrations.imageCaption && (
@@ -1139,18 +1139,18 @@ export default async function ChildrenMuralProgramPage() {
                   />
                 )}
 
-                {/* long paragraph */}
-                {data.finalCelebrations.caption && (
-                  <RichTextContent
-                    value={data.finalCelebrations.caption}
-                    className="
-                      mt-6
-                      text-lg
-                      sm:text-xl
-                    "
-                  />
-                )}
               </figure>
+            )}
+            {/* long paragraph */}
+            {data.finalCelebrations.caption && (
+              <RichTextContent
+                value={data.finalCelebrations.caption}
+                className="
+                  mt-6
+                  text-lg
+                  sm:text-xl
+                "
+              />
             )}
           </Section>
         )}
@@ -1215,23 +1215,23 @@ export default async function ChildrenMuralProgramPage() {
 
         {(data.finalGalleryDescription?.length ||
           data.finalGallery?.length) && (
-          <Section>
-            <RichTextContent
-              value={data.finalGalleryDescription}
-              className="
+            <Section>
+              <RichTextContent
+                value={data.finalGalleryDescription}
+                className="
                 mb-12
                 text-lg
                 sm:text-xl
               "
-            />
+              />
 
-            <ImageGallery
-              images={data.finalGallery}
-              title="CMP final celebrations and murals"
-              centerThumbnails
-            />
-          </Section>
-        )}
+              <ImageGallery
+                images={data.finalGallery}
+                title="CMP final celebrations and murals"
+                centerThumbnails
+              />
+            </Section>
+          )}
 
         {/* Social links */}
 
