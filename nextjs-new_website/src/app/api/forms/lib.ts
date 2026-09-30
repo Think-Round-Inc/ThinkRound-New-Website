@@ -1,7 +1,13 @@
 import { after, NextResponse } from "next/server";
 import { parseFormPayload } from "./validation";
+import emailjs from "@emailjs/nodejs";
 
 export type ContactFormType = "volunteer" | "subscribe" | "contact";
+
+const SERVICE_ID = process.env.EMAILJS_SERVICE_ID!;
+const PUBLIC_KEY = process.env.EMAILJS_PUBLIC_KEY!;
+const PRIVATE_KEY = process.env.EMAILJS_PRIVATE_KEY!;
+
 
 function normalizeFormType(value: unknown): ContactFormType | null {
   if (
@@ -58,6 +64,22 @@ export async function submitContactForm(
     const body = (await request.json()) as Record<string, unknown>;
     const resolvedFormType = formType ?? normalizeFormType(body.formType);
 
+    const templateId = process.env.EMAILJS_TEMPLATE_ID;
+    const subscribeTemplateId =process.env.EMAILJS_SUBSCRIBE_TEMPLATE_ID;
+    if (!templateId || !subscribeTemplateId) {
+      return Response.json(
+        { error: "EMAILJS TEMPLATE ID is not set on the server." },
+        { status: 500 }
+      );
+    }
+
+    if (!SERVICE_ID || !PUBLIC_KEY || !PRIVATE_KEY) {
+      return Response.json(
+        { error: "Missing EmailJS environment variables." },
+        { status: 500 }
+      );
+    }
+
     if (!resolvedFormType) {
       return NextResponse.json(
         { error: "Missing required form type." },
@@ -89,8 +111,17 @@ export async function submitContactForm(
         message,
       }));
 
+      await emailjs.send(
+      SERVICE_ID,
+      templateId,
+      { first_name:firstName, last_name:lastName, user_email: email, subject:interest, message },
+      { publicKey: PUBLIC_KEY, privateKey: PRIVATE_KEY }
+    );
+
       return NextResponse.json({ success: true }, { status: 200 });
     }
+
+   
 
     if (payload.data.formType === "contact") {
       const { firstName, lastName, email, message, subject } = payload.data;
@@ -113,6 +144,14 @@ export async function submitContactForm(
       subject,
       message,
     }));
+
+    await emailjs.send(
+      SERVICE_ID,
+      subscribeTemplateId,
+      { first_name: firstName, last_name:lastName, user_email: email, subject, message },
+      { publicKey: PUBLIC_KEY, privateKey: PRIVATE_KEY }
+     );
+
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
