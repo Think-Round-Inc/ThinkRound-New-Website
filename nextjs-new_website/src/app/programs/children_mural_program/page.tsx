@@ -1046,47 +1046,48 @@ export default async function ChildrenMuralProgramPage() {
                 mb-10
                 text-lg
                 sm:text-xl
-              '
-                        />
+              "
+            />
 
-                        {data.finalCelebrations.image && (
-                            <figure>
-                                <ResponsiveImage
-                                    image={data.finalCelebrations.image}
-                                    alt='CMP Final Celebration'
-                                />
+            {data.finalCelebrations.image && (
+              <figure className="w-[249px] max-w-full mx-auto">
+                <div className="aspect-[300/235] overflow-hidden [&_img]:h-full [&_img]:object-cover">
+                  <ResponsiveImage
+                    image={data.finalCelebrations.image}
+                    alt="CMP Final Celebration"
+                  />
+                </div>
 
-                                {/* Short note under image */}
-                                {data.finalCelebrations.imageCaption && (
-                                    <RichTextContent
-                                        value={
-                                            data.finalCelebrations.imageCaption
-                                        }
-                                        className='
+                {/* Short note under image */}
+                {data.finalCelebrations.imageCaption && (
+                  <RichTextContent
+                    value={data.finalCelebrations.imageCaption}
+                    className="
                       mt-4
                       text-center
                       text-sm
                       font-semibold
                       leading-6
-                    '
-                                    />
-                                )}
-
-                                {/* long paragraph */}
-                                {data.finalCelebrations.caption && (
-                                    <RichTextContent
-                                        value={data.finalCelebrations.caption}
-                                        className='
-                      mt-6
-                      text-lg
-                      sm:text-xl
-                    '
-                                    />
-                                )}
-                            </figure>
-                        )}
-                    </Section>
+                      text-[#7a6d5c]
+                    "
+                  />
                 )}
+
+              </figure>
+            )}
+            {/* long paragraph */}
+            {data.finalCelebrations.caption && (
+              <RichTextContent
+                value={data.finalCelebrations.caption}
+                className="
+                  mt-6
+                  text-lg
+                  sm:text-xl
+                "
+              />
+            )}
+          </Section>
+        )}
 
                 {/* Essay anthologies */}
 
