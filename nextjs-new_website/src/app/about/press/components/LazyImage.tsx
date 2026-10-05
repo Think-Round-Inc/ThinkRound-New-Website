@@ -38,7 +38,7 @@ export default function LazyImage({
   }, []);
 
   return (
-    <div ref={ref} className="min-h-[300px] overflow-hidden">
+    <div ref={ref} className="relative aspect-square w-full overflow-hidden">
       {visible && (
         <Image
           src={src}
@@ -47,7 +47,7 @@ export default function LazyImage({
           height={height}
           loading="lazy"
           onLoad={() => setLoaded(true)}
-          className={`transition-all duration-1000 ease-out transform ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"} ${className ?? ""}`}
+          className={`h-full w-full transform object-cover transition-all duration-1000 ease-out ${loaded ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"} ${className ?? ""}`}
         />
       )}
     </div>
