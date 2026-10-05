@@ -45,19 +45,19 @@ export default async function OurArtistsPage() {
     return (
         <div className='max-w-7xl mx-auto px-8 py-12'>
             {/* TITLE */}
-            <h1 className='text-6xl font-bold text-center mb-6'>
+            <h1 className='text-6xl font-bold text-center mb-6 text-[#701A99]'>
                 Think Round Fine Arts
             </h1>
 
-            <h2 className='text-4xl text-center mb-16'>Exhibiting Artists</h2>
+            <h2 className='text-4xl text-center mb-16 text-[#000000]'>Exhibiting Artists</h2>
 
             {/* GRID */}
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 items-stretch'>
                 {artists.map((artist) => (
-                    <div key={artist._id} className='flex flex-col h-full'>
+                    <div key={artist._id} className='flex flex-col h-full rounded-[1.15rem] bg-[#701A99]/10 p-2.5'>
                         {/* IMAGE */}
                         {artist.image && (
-                            <div className='relative w-full h-[330px] mb-4'>
+                            <div className='relative w-full h-[330px] mb-4 rounded-[0.9rem] overflow-hidden'>
                                 <Image
                                     src={urlFor(artist.image)
                                         .width(600)
@@ -73,12 +73,12 @@ export default async function OurArtistsPage() {
                         )}
 
                         {/* NAME */}
-                        <h3 className='text-2xl font-semibold mb-3'>
+                        <h3 className='text-2xl font-semibold mb-3 text-[#000000]'>
                             {artist.name}
                         </h3>
 
                         {/* BIO */}
-                        <p className=' text-lg leading-8 flex-grow'>
+                        <p className='text-lg leading-8 flex-grow text-[#4a434c]'>
                             {artist.bio?.slice(0, 220)}...
                         </p>
 
@@ -87,9 +87,9 @@ export default async function OurArtistsPage() {
                             href={artistLinks[artist.name] || "#"}
                             target='_blank'
                             rel='noopener noreferrer'
-                            className='inline-block mt-6 border-2 border-orange-500 text-orange-500 px-6 py-2 font-semibold hover:bg-orange-500 hover:text-foreground transition self-start'
+                            className='inline-block mt-6 text-[#701A99] font-semibold hover:text-[#4b166d] transition self-start no-underline'
                         >
-                            LEARN MORE
+                            Read More
                         </a>
                     </div>
                 ))}
