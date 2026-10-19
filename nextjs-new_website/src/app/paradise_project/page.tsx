@@ -1,39 +1,39 @@
 import { client } from "@/sanity/client";
+import { Cormorant_Infant, Cormorant_SC, Lato } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import { Cormorant_SC, Cormorant_Infant, Lato } from "next/font/google";
 import CommunitiesSection from "./CommunitiesSection";
 
 export const revalidate = 30;
 
 const cormorantSC = Cormorant_SC({
-  subsets: ["latin"],
-  weight: ["400", "500"],
+    subsets: ["latin"],
+    weight: ["400", "500"],
 });
 
 const cormorantInfant = Cormorant_Infant({
-  subsets: ["latin"],
-  weight: ["500"],
+    subsets: ["latin"],
+    weight: ["500"],
 });
 
 const lato = Lato({
-  subsets: ["latin"],
-  weight: ["400", "700"],
+    subsets: ["latin"],
+    weight: ["400", "700"],
 });
 
 type OtherExhibit = {
-  _type: "currentExhibition" | "pastExhibition";
-  _id: string;
-  title: string;
-  cardTitle?: string;
-  slug: { current: string };
-  coverImage?: { asset?: { url: string }; alt?: string };
-  artists?: { name: string }[];
+    _type: "currentExhibition" | "pastExhibition";
+    _id: string;
+    title: string;
+    cardTitle?: string;
+    slug: { current: string };
+    coverImage?: { asset?: { url: string }; alt?: string };
+    artists?: { name: string }[];
 };
 
 async function getOtherExhibits(): Promise<OtherExhibit[]> {
-  return client.fetch<OtherExhibit[]>(
-    `*[_type in ["currentExhibition", "pastExhibition"]] | order(startDate desc) [0...6] {
+    return client.fetch<OtherExhibit[]>(
+        `*[_type in ["currentExhibition", "pastExhibition"]] | order(startDate desc) [0...6] {
       _type,
       _id,
       title,
@@ -41,12 +41,12 @@ async function getOtherExhibits(): Promise<OtherExhibit[]> {
       slug,
       coverImage { asset->{ url }, alt },
       artists[] { name }
-    }`
-  );
+    }`,
+    );
 }
 
 export default async function ParadiseProjectPage() {
-  const query = `*[_type == "paradiseProject"][0]{
+    const query = `*[_type == "paradiseProject"][0]{
     ...,
     heroImage {
       asset->{ url, metadata { dimensions } },
@@ -68,15 +68,14 @@ export default async function ParadiseProjectPage() {
     }
   }`;
 
-  const [data, otherExhibits] = await Promise.all([
-    client.fetch(query),
-    getOtherExhibits(),
-  ]);
+    const [data, otherExhibits] = await Promise.all([
+        client.fetch(query),
+        getOtherExhibits(),
+    ]);
 
-  return (
-    <div className="min-h-screen flex flex-col bg-white">
-      
-      {/* 
+    return (
+        <div className='min-h-screen flex flex-col'>
+            {/* 
         Main container: 
         - Desktop (lg): Fixed 1920px (120rem) artboard, relative for absolute overlays.
         - Mobile: Flex column for sequential flow.
@@ -343,21 +342,25 @@ export default async function ParadiseProjectPage() {
 >
         <div className="max-w-[114rem] mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
 
-      {/* Discover Other Exhibits Section */}
-      {otherExhibits.length > 0 && (
-        <section className="bg-white w-full py-12 px-[2.3125rem]">
-          <div className="max-w-[114rem] mx-auto">
-            <h2 className={`${lato.className} text-[2rem] font-normal text-black text-center mb-8`}>
-              Discover other exhibits that might catch your eye
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {otherExhibits.map((exhibit) => {
-                const href =
-                  exhibit._type === "currentExhibition"
-                    ? `/think_round_fine_arts/current_upcoming_exhibitions/${exhibit.slug.current}`
-                    : `/think_round_fine_arts/past_exhibitions/${exhibit.slug.current}`;
-                const imageUrl = exhibit.coverImage?.asset?.url;
-                const artistNames = exhibit.artists?.map((a) => a.name).join(" & ");
+            {/* Discover Other Exhibits Section */}
+            {otherExhibits.length > 0 && (
+                <section className='w-full py-12 px-[2.3125rem]'>
+                    <div className='max-w-[114rem] mx-auto'>
+                        <h2
+                            className={`${lato.className} text-[2rem] font-normal text-black text-center mb-8`}
+                        >
+                            Discover other exhibits that might catch your eye
+                        </h2>
+                        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8'>
+                            {otherExhibits.map((exhibit) => {
+                                const href =
+                                    exhibit._type === "currentExhibition"
+                                        ? `/think_round_fine_arts/current_upcoming_exhibitions/${exhibit.slug.current}`
+                                        : `/think_round_fine_arts/past_exhibitions/${exhibit.slug.current}`;
+                                const imageUrl = exhibit.coverImage?.asset?.url;
+                                const artistNames = exhibit.artists
+                                    ?.map((a) => a.name)
+                                    .join(" & ");
 
                 return (
                   <Link
