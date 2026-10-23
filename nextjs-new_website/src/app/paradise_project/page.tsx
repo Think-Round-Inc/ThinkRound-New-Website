@@ -344,14 +344,15 @@ export default async function ParadiseProjectPage() {
 
             {/* Discover Other Exhibits Section */}
             {otherExhibits.length > 0 && (
-                <section className='w-full py-12 px-[2.3125rem]'>
+                <section className='w-full py-12 px-[2.3125rem] lg:py-0 lg:px-12'>
                     <div className='max-w-[114rem] mx-auto'>
                         <h2
-                            className={`${lato.className} text-[2rem] font-normal text-black text-center mb-8`}
+                            className={`${lato.className} text-[2rem] lg:text-[3rem] font-normal lg:leading-[1.2] text-black text-center lg:text-left mb-8 lg:mt-[2.375rem] lg:mb-[3.125rem]`}
                         >
                             Discover other exhibits that might catch your eye
+                            <span className='hidden lg:inline'>:</span>
                         </h2>
-                        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8'>
+                        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-x-12 lg:gap-y-24'>
                             {otherExhibits.map((exhibit) => {
                                 const href =
                                     exhibit._type === "currentExhibition"
