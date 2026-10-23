@@ -15,7 +15,11 @@ describe('parseFormPayload', () => {
     expect(result.success).toBe(true);
     if (result.success) {
       expect(result.data.email).toBe('jane@example.com');
-      expect(result.data.interest).toBe('Design');
+      if (result.data.formType === 'volunteer') {
+  expect(result.data.interest).toBe('Design');
+} else {
+  throw new Error('Expected volunteer form data');
+}
     }
   });
 

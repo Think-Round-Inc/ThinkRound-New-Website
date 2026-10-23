@@ -2,7 +2,7 @@ import { client } from "@/sanity/client";
 import { Cormorant_Infant, Cormorant_SC, Lato } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import CommunitiesSection from "./CommunitiesSection";
+
 
 export const revalidate = 30;
 
@@ -358,9 +358,7 @@ export default async function ParadiseProjectPage() {
                                         ? `/think_round_fine_arts/current_upcoming_exhibitions/${exhibit.slug.current}`
                                         : `/think_round_fine_arts/past_exhibitions/${exhibit.slug.current}`;
                                 const imageUrl = exhibit.coverImage?.asset?.url;
-                                const artistNames = exhibit.artists
-                                    ?.map((a) => a.name)
-                                    .join(" & ");
+
 
                 return (
                   <Link
@@ -378,11 +376,25 @@ export default async function ParadiseProjectPage() {
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         />
                       )}
-                    </div>
                   </div>
-                </div>
+                </Link>
               );
-            }
+            })}
+          </div>
+          </div>
+      </section>
+    )}
+{data?.communities?.map((community: {
+  name: string;
+  slug?: { current: string };
+  image?: { asset?: { url: string }; alt?: string };
+  paintingCount?: number;
+  familyCount?: number;
+}) => {
+  const slug = community.slug?.current;
+  const imageUrl = community.image?.asset?.url;
+
+  if (!slug) return null;
 
 return (
   <Link
@@ -607,7 +619,7 @@ return (
     →
   </div>
 </Link>
-</div>
+         </div>
       </section>
     </div>
   );
