@@ -1050,11 +1050,13 @@ export default async function ChildrenMuralProgramPage() {
                         />
 
                         {data.finalCelebrations.image && (
-                            <figure>
-                                <ResponsiveImage
-                                    image={data.finalCelebrations.image}
-                                    alt='CMP Final Celebration'
-                                />
+                            <figure className="w-[249px] max-w-full mx-auto">
+                                <div className="aspect-[300/235] overflow-hidden [&_img]:h-full [&_img]:object-cover">
+                                    <ResponsiveImage
+                                        image={data.finalCelebrations.image}
+                                        alt='CMP Final Celebration'
+                                    />
+                                </div>
 
                                 {/* Short note under image */}
                                 {data.finalCelebrations.imageCaption && (
@@ -1071,8 +1073,10 @@ export default async function ChildrenMuralProgramPage() {
                     '
                                     />
                                 )}
-
-                                {/* long paragraph */}
+                                
+                            </figure>
+                        )}
+                            {/* long paragraph */}
                                 {data.finalCelebrations.caption && (
                                     <RichTextContent
                                         value={data.finalCelebrations.caption}
@@ -1083,8 +1087,6 @@ export default async function ChildrenMuralProgramPage() {
                     '
                                     />
                                 )}
-                            </figure>
-                        )}
                     </Section>
                 )}
 
