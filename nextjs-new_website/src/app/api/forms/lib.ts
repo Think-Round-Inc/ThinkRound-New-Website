@@ -64,9 +64,9 @@ export async function submitContactForm(
     const body = (await request.json()) as Record<string, unknown>;
     const resolvedFormType = formType ?? normalizeFormType(body.formType);
 
-    const templateId = process.env.EMAILJS_TEMPLATE_ID;
+    const volunteerTemplateId = process.env.EMAILJS_VOLUNTEER_TEMPLATE_ID;
     const subscribeTemplateId =process.env.EMAILJS_SUBSCRIBE_TEMPLATE_ID;
-    if (!templateId || !subscribeTemplateId) {
+    if (!volunteerTemplateId || !subscribeTemplateId) {
       return Response.json(
         { error: "EMAILJS TEMPLATE ID is not set on the server." },
         { status: 500 }
@@ -113,7 +113,7 @@ export async function submitContactForm(
 
       await emailjs.send(
       SERVICE_ID,
-      templateId,
+      volunteerTemplateId,
       { first_name:firstName, last_name:lastName, user_email: email, subject:interest, message },
       { publicKey: PUBLIC_KEY, privateKey: PRIVATE_KEY }
     );
