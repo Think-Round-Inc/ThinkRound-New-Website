@@ -3,9 +3,10 @@ import React, { useState } from "react";
 import Interest from "@/app/volunteer/components/Interest";
 import Subject from "@/app/subscribe/components/Subject";
 import Modal from "./Modal";
+import type { FormMode } from "@/types/common";
 
 type Props = {
-  id: string;
+  id: FormMode;
 };
 
 type FormValues = {
@@ -29,8 +30,10 @@ const initialValues: FormValues = {
 const emailPattern = /^\S+@\S+\.\S+$/;
 
 export default function VolunteerSubscribeFormClient({ id }: Props) {
-  const isVolunteer = id === "volunteer";
+  const extraField = id === "volunteer" ? "interest" : "subject";
+  const endpoint = `/api/forms/${id}`;
   const [values, setValues] = useState<FormValues>(initialValues);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<
     Partial<Record<keyof FormValues, string>>
   >({});
@@ -54,10 +57,10 @@ export default function VolunteerSubscribeFormClient({ id }: Props) {
     else if (!emailPattern.test(values.email)) e.email = "Email is invalid";
     if (!values.message.trim()) e.message = "Message is required";
 
-    if (isVolunteer) {
-      if (!values.interest) e.interest = "Please select an option";
-    } else {
-      if (!values.subject.trim()) e.subject = "Subject is required";
+    if (!values[extraField].trim()) {
+      e[extraField] = extraField === "interest"
+        ? "Please select an option"
+        : "Subject is required";
     }
 
     setErrors(e);
@@ -68,39 +71,26 @@ export default function VolunteerSubscribeFormClient({ id }: Props) {
     ev.preventDefault();
     if (!validateForm()) return;
 
-    const payload = isVolunteer
-      ? {
-          firstName: values.firstName,
-          lastName: values.lastName,
-          email: values.email,
-          interest: values.interest,
-          message: values.message,
-        }
-      : {
-          firstName: values.firstName,
-          lastName: values.lastName,
-          email: values.email,
-          subject: values.subject,
-          message: values.message,
-        };
-
     try {
-      const response = await fetch(
-        isVolunteer ? "/api/forms/volunteer" : "/api/forms/subscribe",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
+      setIsSubmitting(true);
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.email,
+          message: values.message,
+          [extraField]: values[extraField],
+        }),
+      });
 
       const data = await response.json();
 
       if (!response.ok) {
         setModalError(data.error || "Submission failed");
-        setValues(initialValues);
         return;
       }
 
@@ -113,6 +103,8 @@ export default function VolunteerSubscribeFormClient({ id }: Props) {
       setModalError(
         error instanceof Error ? error.message : "Submission failed",
       );
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -124,8 +116,11 @@ export default function VolunteerSubscribeFormClient({ id }: Props) {
     >
       <div className="flex flex-row">
         <div className="w-full me-5">
-          <label className="block font-medium">First Name *</label>
+          <label htmlFor="firstName" className="block font-medium">
+            First Name *
+          </label>
           <input
+            id="firstName"
             name="firstName"
             value={values.firstName}
             onChange={handleChange}
@@ -139,8 +134,11 @@ export default function VolunteerSubscribeFormClient({ id }: Props) {
           )}
         </div>
         <div className="w-full">
-          <label className="block font-medium">Last Name *</label>
+          <label htmlFor="lastName" className="block font-medium">
+            Last Name *
+          </label>
           <input
+            id="lastName"
             name="lastName"
             value={values.lastName}
             onChange={handleChange}
@@ -156,8 +154,11 @@ export default function VolunteerSubscribeFormClient({ id }: Props) {
       </div>
 
       <div>
-        <label className="block font-medium">Email *</label>
+        <label htmlFor="email" className="block font-medium">
+          Email *
+        </label>
         <input
+          id="email"
           name="email"
           value={values.email}
           onChange={handleChange}
@@ -171,7 +172,7 @@ export default function VolunteerSubscribeFormClient({ id }: Props) {
         )}
       </div>
 
-      {isVolunteer ? (
+      {id === "volunteer" ? (
         <Interest
           value={values.interest}
           onChange={(value) =>
@@ -190,8 +191,11 @@ export default function VolunteerSubscribeFormClient({ id }: Props) {
       )}
 
       <div>
-        <label className="block font-medium">Message *</label>
+        <label htmlFor="message" className="block font-medium">
+          Message *
+        </label>
         <textarea
+          id="message"
           name="message"
           value={values.message}
           onChange={handleChange}
@@ -207,15 +211,18 @@ export default function VolunteerSubscribeFormClient({ id }: Props) {
 
       <button
         type="submit"
-        className="bg-purple-900 text-white px-9 py-5"
-        style={{ cursor: "pointer", letterSpacing: "0.3em" }}
+        disabled={isSubmitting}
+        className="bg-purple-900 text-white px-9 py-5 disabled:cursor-not-allowed disabled:opacity-60"
+        style={{
+          letterSpacing: "0.3em",
+        }}
       >
-        SUBMIT
+        {isSubmitting ? "SUBMITTING…" : "SUBMIT"}
       </button>
       {modalError && (
         <Modal
           title="Submission error"
-          textColor="red"
+          tone="error"
           message={modalError}
           onClose={() => setModalError(null)}
         />
@@ -223,7 +230,7 @@ export default function VolunteerSubscribeFormClient({ id }: Props) {
       {successModal && (
         <Modal
           title="Success"
-          textColor="green"
+          tone="success"
           message={successModal}
           onClose={() => setSuccessModal(null)}
         />

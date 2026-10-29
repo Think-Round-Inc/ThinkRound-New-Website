@@ -4,6 +4,7 @@ import LazyImage from "@/app/about/press/components/LazyImage";
 import { urlFor } from "@/sanity/client";
 import { PortableText } from "next-sanity";
 import type { PortableTextBlock } from "next-sanity";
+import type { PressButtonVariant } from "@/types/common";
 
 interface Post {
     _id: string;
@@ -16,7 +17,7 @@ type PressAction = {
     title: string;
     name: string;
     href: string;
-    variant: "solid" | "outline";
+    variant: PressButtonVariant;
 };
 
 const buttons: PressAction[] = [

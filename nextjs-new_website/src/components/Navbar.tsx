@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import type { Route } from "next";
 import { useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
@@ -237,7 +238,7 @@ export default function Navbar() {
                       </button>
                     ) : (
                       <Link
-                        href={menu.href!}
+                        href={menu.href! as Route}
                         target={menu.external ? "_blank" : undefined}
                         rel={menu.external ? "noopener noreferrer" : undefined}
                         className="block font-bold text-white "
@@ -278,7 +279,7 @@ export default function Navbar() {
                           </span>
                         ) : (
                           <Link
-                            href={link.href}
+                            href={link.href as Route}
                             className="block font-bold text-black "
                             onClick={() => {
                               setIsMobileMenuOpen(false);
@@ -357,7 +358,7 @@ export default function Navbar() {
                 </button>
               ) : (
                 <Link
-                  href={menu.href!}
+                  href={menu.href! as Route}
                   target={menu.external ? "_blank" : undefined}
                   rel={menu.external ? "noopener noreferrer" : undefined}
                   onClick={() => setOpenMenu(null)}
@@ -378,7 +379,7 @@ export default function Navbar() {
                           </span>
                         ) : (
                           <Link
-                            href={link.href}
+                            href={link.href as Route}
                             className={`block px-4  text-black font-bold hover:text-[#FA7D00]   whitespace-nowrap  `}
                             onClick={() => setOpenMenu(null)}
                           >

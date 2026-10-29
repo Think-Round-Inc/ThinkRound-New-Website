@@ -8,7 +8,6 @@ import {
 } from "@portabletext/react";
 import { League_Spartan } from "next/font/google";
 import Image from "next/image";
-import Link from "next/link";
 
 const leagueSpartan = League_Spartan({
     subsets: ["latin"],
@@ -210,12 +209,12 @@ export default async function FamilyArtsProgramPage() {
                         style={{ fontSize: " 0.8em" }}
                     >
                         {data.link?.linkname && (
-                            <Link
+                            <a
                                 href={"mailto:" + data.link.linkEmail}
                                 className='rounded-0 bg-purple-900 hover:bg-purple-800 text-white px-7 py-5 lg:px-10 lg:py-7 tracking-[0.05em] font-bold transition'
                             >
                                 {data.link.linkname}
-                            </Link>
+                            </a>
                         )}
                     </section>
 
