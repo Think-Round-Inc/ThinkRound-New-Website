@@ -8,6 +8,7 @@ import {
 import { League_Spartan } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
+import type { Route } from "next";
 
 const leagueSpartan = League_Spartan({
     subsets: ["latin"],
@@ -263,7 +264,7 @@ export default async function TtoTPage() {
             {ttot.links.map((link) => (
               <Link
                 key={link._key ?? link.linkname}
-                href={link.linkurl ?? "#"}
+                href={(link.linkurl ?? "#") as Route}
                 target={
                   link.linkurl?.startsWith("http")
                     ? "_blank"

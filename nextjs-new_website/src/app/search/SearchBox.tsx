@@ -2,6 +2,7 @@
 
 import { Search } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
+import type { Route } from "next";
 import { useEffect, useState } from "react";
 
 interface SearchBoxProps {
@@ -29,7 +30,9 @@ export default function SearchBox({ initialQuery }: SearchBoxProps) {
       if (normalizedTerm) searchParams.set("q", normalizedTerm);
 
       const queryString = searchParams.toString();
-      router.replace(queryString ? `${pathname}?${queryString}` : pathname);
+      router.replace(
+        (queryString ? `${pathname}?${queryString}` : pathname) as Route,
+      );
     }, 250);
 
     return () => window.clearTimeout(timeoutId);
