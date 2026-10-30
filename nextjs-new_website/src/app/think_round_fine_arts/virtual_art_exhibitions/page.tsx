@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import { client, urlFor } from "@/sanity/client";
 import { PortableText } from "@portabletext/react";
 import Image from "next/image";
@@ -100,7 +99,7 @@ export default async function VirtualArtiExhibitionsPage() {
                                         className="virtual-exhibitions-iframe"
                                         allow="fullscreen; xr-spatial-tracking"
                                         allowFullScreen
-                                        loading="lazy"
+                                        loading='lazy'
                                     />
                                 </div>
                             ),

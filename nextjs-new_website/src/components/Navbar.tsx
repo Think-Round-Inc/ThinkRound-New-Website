@@ -59,6 +59,7 @@ export default function Navbar() {
                     name: "FAMILY ARTS PROGRAM",
                     href: "/programs/family_arts_program",
                 },
+                { name: "MAGIC OF WHY", href: "https://www.magicofwhy.com" },
                 {
                     name: "TURNING THE TIDE OF TRAUMA",
                     href: "/programs/turning_the_tide_of_trauma",
@@ -132,7 +133,7 @@ export default function Navbar() {
                 {
                     name: "AIR, WATER, SOIL EXHIBIT",
                     href: "/center_for_human_family/air-water-soil-exhibit",
-                    disabled: false,
+                    disabled: true,
                 },
                 {
                     name: "3RD FLOOR",

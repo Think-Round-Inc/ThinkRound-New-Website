@@ -1,9 +1,8 @@
-import { client } from "@/sanity/client";
-import { urlFor } from "@/sanity/client";
-import { Instrument_Sans, League_Spartan } from "next/font/google";
-import { PortableText, PortableTextBlock } from "next-sanity";
-import Image from "next/image";
 import SocialLinks from "@/components/SocialLinks";
+import { client, urlFor } from "@/sanity/client";
+import { PortableText, PortableTextBlock } from "next-sanity";
+import { Instrument_Sans, League_Spartan } from "next/font/google";
+import Image from "next/image";
 
 const instrumentSans = Instrument_Sans({
     subsets: ["latin"],
@@ -46,21 +45,40 @@ interface PortableTextComponentProps {
 }
 
 function getYouTubeId(url: string) {
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const regExp =
+        /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
     const match = url.match(regExp);
-    return (match && match[2].length === 11) ? match[2] : null;
+    return match && match[2].length === 11 ? match[2] : null;
 }
 
 const portableTextComponents = {
     block: {
-        h1: ({ children }: PortableTextComponentProps) => <h1 className="text-4xl font-bold my-4">{children}</h1>,
-        h2: ({ children }: PortableTextComponentProps) => <h2 className="text-3xl font-bold my-3">{children}</h2>,
-        h3: ({ children }: PortableTextComponentProps) => <h3 className="text-2xl font-bold my-2">{children}</h3>,
-        h4: ({ children }: PortableTextComponentProps) => <h4 className="text-xl font-bold my-2">{children}</h4>,
-        h5: ({ children }: PortableTextComponentProps) => <h5 className="text-lg font-bold my-2">{children}</h5>,
-        h6: ({ children }: PortableTextComponentProps) => <h6 className="font-bold my-2">{children}</h6>,
-        blockquote: ({ children }: PortableTextComponentProps) => <blockquote className="border-l-4 border-gray-300 pl-4 italic my-4">{children}</blockquote>,
-        normal: ({ children }: PortableTextComponentProps) => <p className="mb-4 last:mb-0">{children}</p>,
+        h1: ({ children }: PortableTextComponentProps) => (
+            <h1 className='text-4xl font-bold my-4'>{children}</h1>
+        ),
+        h2: ({ children }: PortableTextComponentProps) => (
+            <h2 className='text-3xl font-bold my-3'>{children}</h2>
+        ),
+        h3: ({ children }: PortableTextComponentProps) => (
+            <h3 className='text-2xl font-bold my-2'>{children}</h3>
+        ),
+        h4: ({ children }: PortableTextComponentProps) => (
+            <h4 className='text-xl font-bold my-2'>{children}</h4>
+        ),
+        h5: ({ children }: PortableTextComponentProps) => (
+            <h5 className='text-lg font-bold my-2'>{children}</h5>
+        ),
+        h6: ({ children }: PortableTextComponentProps) => (
+            <h6 className='font-bold my-2'>{children}</h6>
+        ),
+        blockquote: ({ children }: PortableTextComponentProps) => (
+            <blockquote className='border-l-4 border-gray-300 pl-4 italic my-4'>
+                {children}
+            </blockquote>
+        ),
+        normal: ({ children }: PortableTextComponentProps) => (
+            <p className='mb-4 last:mb-0'>{children}</p>
+        ),
     },
 };
 
@@ -79,15 +97,15 @@ export default async function StreamOfConsciousnessPage() {
             "paragraph3Text": paragraph3Text,
             "bottomImages": bottomImages,
             "paragraph4Text": paragraph4Text
-        }`
+        }`,
     );
 
     if (!data) {
         return (
-            <main className="min-h-screen bg-white text-black p-8 flex justify-center items-center">
-                <h1 className="text-4xl font-bold">Content not found</h1>
+            <main className='min-h-screen p-8 flex justify-center items-center'>
+                <h1 className='text-4xl font-bold'>Content not found</h1>
             </main>
-        )
+        );
     }
 
     // On mobile, normalize the first two images to the width of the larger one
@@ -96,20 +114,20 @@ export default async function StreamOfConsciousnessPage() {
     const mobileFirstTwoWidth = Math.max(firstImageWidth, secondImageWidth);
 
     return (
-        <main className="min-h-screen bg-white text-black p-4 sm:p-8 flex flex-col items-center">
+        <main className='min-h-screen p-4 sm:p-8 flex flex-col items-center'>
             <h1
                 className={`${instrumentSans.className} mb-12 text-center`}
                 style={{
-                    fontSize: 'clamp(22px, 6vw, 64px)',
+                    fontSize: "clamp(22px, 6vw, 64px)",
                     fontWeight: 700,
-                    lineHeight: '1.2',
-                    overflow: 'visible',
-                    paddingBottom: '4px',
-                    color: 'rgb(46, 46, 46)',
-                    fontStyle: 'normal',
-                    overflowWrap: 'break-word',
-                    wordBreak: 'break-word',
-                    maxWidth: '100%',
+                    lineHeight: "1.2",
+                    overflow: "visible",
+                    paddingBottom: "4px",
+                    color: "rgb(46, 46, 46)",
+                    fontStyle: "normal",
+                    overflowWrap: "break-word",
+                    wordBreak: "break-word",
+                    maxWidth: "100%",
                 }}
             >
                 Stream of
@@ -126,20 +144,22 @@ export default async function StreamOfConsciousnessPage() {
                 }
             `}</style>
 
-            <div className="flex flex-col gap-12 w-full items-center">
+            <div className='flex flex-col gap-12 w-full items-center'>
                 {data.images?.map((item: SanityImage, index: number) => (
-                    <div key={index} className="w-full flex justify-center">
+                    <div key={index} className='w-full flex justify-center'>
                         {item.image && (
                             <div
-                                className={index < 2 ? 'img-first-two' : ''}
-                                style={{ width: `${item.widthPercentage || 100}%` }}
+                                className={index < 2 ? "img-first-two" : ""}
+                                style={{
+                                    width: `${item.widthPercentage || 100}%`,
+                                }}
                             >
                                 <Image
                                     src={urlFor(item.image).width(1920).url()}
                                     alt={`Stream of Consciousness ${index + 1}`}
                                     width={1920}
                                     height={1080}
-                                    className="object-contain rounded-sm w-full h-auto"
+                                    className='object-contain rounded-sm w-full h-auto'
                                 />
                             </div>
                         )}
@@ -150,14 +170,14 @@ export default async function StreamOfConsciousnessPage() {
             {data.pdfUrl && (
                 <a
                     href={data.pdfUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group inline-flex items-center gap-2 mt-12 px-7 py-3
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='group inline-flex items-center gap-2 mt-12 px-7 py-3
                bg-purple-600 text-white rounded-full font-semibold
-               hover:bg-purple-700 transition-all"
+               hover:bg-purple-700 transition-all'
                 >
                     See all Panels
-                    <span className="transition-transform group-hover:translate-x-1">
+                    <span className='transition-transform group-hover:translate-x-1'>
                         →
                     </span>
                 </a>
@@ -166,151 +186,194 @@ export default async function StreamOfConsciousnessPage() {
             <br />
             <br />
             {data.videoUrl && getYouTubeId(data.videoUrl) && (
-                <div className="mt-12 flex flex-col items-center gap-4 w-full max-w-2xl px-4 sm:px-0">
-                    <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-lg">
+                <div className='mt-12 flex flex-col items-center gap-4 w-full max-w-2xl px-4 sm:px-0'>
+                    <div className='relative w-full aspect-video rounded-xl overflow-hidden shadow-lg'>
                         <iframe
                             src={`https://www.youtube.com/embed/${getYouTubeId(data.videoUrl)}`}
-                            title="Stream of Consciousness Video"
-                            className="w-full h-full"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            title='Stream of Consciousness Video'
+                            className='w-full h-full'
+                            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
                             allowFullScreen
                         />
                     </div>
                     {data.videoText && (
                         <div
-                            className="text-center w-full"
+                            className='text-center w-full'
                             style={{
-                                color: '#828282',
+                                color: "#828282",
                                 fontFamily: leagueSpartan.style.fontFamily,
-                                fontSize: 'clamp(18px, 3.5vw, 24px)',
-                                lineHeight: '1.6em',
-                                letterSpacing: '.02em'
+                                fontSize: "clamp(18px, 3.5vw, 24px)",
+                                lineHeight: "1.6em",
+                                letterSpacing: ".02em",
                             }}
                         >
-                            <PortableText value={data.videoText} components={portableTextComponents} />
+                            <PortableText
+                                value={data.videoText}
+                                components={portableTextComponents}
+                            />
                         </div>
                     )}
                 </div>
             )}
 
             {(data.paragraph1Title || data.paragraph1Text) && (
-                <div className="mt-12 flex flex-col items-center gap-4 w-full max-w-2xl px-4 sm:px-0">
+                <div className='mt-12 flex flex-col items-center gap-4 w-full max-w-2xl px-4 sm:px-0'>
                     {data.paragraph1Title && (
-                        <div className="text-left w-full" style={{ color: '#424242', fontSize: 'clamp(24px, 5vw, 36px)' }}>
-                            <PortableText value={data.paragraph1Title} components={portableTextComponents} />
+                        <div
+                            className='text-left w-full'
+                            style={{
+                                fontSize: "clamp(24px, 5vw, 36px)",
+                            }}
+                        >
+                            <PortableText
+                                value={data.paragraph1Title}
+                                components={portableTextComponents}
+                            />
                         </div>
                     )}
                     {data.paragraph1Text && (
                         <div
-                            className="text-left w-full"
+                            className='text-left w-full'
                             style={{
                                 fontWeight: 400,
-                                color: '#828282',
                                 fontFamily: leagueSpartan.style.fontFamily,
-                                fontSize: 'clamp(18px, 3.5vw, 24px)',
-                                lineHeight: '1.6em',
-                                letterSpacing: '.02em'
+                                fontSize: "clamp(18px, 3.5vw, 24px)",
+                                lineHeight: "1.6em",
+                                letterSpacing: ".02em",
                             }}
                         >
-                            <PortableText value={data.paragraph1Text} components={portableTextComponents} />
+                            <PortableText
+                                value={data.paragraph1Text}
+                                components={portableTextComponents}
+                            />
                         </div>
                     )}
                 </div>
             )}
 
             {(data.paragraph2Title || data.paragraph2Text) && (
-                <div className="mt-12 flex flex-col items-center gap-4 w-full max-w-2xl px-4 sm:px-0 text-center">
+                <div className='mt-12 flex flex-col items-center gap-4 w-full max-w-2xl px-4 sm:px-0 text-center'>
                     {data.paragraph2Title && (
-                        <div className="text-center w-full" style={{ fontSize: 'clamp(18px, 3.5vw, 24px)' }}>
-                            <PortableText value={data.paragraph2Title} components={portableTextComponents} />
+                        <div
+                            className='text-center w-full'
+                            style={{ fontSize: "clamp(18px, 3.5vw, 24px)" }}
+                        >
+                            <PortableText
+                                value={data.paragraph2Title}
+                                components={portableTextComponents}
+                            />
                         </div>
                     )}
                     {data.paragraph2Text && (
                         <div
-                            className="text-left w-full"
+                            className='text-left w-full'
                             style={{
                                 fontWeight: 400,
-                                color: '#828282',
                                 fontFamily: leagueSpartan.style.fontFamily,
-                                fontSize: 'clamp(18px, 3.5vw, 24px)',
-                                lineHeight: '1.6em',
-                                letterSpacing: '.02em'
+                                fontSize: "clamp(18px, 3.5vw, 24px)",
+                                lineHeight: "1.6em",
+                                letterSpacing: ".02em",
                             }}
                         >
-                            <PortableText value={data.paragraph2Text} components={portableTextComponents} />
+                            <PortableText
+                                value={data.paragraph2Text}
+                                components={portableTextComponents}
+                            />
                         </div>
                     )}
                 </div>
             )}
 
             {(data.paragraph3Title || data.paragraph3Text) && (
-                <div className="mt-12 flex flex-col items-center gap-4 w-full max-w-2xl px-4 sm:px-0 text-center">
+                <div className='mt-12 flex flex-col items-center gap-4 w-full max-w-2xl px-4 sm:px-0 text-center'>
                     {data.paragraph3Title && (
-                        <div className="text-center w-full" style={{ color: '#828282', fontSize: 'clamp(18px, 3.5vw, 24px)' }}>
-                            <PortableText value={data.paragraph3Title} components={portableTextComponents} />
+                        <div
+                            className='text-center w-full'
+                            style={{
+                                fontSize: "clamp(18px, 3.5vw, 24px)",
+                            }}
+                        >
+                            <PortableText
+                                value={data.paragraph3Title}
+                                components={portableTextComponents}
+                            />
                         </div>
                     )}
                     {data.paragraph3Text && (
                         <div
-                            className="text-left w-full"
+                            className='text-left w-full'
                             style={{
                                 fontWeight: 400,
-                                color: '#828282',
                                 fontFamily: leagueSpartan.style.fontFamily,
-                                fontSize: 'clamp(18px, 3.5vw, 24px)',
-                                lineHeight: '1.6em',
-                                letterSpacing: '.02em'
+                                fontSize: "clamp(18px, 3.5vw, 24px)",
+                                lineHeight: "1.6em",
+                                letterSpacing: ".02em",
                             }}
                         >
-                            <PortableText value={data.paragraph3Text} components={portableTextComponents} />
+                            <PortableText
+                                value={data.paragraph3Text}
+                                components={portableTextComponents}
+                            />
                         </div>
                     )}
                 </div>
             )}
 
             {data.bottomImages && data.bottomImages.length > 0 && (
-                <div className="flex flex-col gap-12 w-full items-center mt-12">
-                    {data.bottomImages.map((item: SanityImage, index: number) => (
-                        <div key={index} className="w-full flex justify-center">
-                            {item.image && (
-                                <div style={{ width: `${item.widthPercentage || 100}%` }}>
-                                    <Image
-                                        src={urlFor(item.image).width(1920).url()}
-                                        alt={`Bottom Image ${index + 1}`}
-                                        width={1920}
-                                        height={1080}
-                                        className="object-contain rounded-sm w-full h-auto"
-                                    />
-                                </div>
-                            )}
-                        </div>
-                    ))}
+                <div className='flex flex-col gap-12 w-full items-center mt-12'>
+                    {data.bottomImages.map(
+                        (item: SanityImage, index: number) => (
+                            <div
+                                key={index}
+                                className='w-full flex justify-center'
+                            >
+                                {item.image && (
+                                    <div
+                                        style={{
+                                            width: `${item.widthPercentage || 100}%`,
+                                        }}
+                                    >
+                                        <Image
+                                            src={urlFor(item.image)
+                                                .width(1920)
+                                                .url()}
+                                            alt={`Bottom Image ${index + 1}`}
+                                            width={1920}
+                                            height={1080}
+                                            className='object-contain rounded-sm w-full h-auto'
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                        ),
+                    )}
                 </div>
             )}
 
             {data.paragraph4Text && (
-                <div className="mt-12 flex flex-col items-center gap-4 w-full max-w-2xl px-4 sm:px-0">
+                <div className='mt-12 flex flex-col items-center gap-4 w-full max-w-2xl px-4 sm:px-0'>
                     <div
-                        className="text-left w-full"
+                        className='text-left w-full'
                         style={{
                             fontWeight: 400,
-                            color: '#828282',
                             fontFamily: leagueSpartan.style.fontFamily,
-                            fontSize: 'clamp(18px, 3.5vw, 24px)',
-                            lineHeight: '1.6em',
-                            letterSpacing: '.02em'
+                            fontSize: "clamp(18px, 3.5vw, 24px)",
+                            lineHeight: "1.6em",
+                            letterSpacing: ".02em",
                         }}
                     >
-                        <PortableText value={data.paragraph4Text} components={portableTextComponents} />
+                        <PortableText
+                            value={data.paragraph4Text}
+                            components={portableTextComponents}
+                        />
                     </div>
                 </div>
             )}
 
             {/* Social Media Links */}
-            <div className="mt-16 flex justify-center">
+            <div className='mt-16 flex justify-center'>
                 <SocialLinks />
             </div>
         </main>
     );
 }
-
