@@ -1,10 +1,10 @@
 import { client, urlFor } from "@/sanity/client";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { PortableText, PortableTextBlock } from "next-sanity";
 import ExhibitionGallery from "@/components/ExhibitionGallery";
 import ArtistCard from "@/components/ArtistCard";
 import type { Metadata } from "next";
-import Footer from "@/components/Footer";
 export const revalidate = 30;
 
 interface Artist {
@@ -189,22 +189,7 @@ export default async function PastExhibitionDetailPage({
   const { slug } = await params;
   const exhibition = await getExhibition(slug);
 
-  if (!exhibition) {
-    return (
-      <>
-        <main className="min-h-screen bg-white text-black p-8 flex flex-col justify-center items-center">
-          <h1 className="text-4xl font-bold mb-4">Exhibition Not Found</h1>
-          <Link
-            href="/think_round_fine_arts/past_exhibitions"
-            className="text-blue-600 hover:underline"
-          >
-            Back to Past Exhibitions
-          </Link>
-        </main>
-        <Footer />
-      </>
-    );
-  }
+  if (!exhibition) notFound();
 
   return (
     <>
