@@ -1,4 +1,5 @@
 import { client } from "@/sanity/client";
+import { urlFor } from "@/sanity/image";
 import { Cormorant_Infant, Cormorant_SC, Lato } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
@@ -27,36 +28,43 @@ type OtherExhibit = {
     title: string;
     cardTitle?: string;
     slug: { current: string };
-    coverImage?: { asset?: { url: string }; alt?: string };
+    coverImage?: {
+        asset?: { _ref: string; _type: "reference" };
+        alt?: string;
+    };
     artists?: { name: string }[];
 };
 
-async function getOtherExhibits(): Promise<OtherExhibit[]> {
-    return client.fetch<OtherExhibit[]>(
+async function getOtherExhibits(): Promise<(OtherExhibit & { imageUrl?: string })[]> {
+    const exhibits = await client.fetch<OtherExhibit[]>(
         `*[_type in ["currentExhibition", "pastExhibition"]] | order(startDate desc) [0...6] {
       _type,
       _id,
       title,
       cardTitle,
       slug,
-      coverImage { asset->{ url }, alt },
+      coverImage,
       artists[] { name }
     }`,
     );
+
+    return exhibits.map((exhibit) => ({
+        ...exhibit,
+        imageUrl: exhibit.coverImage?.asset
+            ? urlFor(exhibit.coverImage).width(800).height(600).url()
+            : undefined,
+    }));
 }
 
 export default async function ParadiseProjectPage() {
     const query = `*[_type == "paradiseProject"][0]{
     ...,
-    heroImage {
-      asset->{ url, metadata { dimensions } },
-      alt
-    },
+    heroImage { ..., "dimensions": asset->metadata.dimensions },
     communities[] {
       name,
       subtitle,
       slug,
-      image { asset->{ url }, alt },
+      image { ..., "dimensions": asset->metadata.dimensions },
       familyCount,
       paintingCount,
       comingSoon,
@@ -72,6 +80,14 @@ export default async function ParadiseProjectPage() {
         client.fetch(query),
         getOtherExhibits(),
     ]);
+    const communities = (data?.communities ?? []).map((community: {
+        image?: { asset?: { _ref: string; _type: "reference" }; alt?: string };
+    }) => ({
+        ...community,
+        imageUrl: community.image?.asset
+            ? urlFor(community.image).width(600).height(450).url()
+            : undefined,
+    }));
 
     return (
         <div className='min-h-screen flex flex-col'>
@@ -88,10 +104,13 @@ export default async function ParadiseProjectPage() {
                 <div className='relative w-full lg:h-0'>
                     {/* Hero Image */}
                     <div className='relative lg:absolute w-full lg:w-[87.15rem] h-[40vh] lg:h-[41.925rem] lg:left-[-4rem] lg:top-[9rem]'>
-                        {data?.heroImage?.asset?.url ? (
+                        {data?.heroImage?.asset?._ref ? (
                             <div className='relative w-full h-full transform scale-x-[-1]'>
                                 <Image
-                                    src={data.heroImage.asset.url}
+                                    src={urlFor(data.heroImage)
+                                        .width(1600)
+                                        .height(900)
+                                        .url()}
                                     alt={
                                         data.heroImage.alt || "Paradise Project"
                                     }
@@ -240,7 +259,7 @@ export default async function ParadiseProjectPage() {
 
             {/* Communities Section (grid/list toggle) */}
             <CommunitiesSection
-                communities={data?.communities ?? []}
+                communities={communities}
                 viewAll={data?.viewAll}
             />
 
@@ -259,7 +278,7 @@ export default async function ParadiseProjectPage() {
                                     exhibit._type === "currentExhibition"
                                         ? `/think_round_fine_arts/current_upcoming_exhibitions/${exhibit.slug.current}`
                                         : `/think_round_fine_arts/past_exhibitions/${exhibit.slug.current}`;
-                                const imageUrl = exhibit.coverImage?.asset?.url;
+                                const imageUrl = exhibit.imageUrl;
                                 const artistNames = exhibit.artists
                                     ?.map((a) => a.name)
                                     .join(" & ");

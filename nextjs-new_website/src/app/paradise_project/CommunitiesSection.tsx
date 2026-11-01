@@ -13,7 +13,8 @@ type Community = {
   name: string;
   subtitle?: string;
   slug: { current: string };
-  image?: { asset?: { url: string }; alt?: string };
+  imageUrl?: string;
+  image?: { alt?: string };
   familyCount?: number;
   paintingCount?: number;
   comingSoon?: boolean;
@@ -69,7 +70,7 @@ export default function CommunitiesSection({ communities, viewAll }: Props) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {communities.map((community) => {
               const slug = community.slug?.current;
-              const imageUrl = community.image?.asset?.url;
+              const imageUrl = community.imageUrl;
 
               if (community.comingSoon) {
                 return (
@@ -145,7 +146,7 @@ export default function CommunitiesSection({ communities, viewAll }: Props) {
           <div className="flex flex-col max-w-md mx-auto divide-y divide-gray-200">
             {communities.map((community, index) => {
               const slug = community.slug?.current;
-              const imageUrl = community.image?.asset?.url;
+              const imageUrl = community.imageUrl;
               const partLabel = ROMAN_NUMERALS[index] ?? `${index + 1}`;
 
               return (
