@@ -1,4 +1,5 @@
 import UpdatedSocialLinks from "@/components/UpdatedSocialLinks";
+import { urlFor } from "@/sanity/image";
 import { createClient } from "next-sanity";
 import { League_Spartan } from "next/font/google";
 import Image from "next/image";
@@ -16,20 +17,18 @@ const leagueSpartan = League_Spartan({
 
 interface ImageAsset {
     asset?: {
-        url: string;
-        metadata?: {
-            dimensions?: {
-                width: number;
-                height: number;
-            };
-        };
+        _ref: string;
+        _type: "reference";
     };
+    dimensions?: { width: number; height: number };
+    alt?: string;
 }
 
 interface StudentBlock {
     _type: string;
     image?: ImageAsset;
     asset?: ImageAsset["asset"];
+    dimensions?: ImageAsset["dimensions"];
     widthPercentage?: number;
     children?: { text: string }[];
 }
@@ -55,12 +54,12 @@ async function getIapPageData(): Promise<IapPageData> {
     const data = await client.fetch<SanityIapPageData>(`
     *[_type == "iapPage"][0] {
       title,
-      heroImage1 { asset->{url, metadata{dimensions}} },
-      heroImage2 { asset->{url, metadata{dimensions}} },
-      heroImage3 { asset->{url, metadata{dimensions}} },
-      heroImage4 { asset->{url, metadata{dimensions}} },
-      body[]{..., asset->{url, metadata{dimensions}}},
-      studentProjectsBody[]{..., image{asset->{url, metadata{dimensions}}}, asset->{url, metadata{dimensions}}, widthPercentage},
+      heroImage1 { ..., "dimensions": asset->metadata.dimensions },
+      heroImage2 { ..., "dimensions": asset->metadata.dimensions },
+      heroImage3 { ..., "dimensions": asset->metadata.dimensions },
+      heroImage4 { ..., "dimensions": asset->metadata.dimensions },
+      body[]{..., asset, "dimensions": asset->metadata.dimensions},
+      studentProjectsBody[]{..., image{..., "dimensions": asset->metadata.dimensions}, asset, "dimensions": asset->metadata.dimensions, widthPercentage},
 
     }
   `);
@@ -113,11 +112,13 @@ function RenderBlocks({ blocks }: { blocks?: StudentBlock[] }) {
                     block._type.includes("studentProject");
 
                 if (isImage) {
-                    const asset = block.image?.asset || block.asset;
-                    if (!asset?.url) return null;
+                    const image = block.image ??
+                        (block.asset ? { asset: block.asset } : undefined);
+                    if (!image?.asset?._ref) return null;
 
-                    const aspectRatio = asset.metadata?.dimensions
-                        ? `${asset.metadata.dimensions.width}/${asset.metadata.dimensions.height}`
+                    const dimensions = block.image?.dimensions ?? block.dimensions;
+                    const aspectRatio = dimensions
+                        ? `${dimensions.width}/${dimensions.height}`
                         : "1/1";
 
                     return (
@@ -130,7 +131,7 @@ function RenderBlocks({ blocks }: { blocks?: StudentBlock[] }) {
                                 }}
                             >
                                 <Image
-                                    src={asset.url}
+                                    src={urlFor(image).width(1400).url()}
                                     alt='Student artwork'
                                     fill
                                     className='object-contain'
@@ -156,15 +157,16 @@ export default async function IapPage() {
                         <div
                             className='md:col-span-2 relative w-full rounded-lg overflow-hidden shadow-lg'
                             style={{
-                                aspectRatio: iap.heroImages[0]?.asset?.metadata
-                                    ?.dimensions
-                                    ? `${iap.heroImages[0].asset.metadata.dimensions.width}/${iap.heroImages[0].asset.metadata.dimensions.height}`
+                                aspectRatio: iap.heroImages[0]?.dimensions
+                                    ? `${iap.heroImages[0].dimensions.width}/${iap.heroImages[0].dimensions.height}`
                                     : "16/9",
                             }}
                         >
-                            {iap.heroImages[0]?.asset?.url && (
+                            {iap.heroImages[0]?.asset?._ref && (
                                 <Image
-                                    src={iap.heroImages[0].asset.url}
+                                    src={urlFor(iap.heroImages[0])
+                                        .width(1600)
+                                        .url()}
                                     alt='Hero image'
                                     fill
                                     className='object-contain'
@@ -178,15 +180,16 @@ export default async function IapPage() {
                             <div
                                 className='relative w-[65%] rounded-lg overflow-hidden  shadow-lg'
                                 style={{
-                                    aspectRatio: iap.heroImages[1]?.asset
-                                        ?.metadata?.dimensions
-                                        ? `${iap.heroImages[1].asset.metadata.dimensions.width}/${iap.heroImages[1].asset.metadata.dimensions.height}`
+                                    aspectRatio: iap.heroImages[1]?.dimensions
+                                        ? `${iap.heroImages[1].dimensions.width}/${iap.heroImages[1].dimensions.height}`
                                         : "1/1",
                                 }}
                             >
-                                {iap.heroImages[1]?.asset?.url && (
+                                {iap.heroImages[1]?.asset?._ref && (
                                     <Image
-                                        src={iap.heroImages[1].asset.url}
+                                        src={urlFor(iap.heroImages[1])
+                                            .width(1200)
+                                            .url()}
                                         alt='Hero image'
                                         fill
                                         className='object-contain'
@@ -207,14 +210,14 @@ export default async function IapPage() {
                             key={i + 2}
                             className='md:col-span-2 relative w-full rounded-lg overflow-hidden shadow-lg'
                             style={{
-                                aspectRatio: img?.asset?.metadata?.dimensions
-                                    ? `${img.asset.metadata.dimensions.width}/${img.asset.metadata.dimensions.height}`
+                                aspectRatio: img?.dimensions
+                                    ? `${img.dimensions.width}/${img.dimensions.height}`
                                     : "16/9",
                             }}
                         >
-                            {img?.asset?.url && (
+                            {img?.asset?._ref && (
                                 <Image
-                                    src={img.asset.url}
+                                    src={urlFor(img).width(1200).url()}
                                     alt='Hero image'
                                     fill
                                     className='object-contain'

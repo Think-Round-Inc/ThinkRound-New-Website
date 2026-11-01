@@ -1,4 +1,5 @@
-import { client, urlFor } from "@/sanity/client";
+import { client } from "@/sanity/client";
+import { urlFor } from "@/sanity/image";
 import Image from "next/image";
 
 interface BoardMember {

@@ -1,7 +1,7 @@
 import type { PortableTextComponents } from "@portabletext/react";
 import Buttons from "@/app/about/press/components/Buttons";
 import LazyImage from "@/app/about/press/components/LazyImage";
-import { urlFor } from "@/sanity/client";
+import { urlFor } from "@/sanity/image";
 import { PortableText } from "next-sanity";
 import type { PortableTextBlock } from "next-sanity";
 
