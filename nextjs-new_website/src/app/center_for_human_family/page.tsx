@@ -3,7 +3,8 @@ import { Lato } from "next/font/google";
 import Link from "next/link";
 import CenterHero from "./components/CenterHero";
 import CenterContentSection from "./components/CenterContentSection";
-import CenterMedia from "./components/CenterMedia";
+import CenterClosing from "./components/CenterClosing";
+import sectionStyles from "./components/CenterContentSection.module.css";
 import "./chf.css";
 
 const lato = Lato({
@@ -53,26 +54,30 @@ const facilities = [
 export default function CenterForHumanFamilyPage() {
   return (
     <article
-      className={`chf-page ${lato.variable}`}
+      className={`chf-page mx-auto isolate w-full max-w-[1440px] bg-white text-[20px] leading-[24px] text-[#444] max-[768px]:text-[18px] max-[768px]:leading-[27px] ${lato.variable}`}
       aria-labelledby="chf-title"
     >
       <CenterHero partners={partners} />
 
-      <div className="chf-story-background">
+      <div className={`relative ${sectionStyles.storyBackground}`}>
         <CenterContentSection
           id="chf-story"
           title="The Story"
           variant="story"
           media={
-            <div className="chf-story-media" aria-hidden="true">
-              <div className="chf-placeholder chf-placeholder--wide" />
-              <div className="chf-placeholder chf-placeholder--large" />
+            <div className="grid gap-[14px]" aria-hidden="true">
+              <div className="aspect-[645/282] w-full rounded-[24px] bg-[#d9d9d9]" />
+              <div className="aspect-[645/536] w-full rounded-[24px] bg-[#d9d9d9]" />
             </div>
           }
         >
-          <p className="chf-story-introduction">{story.introduction}</p>
-          <p className="chf-story-message">{story.message}</p>
-          <div className="chf-story-paragraphs">
+          <p className="m-0 max-w-[623px] text-[24px] leading-[36px] max-[768px]:text-[22px] max-[768px]:leading-[32px]">
+            {story.introduction}
+          </p>
+          <p className="mt-[36px] mb-0 text-[40px] leading-[40px] font-bold text-[#444] max-[1251px]:wrap-break-word max-[768px]:mt-[24px] max-[768px]:text-[32px] max-[768px]:leading-[38px]">
+            {story.message}
+          </p>
+          <div className={`mt-[24px] ${sectionStyles.storyParagraphs}`}>
             {story.paragraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
@@ -86,16 +91,16 @@ export default function CenterForHumanFamilyPage() {
         variant="about"
         media={
           <div
-            className="chf-placeholder chf-placeholder--portrait"
+            className="aspect-[462/689] w-full rounded-[24px] bg-[#d9d9d9] max-[768px]:aspect-[462/520]"
             aria-hidden="true"
           />
         }
       >
-        <div className="chf-about-copy-group">
+        <div className="mb-[8px]">
           <p>{about.destination}</p>
           <p>{about.inspiration}</p>
         </div>
-        <div className="chf-about-copy-group">
+        <div className="mb-[8px]">
           {about.vision.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}
@@ -103,62 +108,59 @@ export default function CenterForHumanFamilyPage() {
         <p>{about.outdoors}</p>
       </CenterContentSection>
 
-      <div className="chf-divider" aria-hidden="true" />
+      <div
+        className="h-[53px] bg-[#f3ecf6] max-[768px]:h-[32px]"
+        aria-hidden="true"
+      />
       <section
-        className="chf-facilities"
+        className="pt-[55px] pr-[56px] pl-[88px] max-[1251px]:px-[40px] max-[768px]:px-[24px] max-[768px]:pt-[40px]"
         aria-label="Facilities and supporting the Center"
       >
-        {facilities.map((paragraph) => (
-          <p key={paragraph}>{paragraph}</p>
+        {facilities.map((paragraph, index) => (
+          <p
+            className={`m-0 min-h-[72px] max-[768px]:min-h-0 ${index > 0 ? "mt-[28px]" : ""}`}
+            key={paragraph}
+          >
+            {paragraph}
+          </p>
         ))}
-        <Link className="chf-patron-link" href="/donate">
+        <Link
+          className="mx-auto mt-[55px] flex min-h-[45px] w-[228px] items-center justify-center bg-[#d9d9d9] px-[16px] py-[10px] text-black no-underline transition-[background-color] duration-150 ease-[ease] hover:bg-[#cfc0d8] focus-visible:outline-[3px] focus-visible:outline-offset-[5px] focus-visible:outline-[#701a99] max-[768px]:mt-[32px]"
+          href="/donate"
+        >
           Become a Patron
         </Link>
-      </section>    
-
-
+      </section>
 
       {/* <CenterMedia /> */}
 
-      <div className="chf-story-background">
+      {/* <div className={`relative ${sectionStyles.storyBackground}`}>
         <CenterContentSection
           id="chf-story"
           title="The Story"
           variant="story"
           media={
-            <div className="chf-story-media" aria-hidden="true">
-              <div className="chf-placeholder chf-placeholder--wide" />
-              <div className="chf-placeholder chf-placeholder--large" />
+            <div className="grid gap-[14px]" aria-hidden="true">
+              <div className="aspect-[645/282] w-full rounded-[24px] bg-[#d9d9d9]" />
+              <div className="aspect-[645/536] w-full rounded-[24px] bg-[#d9d9d9]" />
             </div>
           }
         >
-          <p className="chf-story-introduction">{story.introduction}</p>
-          <p className="chf-story-message">{story.message}</p>
-          <div className="chf-story-paragraphs">
+          <p className="m-0 max-w-[623px] text-[24px] leading-[36px] max-[768px]:text-[22px] max-[768px]:leading-[32px]">
+            {story.introduction}
+          </p>
+          <p className="mt-[36px] mb-0 text-[40px] leading-[40px] font-bold text-[#444] max-[1251px]:wrap-break-word max-[768px]:mt-[24px] max-[768px]:text-[32px] max-[768px]:leading-[38px]">
+            {story.message}
+          </p>
+          <div className={`mt-[24px] ${sectionStyles.storyParagraphs}`}>
             {story.paragraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
           </div>
         </CenterContentSection>
-      </div>
-      
-      <footer className="chf-closing">
-        <div
-          className="chf-closing-placeholders"
-          role="img"
-          aria-label="Five logo placeholders"
-        >
-          {Array.from({ length: 5 }, (_, index) => (
-            <span className="chf-closing-placeholder" key={index} />
-          ))}
-        </div>
-        <p className="chf-closing-title">
-          <span className="chf-title-line">CENTER FOR THE</span>
-          <span className="chf-title-line chf-title-line--larger">
-            HUMAN FAMILY
-          </span>
-        </p>
-      </footer>
+      </div> */}
+
+      <CenterClosing />
     </article>
   );
 }

@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import styles from "./CenterContentSection.module.css";
 
 interface CenterContentSectionProps {
   id: string;
@@ -17,14 +18,17 @@ export default function CenterContentSection({
 }: CenterContentSectionProps) {
   return (
     <section
-      className={`chf-section chf-section--${variant}`}
+      className={`grid items-start ${styles[variant]}`}
       aria-labelledby={id}
     >
-      <div className="chf-section-copy">
-        <h2 className="chf-section-heading" id={id}>
+      <div className="min-w-0">
+        <h2
+          className={`mt-0 text-[40px] leading-[48px] text-black max-[768px]:text-[32px] max-[768px]:leading-[40px] ${variant === "story" ? "mb-[18px] font-bold" : "mb-[24px] font-semibold"}`}
+          id={id}
+        >
           {title}
         </h2>
-        <div className="chf-section-body">{children}</div>
+        <div className="[&_p]:mb-0">{children}</div>
       </div>
       {media}
     </section>
