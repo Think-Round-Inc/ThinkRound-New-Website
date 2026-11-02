@@ -12,7 +12,7 @@ interface BoardMember {
 export const revalidate = 60;
 
 async function getBoardMembers() {
-  const query = `*[_type == "boardMember"] | order(order asc){
+    const query = `*[_type == "boardMember"] | order(order asc){
     _id,
     name,
     photo,
@@ -26,7 +26,7 @@ async function getBoardMembers() {
 }
 
 export default async function OurBoardPage() {
-  const members = await getBoardMembers();
+    const members = await getBoardMembers();
 
   return (
     <main className="board-page">

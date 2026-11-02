@@ -1,38 +1,38 @@
+import UpdatedSocialLinks from "@/components/UpdatedSocialLinks";
 import { client, urlFor } from "@/sanity/client";
 import {
-  PortableText,
-  PortableTextBlock,
-  PortableTextComponents,
+    PortableText,
+    PortableTextBlock,
+    PortableTextComponents,
 } from "@portabletext/react";
+import { League_Spartan } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import { League_Spartan } from "next/font/google";
-import UpdatedSocialLinks from "@/components/UpdatedSocialLinks";
 
 const leagueSpartan = League_Spartan({
-  subsets: ["latin"],
+    subsets: ["latin"],
 });
 
 interface LinkItem {
-  _key?: string;
-  linkname?: string;
-  linkurl?: string;
+    _key?: string;
+    linkname?: string;
+    linkurl?: string;
 }
 
 interface TtoT {
-  _id: string;
-  title: string;
-  mainImage?: { asset: { _ref: string } };
-  description?: PortableTextBlock[];
-  paragraph1?: PortableTextBlock[];
-  paragraph2?: PortableTextBlock[];
-  solution?: PortableTextBlock[];
-  action?: PortableTextBlock[];
-  quote1?: PortableTextBlock[];
-  paragraph3?: PortableTextBlock[];
-  quote2?: PortableTextBlock[];
-  links?: LinkItem[];
-  footer?: PortableTextBlock[];
+    _id: string;
+    title: string;
+    mainImage?: { asset: { _ref: string } };
+    description?: PortableTextBlock[];
+    paragraph1?: PortableTextBlock[];
+    paragraph2?: PortableTextBlock[];
+    solution?: PortableTextBlock[];
+    action?: PortableTextBlock[];
+    quote1?: PortableTextBlock[];
+    paragraph3?: PortableTextBlock[];
+    quote2?: PortableTextBlock[];
+    links?: LinkItem[];
+    footer?: PortableTextBlock[];
 }
 
 export const revalidate = 60;
@@ -40,13 +40,13 @@ export const revalidate = 60;
 const portableTextComponents: PortableTextComponents = {
   block: {
     h1: ({ children }) => (
-      <h1 className="mb-6 text-4xl font-semibold tracking-tight text-[#2e2e2e] md:text-5xl">
+      <h1 className="mb-6 text-4xl font-semibold tracking-tight text-dark md:text-5xl">
         {children}
       </h1>
     ),
 
     h2: ({ children }) => (
-      <h2 className="mb-4 mt-8 text-3xl font-semibold text-[#2e2e2e] md:text-4xl">
+      <h2 className="mb-4 mt-8 text-3xl font-semibold text-dark md:text-4xl">
         {children}
       </h2>
     ),
@@ -121,7 +121,7 @@ const leftAlignedComponents: PortableTextComponents = {
 };
 
 async function getTtoT() {
-  const query = `*[_type == "turningTheTide"][0]{
+    const query = `*[_type == "turningTheTide"][0]{
     _id,
     title,
     mainImage,
@@ -137,11 +137,11 @@ async function getTtoT() {
     footer
   }`;
 
-  return client.fetch<TtoT>(query);
+    return client.fetch<TtoT>(query);
 }
 
 export default async function TtoTPage() {
-  const ttot = await getTtoT();
+    const ttot = await getTtoT();
 
   if (!ttot) {
     return (
@@ -152,7 +152,7 @@ export default async function TtoTPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white text-[#2e2e2e]">
+    <div className="min-h-screen">
       <main className="mx-auto flex w-full max-w-6xl flex-col px-6 pt-24 pb-16 sm:px-8 lg:px-12">
 
         {/* Banner */}
@@ -196,7 +196,7 @@ export default async function TtoTPage() {
             )}
           </div>
 
-          <div className="mx-auto mb-7 max-w-[800px] text-center text-[22px] font-semibold leading-[1.25] text-[#000000] md:text-[24px]">
+          <div className="mx-auto mb-7 max-w-[800px] text-center text-[22px] font-semibold leading-[1.25] text-black md:text-[24px]">
             {ttot.paragraph1 && (
               <PortableText value={ttot.paragraph1} />
             )}

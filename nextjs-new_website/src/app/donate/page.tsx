@@ -1,17 +1,17 @@
-import Image from "next/image";
-import { client } from "@/sanity/client";
 import UpdatedSocialLinks from "@/components/UpdatedSocialLinks";
+import { client } from "@/sanity/client";
 import { League_Spartan } from "next/font/google";
+import Image from "next/image";
 import Link from "next/link";
 
 const leagueSpartan = League_Spartan({
-  subsets: ["latin"],
+    subsets: ["latin"],
 });
 
 export const revalidate = 30; // ISR: revalidate every 30s
 
 async function getDonatePage() {
-  const query = `*[_type == "donatePage"][0]{
+    const query = `*[_type == "donatePage"][0]{
     title,
     Image{
       asset->{
@@ -24,71 +24,71 @@ async function getDonatePage() {
   
    
   }`;
-  return await client.fetch(query);
+    return await client.fetch(query);
 }
 
 export default async function DonatePage() {
-  const data = await getDonatePage();
+    const data = await getDonatePage();
 
-  if (!data) {
+    if (!data) {
+        return (
+            <main className='min-h-screen'>
+                <div className='min-h-screen flex items-center justify-center'>
+                    <div
+                        className='text-3xl'
+                        style={{ fontFamily: leagueSpartan.style.fontFamily }}
+                    >
+                        No donate page content found.
+                    </div>
+                </div>
+            </main>
+        );
+    }
+
     return (
-      <main className="min-h-screen bg-white text-[#2e2e2e]">
-        <div className="min-h-screen flex items-center justify-center">
-          <div
-            className="text-3xl"
-            style={{ fontFamily: leagueSpartan.style.fontFamily }}
-          >
-            No donate page content found.
-          </div>
+        <div className='min-h-screen'>
+            <main
+                className=' flex flex-col max-w-7xl mx-auto  space-y-10 text-center'
+                style={{ fontFamily: leagueSpartan.style.fontFamily }}
+            >
+                {data.Image?.asset?.url && (
+                    <section className='  w-5/6 h-5/6 mx-auto'>
+                        <Image
+                            src={data.Image.asset.url}
+                            alt={data.title || "Donate image"}
+                            width={1137}
+                            height={786}
+                        />
+                    </section>
+                )}
+
+                <section
+                    className='text-3xl font-bold leading-tight md:text-5xl lg:text-7xl mx-20 lg:mx-40'
+                    style={{ letterSpacing: "0.01em" }}
+                >
+                    {data.title}
+                </section>
+                <section className='  mx-10 md:mx-20 lg:mx-40 text-2xl md:text-4xl lg:text-6xl text-dark'>
+                    {data.introText}
+                </section>
+                <section className=' mx-10 md:mx-20 lg:mx-40 text-xl md:text-2xl lg:text-3xl text-dark'>
+                    {data.supportingContent}
+                </section>
+                <section className='flex justify-center gap-4'>
+                    <Link
+                        href='https://www.zeffy.com/en-US/donation-form/earth-is-home-humans-are-family'
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='rounded-0 bg-purple-900 hover:bg-purple-800 text-white px-10 py-3 text-sm xl:text-2xl tracking-[0.2em] transition'
+                    >
+                        {data.ButtonText}
+                    </Link>
+                </section>
+
+                <section className='mx-10 md:mx-20 lg:mx-40'>
+                    <UpdatedSocialLinks />
+                </section>
+            </main>
         </div>
-      </main>
     );
-  }
-
-  return (
-    <div className="min-h-screen bg-white text-[#2e2e2e]">
-      <main
-        className=" flex flex-col max-w-7xl mx-auto  space-y-10 text-center"
-        style={{ fontFamily: leagueSpartan.style.fontFamily }}
-      >
-        {data.Image?.asset?.url && (
-          <section className="  w-5/6 h-5/6 mx-auto">
-            <Image
-              src={data.Image.asset.url}
-              alt={data.title || "Donate image"}
-              width={1137}
-              height={786}
-            />
-          </section>
-        )}
-
-        <section
-          className="text-3xl font-bold leading-tight md:text-5xl lg:text-7xl mx-20 lg:mx-40"
-          style={{ letterSpacing: "0.01em" }}
-        >
-          {data.title}
-        </section>
-        <section className="  mx-10 md:mx-20 lg:mx-40 text-2xl md:text-4xl lg:text-6xl text-black-800">
-          {data.introText}
-        </section>
-        <section className=" mx-10 md:mx-20 lg:mx-40 text-xl md:text-2xl lg:text-3xl text-black-600">
-          {data.supportingContent}
-        </section>
-        <section className="flex justify-center gap-4">
-          <Link
-            href="https://www.zeffy.com/en-US/donation-form/earth-is-home-humans-are-family"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-0 bg-purple-900 hover:bg-purple-800 text-white px-10 py-3 text-sm xl:text-2xl tracking-[0.2em] transition"
-          >
-            {data.ButtonText}
-          </Link>
-        </section>
-
-        <section className="mx-10 md:mx-20 lg:mx-40">
-          <UpdatedSocialLinks />
-        </section>
-      </main>
-    </div>
-  );
 }
