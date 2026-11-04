@@ -3,6 +3,7 @@ import { urlFor } from "@/sanity/image";
 import { Cormorant_Infant, Cormorant_SC, Lato } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
+import type { Route } from "next";
 
 
 export const revalidate = 30;
@@ -382,7 +383,7 @@ export default async function ParadiseProjectPage() {
                 return (
                   <Link
                     key={exhibit._id}
-                    href={href}
+                    href={href as Route}
                     className="group block overflow-hidden rounded-lg border border-gray-200 hover:shadow-md transition-shadow"
                   >
                     <div className="relative aspect-[4/3] bg-gray-100">

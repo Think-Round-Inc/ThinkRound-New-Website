@@ -1,5 +1,6 @@
 // "use client";
 import Link from "next/link";
+import type { Route } from "next";
 import { client } from "@/sanity/client";
 import SearchBox from "./SearchBox";
 
@@ -15,7 +16,7 @@ interface SearchResult {
   id: string;
   label: string;
   sentence: string;
-  href: string;
+  href: Route;
 }
 
 const resultLabels: Record<string, string> = {
@@ -182,7 +183,7 @@ async function getSearchResults(term: string): Promise<SearchResult[]> {
         id: document._id,
         label,
         sentence,
-        href: getDocumentHref(document),
+        href: getDocumentHref(document) as Route,
       };
     })
     .filter((result): result is SearchResult => result !== null)

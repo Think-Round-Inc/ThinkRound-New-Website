@@ -225,7 +225,7 @@ export default function ContactFormClient() {
       {successModal && (
         <Modal
           title="Thank you!"
-          textColor="green"
+          tone="success"
           message={successModal}
           onClose={() => setSuccessModal(null)}
         />
@@ -234,7 +234,7 @@ export default function ContactFormClient() {
       {errorModal && (
         <Modal
           title="Submission error"
-          textColor="red"
+          tone="error"
           message={errorModal}
           onClose={() => setErrorModal(null)}
         />
