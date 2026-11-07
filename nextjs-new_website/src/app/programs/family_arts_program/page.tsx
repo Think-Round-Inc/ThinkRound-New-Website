@@ -136,7 +136,6 @@ export default async function FamilyArtsProgramPage() {
                                 src={urlFor(data.image1)
                                     .width(973)
                                     .height(761)
-                                    .auto("format")
                                     .url()}
                                 alt='Family Arts Program Image 1'
                                 width={973}
@@ -161,7 +160,6 @@ export default async function FamilyArtsProgramPage() {
                                 src={urlFor(data.image2)
                                     .width(1000)
                                     .height(670)
-                                    .auto("format")
                                     .url()}
                                 alt='Family Arts Program Image 2'
                                 width={1000}
@@ -186,7 +184,6 @@ export default async function FamilyArtsProgramPage() {
                                 src={urlFor(data.image3)
                                     .width(1000)
                                     .height(1494)
-                                    .auto("format")
                                     .url()}
                                 alt='Family Arts Program Image 3'
                                 width={1000}
@@ -233,7 +230,6 @@ export default async function FamilyArtsProgramPage() {
                                 src={urlFor(data.image4)
                                     .width(1000)
                                     .height(645)
-                                    .auto("format")
                                     .url()}
                                 alt='Free family arts making classes'
                                 width={1000}

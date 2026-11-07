@@ -1,5 +1,6 @@
 import UpdatedSocialLinks from "@/components/UpdatedSocialLinks";
-import { client, urlFor } from "@/sanity/client";
+import { client } from "@/sanity/client";
+import { urlFor } from "@/sanity/image";
 import {
     PortableText,
     PortableTextBlock,
@@ -166,7 +167,6 @@ export default async function TtoTPage() {
               <Image
                 src={urlFor(ttot.mainImage)
                   .width(1600)
-                  .auto("format")
                   .url()}
                 alt={ttot.title}
                 width={1600}

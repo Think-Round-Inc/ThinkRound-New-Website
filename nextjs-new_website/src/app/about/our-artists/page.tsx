@@ -1,4 +1,5 @@
-import { client, urlFor } from "@/sanity/client";
+import { client } from "@/sanity/client";
+import { urlFor } from "@/sanity/image";
 import Image from "next/image";
 
 export const revalidate = 60;
@@ -62,7 +63,6 @@ export default async function OurArtistsPage() {
                                     src={urlFor(artist.image)
                                         .width(600)
                                         .height(660)
-                                        .auto("format")
                                         .url()}
                                     alt={artist.name}
                                     fill

@@ -1,4 +1,5 @@
 import { client } from "@/sanity/client";
+import { urlFor } from "@/sanity/image";
 import { Cormorant_Infant, Cormorant_SC, Lato } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
@@ -27,36 +28,41 @@ type OtherExhibit = {
     title: string;
     cardTitle?: string;
     slug: { current: string };
-    coverImage?: { asset?: { url: string }; alt?: string };
+    coverImage?: { asset?: { _ref: string; _type: "reference" }; alt?: string };
+    imageUrl?: string;
     artists?: { name: string }[];
 };
 
 async function getOtherExhibits(): Promise<OtherExhibit[]> {
-    return client.fetch<OtherExhibit[]>(
+    const exhibits = await client.fetch<OtherExhibit[]>(
         `*[_type in ["currentExhibition", "pastExhibition"]] | order(startDate desc) [0...6] {
       _type,
       _id,
       title,
       cardTitle,
       slug,
-      coverImage { asset->{ url }, alt },
+      coverImage,
       artists[] { name }
     }`,
     );
+
+    return exhibits.map((exhibit) => ({
+        ...exhibit,
+        imageUrl: exhibit.coverImage?.asset?._ref
+            ? urlFor(exhibit.coverImage).width(800).height(600).url()
+            : undefined,
+    }));
 }
 
 export default async function ParadiseProjectPage() {
     const query = `*[_type == "paradiseProject"][0]{
     ...,
-    heroImage {
-      asset->{ url, metadata { dimensions } },
-      alt
-    },
+    heroImage,
     communities[] {
       name,
       subtitle,
       slug,
-      image { asset->{ url }, alt },
+      image,
       familyCount,
       paintingCount,
       comingSoon,
@@ -72,6 +78,18 @@ export default async function ParadiseProjectPage() {
         client.fetch(query),
         getOtherExhibits(),
     ]);
+
+    const heroImageUrl = data?.heroImage?.asset?._ref
+      ? urlFor(data.heroImage).width(1920).height(928).url()
+      : undefined;
+    const communities = (data?.communities ?? []).map((community: {
+      image?: { asset?: { _ref: string; _type: "reference" }; alt?: string };
+    }) => ({
+      ...community,
+      imageUrl: community.image?.asset?._ref
+        ? urlFor(community.image).width(600).height(450).url()
+        : undefined,
+    }));
 
     return (
         <div className='min-h-screen flex flex-col'>
@@ -94,8 +112,8 @@ export default async function ParadiseProjectPage() {
     bg-no-repeat
   "
   style={{
-    backgroundImage: data?.heroImage?.asset?.url
-      ? `url(${data.heroImage.asset.url})`
+    backgroundImage: heroImageUrl
+      ? `url(${heroImageUrl})`
       : "none",
   }}
 >
@@ -358,7 +376,7 @@ export default async function ParadiseProjectPage() {
                                     exhibit._type === "currentExhibition"
                                         ? `/think_round_fine_arts/current_upcoming_exhibitions/${exhibit.slug.current}`
                                         : `/think_round_fine_arts/past_exhibitions/${exhibit.slug.current}`;
-                                const imageUrl = exhibit.coverImage?.asset?.url;
+                                const imageUrl = exhibit.imageUrl;
 
 
                 return (
@@ -385,15 +403,16 @@ export default async function ParadiseProjectPage() {
           </div>
       </section>
     )}
-{data?.communities?.map((community: {
+{communities.map((community: {
   name: string;
   slug?: { current: string };
-  image?: { asset?: { url: string }; alt?: string };
+  image?: { alt?: string };
+  imageUrl?: string;
   paintingCount?: number;
   familyCount?: number;
 }) => {
   const slug = community.slug?.current;
-  const imageUrl = community.image?.asset?.url;
+  const imageUrl = community.imageUrl;
 
   if (!slug) return null;
 
@@ -422,9 +441,11 @@ return (
     <div className="sm:w-[42%] p-3 lg:p-4">
       <div className="w-full h-[15rem] sm:h-full overflow-hidden rounded-md bg-gray-100">
         {imageUrl && (
-          <img
+          <Image
             src={imageUrl}
             alt={community.image?.alt || community.name}
+            width={1200}
+            height={900}
             className="
               w-full
               h-full
