@@ -1,0 +1,46 @@
+.closing {
+  padding: 96px 0 140px;
+  text-align: center;
+}
+
+.line {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.line + .line {
+  margin-top: 8px;
+}
+
+.socials {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin: 46px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.icon {
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: #0f0f0f;
+}
+
+@media (max-width: 767px) {
+  .closing {
+    padding: 48px 0 96px;
+  }
+
+  .socials {
+    gap: 16px;
+    margin-top: 32px;
+  }
+
+  .icon {
+    width: 34px;
+    height: 34px;
+  }
+}

@@ -1,0 +1,11 @@
+.placeholder {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--chf-radius);
+  background: var(--chf-placeholder);
+}
+
+.image {
+  object-fit: cover;
+}

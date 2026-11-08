@@ -1,0 +1,44 @@
+/* Image 456px, text 687px, 81px apart — totals the 1224px content width. */
+.about {
+  display: grid;
+  grid-template-columns: minmax(0, 456fr) minmax(0, 687fr);
+  gap: 81px;
+  align-items: start;
+  padding-top: 81px;
+}
+
+.text {
+  min-width: 0;
+}
+
+/* Lines inside a group sit on the baseline grid with no extra space. */
+.paragraph {
+  margin: 0;
+}
+
+.group + .group {
+  margin-top: 8px;
+}
+
+@media (max-width: 1250px) {
+  .about {
+    gap: 48px;
+    padding-top: 64px;
+  }
+}
+
+@media (max-width: 767px) {
+  .about {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+    padding-top: 48px;
+  }
+
+  .media {
+    order: 2;
+  }
+
+  .text {
+    order: 1;
+  }
+}

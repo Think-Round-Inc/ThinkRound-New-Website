@@ -1,0 +1,151 @@
+.hero {
+  padding-top: 85px;
+}
+
+/* Ring and wordmark sit side by side as one centred group. */
+.lockup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 64px;
+}
+
+.ring {
+  width: 314px;
+  height: 314px;
+  flex: none;
+}
+
+.title {
+  margin: 0;
+  font-size: 64px;
+  line-height: 82px;
+  font-weight: 700;
+  color: var(--chf-purple);
+
+  /* Figma sets the wordmark a little below the ring's centre line. */
+  transform: translateY(19px);
+}
+
+.titleLine {
+  display: block;
+}
+
+.partners {
+  margin-top: 213px;
+}
+
+.partnersHeading {
+  margin: 0;
+  text-align: center;
+  font-size: 32px;
+  line-height: 38px;
+  font-weight: 700;
+  color: var(--chf-heading);
+}
+
+/* Four columns on a 256px pitch, centred as a block. */
+.partnerList {
+  display: grid;
+  grid-template-columns: repeat(4, 256px);
+  justify-content: center;
+  margin: 47px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.partner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.partnerLogo {
+  width: 103px;
+  height: 103px;
+  border-radius: 18px;
+  background: var(--chf-placeholder);
+}
+
+.partnerName {
+  font-size: 20px;
+  line-height: 24px;
+  color: var(--chf-heading);
+}
+
+@media (max-width: 1250px) {
+  .hero {
+    padding-top: 64px;
+  }
+
+  .lockup {
+    gap: 40px;
+  }
+
+  .ring {
+    width: clamp(160px, 20vw, 314px);
+    height: clamp(160px, 20vw, 314px);
+  }
+
+  .title {
+    font-size: clamp(32px, 4.5vw, 64px);
+    line-height: 1.25;
+  }
+
+  .partners {
+    margin-top: 120px;
+  }
+
+  .partnerList {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .hero {
+    padding-top: 48px;
+  }
+
+  .lockup {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .ring {
+    width: 160px;
+    height: 160px;
+  }
+
+  .title {
+    font-size: clamp(30px, 8vw, 44px);
+    text-align: center;
+    transform: none;
+  }
+
+  .partners {
+    margin-top: 64px;
+  }
+
+  .partnersHeading {
+    font-size: 22px;
+    line-height: 28px;
+  }
+
+  .partnerList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px 16px;
+    margin-top: 32px;
+  }
+
+  .partnerLogo {
+    width: 80px;
+    height: 80px;
+    border-radius: 14px;
+  }
+
+  .partnerName {
+    font-size: 16px;
+  }
+}
