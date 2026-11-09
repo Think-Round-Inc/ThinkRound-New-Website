@@ -1,0 +1,167 @@
+.section {
+  padding-top: 120px;
+}
+
+.heading {
+  margin: 0;
+  text-align: center;
+  font-size: 40px;
+  line-height: 48px;
+  font-weight: 700;
+  color: var(--chf-heading);
+}
+
+/* The arrows sit in the page margins, outside the 1224px content column. */
+.carousel {
+  display: grid;
+  grid-template-columns: 43px minmax(0, 1fr) 43px;
+  align-items: center;
+  gap: 37px;
+  max-width: 1440px;
+  margin: 60px auto 0;
+  padding-inline: 37px;
+}
+
+.arrow {
+  display: grid;
+  place-items: center;
+  width: 43px;
+  height: 43px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--chf-purple);
+  color: #ffffff;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    opacity 150ms ease;
+}
+
+.arrow svg {
+  width: 20px;
+  height: 20px;
+}
+
+.arrow:hover:not(:disabled) {
+  background: var(--chf-purple-dark);
+}
+
+.arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.arrow:focus-visible {
+  outline: 3px solid var(--chf-purple);
+  outline-offset: 4px;
+}
+
+/*
+ * Exactly three cards wide (3 x 367 + 2 x 42), centred in the page. Any
+ * further cards scroll into view a set at a time via the arrows.
+ *
+ * Start-aligned on purpose: a centred track whose content overflows puts its
+ * first cards out of reach of scrollLeft, so they can never be scrolled back to.
+ */
+.track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 367px;
+  justify-content: start;
+  max-width: 1185px;
+  margin-inline: auto;
+  gap: 42px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.track::-webkit-scrollbar {
+  display: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  min-height: 347px;
+  padding: 28px;
+  border: 1px solid var(--chf-lavender);
+  border-radius: 16px;
+  background: #ffffff;
+  scroll-snap-align: start;
+}
+
+.cardIcon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--chf-lavender);
+}
+
+.cardTitle {
+  margin: 22px 0 0;
+  font-size: 20px;
+  line-height: 26px;
+  font-weight: 700;
+  color: var(--chf-heading);
+}
+
+.cardBody {
+  margin: 14px 0 0;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+@media (max-width: 1250px) {
+  .section {
+    padding-top: 80px;
+  }
+
+  .carousel {
+    gap: 20px;
+    padding-inline: 20px;
+  }
+
+  .track {
+    justify-content: start;
+    grid-auto-columns: 300px;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding-top: 56px;
+  }
+
+  .heading {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  .carousel {
+    grid-template-columns: 36px minmax(0, 1fr) 36px;
+    gap: 12px;
+    margin-top: 32px;
+    padding-inline: 12px;
+  }
+
+  .arrow {
+    width: 36px;
+    height: 36px;
+  }
+
+  .track {
+    grid-auto-columns: 240px;
+    gap: 16px;
+  }
+
+  .card {
+    min-height: 0;
+    padding: 20px;
+  }
+}

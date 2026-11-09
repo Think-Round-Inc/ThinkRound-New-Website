@@ -1,3 +1,208 @@
+/*
+ * Page-wide tokens and layout helpers for the Center for the Human Family.
+ *
+ * Measurements come from the Figma frame "Desktop 17", which is 1440px wide
+ * with 108px side margins, leaving a 1224px content column.
+ *
+ * This file is a plain stylesheet (not a CSS module), so these class names are
+ * global and can be used alongside the per-section module classes.
+ */
+
 .chf-page {
-  font-family: var(--font-chf-lato), Arial, sans-serif;
+  /*
+   * Colours sampled from the Figma frame.
+   *
+   * Note: the Figma purple (#672193) is not the purple used elsewhere in this
+   * codebase — the footer and the artists page use #701a99, and other pages
+   * use #70169c. Worth agreeing on one brand purple; changing this single
+   * token is enough to switch this page over.
+   */
+  --chf-purple: #672193;
+  --chf-purple-dark: #53196f;
+  --chf-lavender: #f2ecf5;
+  --chf-heading: #000000;
+  --chf-text: #444444;
+  --chf-placeholder: #d9d9d9;
+
+  /* Layout */
+  --chf-content: 1224px;
+  --chf-gutter: 108px;
+  --chf-radius: 28px;
+
+  font-family: var(--font-chf-lato), Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  line-height: 24px;
+  color: var(--chf-text);
+}
+
+/*
+ * Type sizes were checked against the Figma by comparing rendered text widths
+ * in Lato with the measured artwork: body copy at 20px wraps to the same lines
+ * as the design, to within a few pixels.
+ */
+
+/*
+ * Horizontal rhythm for the whole page. Sections own their own background so
+ * colour can run edge to edge, and put their contents in one of these.
+ */
+.chf-container {
+  max-width: calc(var(--chf-content) + var(--chf-gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--chf-gutter);
+}
+
+/* Headings that sit above a section, e.g. "The Story". */
+.chf-heading {
+  margin: 0 0 22px;
+  font-size: 40px;
+  line-height: 48px;
+  font-weight: 700;
+  color: var(--chf-heading);
+}
+
+/* Body paragraphs. The last one never adds trailing space. */
+.chf-prose p {
+  margin: 0 0 16px;
+}
+
+.chf-prose p:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 1250px) {
+  .chf-page {
+    --chf-gutter: 48px;
+  }
+}
+
+@media (max-width: 767px) {
+  .chf-page {
+    --chf-gutter: 24px;
+    --chf-radius: 20px;
+
+    font-size: 18px;
+    line-height: 26px;
+  }
+
+  .chf-heading {
+    font-size: 32px;
+    line-height: 40px;
+  }
+}
+
+/*
+ * Shared layout patterns.
+ *
+ * Several sections are the same shape with different numbers, so the shape
+ * lives here once and each section passes its own measurements in as custom
+ * properties. Keeps the Figma values visible at the call site instead of
+ * buried in a stylesheet per section.
+ */
+
+/* Body copy beside an image. Used by The Story, What Is The Center and Artists. */
+.chf-split {
+  display: grid;
+  grid-template-columns: var(--chf-split-cols);
+  gap: var(--chf-split-gap, 84px);
+  align-items: start;
+  padding-top: var(--chf-split-pad, 0);
+}
+
+/* Image on the left: the text still comes first in the markup, for readers. */
+.chf-split[data-image="left"] > :first-child {
+  grid-column: 2;
+}
+
+.chf-split[data-image="left"] > :last-child {
+  grid-row: 1;
+  grid-column: 1;
+}
+
+.chf-split-text {
+  min-width: 0;
+  margin-top: var(--chf-split-offset, 0);
+}
+
+.chf-split-text > p {
+  margin: 0;
+}
+
+.chf-split-group + .chf-split-group {
+  margin-top: var(--chf-split-group-gap, 8px);
+}
+
+/* A centred section heading, as used by the video band, floors and paradise. */
+.chf-heading-center {
+  margin: 0;
+  font-size: 40px;
+  line-height: 48px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--chf-heading);
+}
+
+/*
+ * The shallow dome where the white and lavender stretches meet — a 1440x233
+ * ellipse in the Figma. Inherits whichever background the band itself sets.
+ */
+.chf-dome {
+  position: relative;
+}
+
+.chf-dome::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: -116px;
+  right: 0;
+  left: 0;
+  height: 233px;
+  border-radius: 50%;
+  background: inherit;
+}
+
+.chf-dome > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 1250px) {
+  .chf-split {
+    gap: var(--chf-split-gap-md, 40px);
+    padding-top: var(--chf-split-pad-md, 0);
+  }
+
+  .chf-split-text {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .chf-split,
+  .chf-split[data-image="left"] > :first-child,
+  .chf-split[data-image="left"] > :last-child {
+    grid-column: auto;
+    grid-row: auto;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .chf-split {
+    gap: var(--chf-split-gap-sm, 24px);
+    padding-top: var(--chf-split-pad-sm, 0);
+  }
+
+  /* Stacked blocks lead with the picture; the page sections lead with text. */
+  .chf-split[data-mobile="image-first"] > :last-child {
+    order: -1;
+  }
+
+  .chf-heading-center {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  .chf-dome::before {
+    top: -60px;
+    height: 120px;
+  }
 }
