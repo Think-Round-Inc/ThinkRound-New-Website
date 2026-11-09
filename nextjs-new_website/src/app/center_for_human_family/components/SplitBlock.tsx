@@ -1,5 +1,6 @@
+import type { CSSProperties } from "react";
+
 import Placeholder from "./Placeholder";
-import styles from "./SplitBlock.module.css";
 
 export interface SplitBlockData {
   readonly imageSide: string;
@@ -28,39 +29,33 @@ export default function SplitBlock({
 }: SplitBlockData & { imageSrc?: string }) {
   const imageWidth = Number.parseInt(imageRatio, 10);
   const textWidth = CONTENT - GAP - imageWidth;
-
-  const media = (
-    <figure className={styles.figure}>
-      <Placeholder ratio={imageRatio} label={imageLabel} src={imageSrc} />
-      {caption ? (
-        <figcaption className={styles.caption}>{caption}</figcaption>
-      ) : null}
-    </figure>
-  );
-
-  const text = (
-    <div className={styles.text}>
-      {paragraphs.map((paragraph) => (
-        <p className={styles.paragraph} key={paragraph}>
-          {paragraph}
-        </p>
-      ))}
-    </div>
-  );
-
   const imageFirst = imageSide === "left";
+
+  const columns = imageFirst
+    ? `minmax(0, ${imageWidth}fr) minmax(0, ${textWidth}fr)`
+    : `minmax(0, ${textWidth}fr) minmax(0, ${imageWidth}fr)`;
 
   return (
     <div
-      className={styles.block}
-      style={{
-        gridTemplateColumns: imageFirst
-          ? `minmax(0, ${imageWidth}fr) minmax(0, ${textWidth}fr)`
-          : `minmax(0, ${textWidth}fr) minmax(0, ${imageWidth}fr)`,
-      }}
+      className="chf-split"
+      data-image={imageFirst ? "left" : "right"}
+      data-mobile="image-first"
+      style={{ "--chf-split-cols": columns } as CSSProperties}
     >
-      {imageFirst ? media : text}
-      {imageFirst ? text : media}
+      <div className="min-w-0 [&>p]:mb-[16px] [&>p:last-child]:mb-0">
+        {paragraphs.map((paragraph) => (
+          <p key={paragraph}>{paragraph}</p>
+        ))}
+      </div>
+
+      <figure className="m-0 min-w-0">
+        <Placeholder ratio={imageRatio} label={imageLabel} src={imageSrc} />
+        {caption ? (
+          <figcaption className="mt-[10px] text-[14px] leading-[19px]">
+            {caption}
+          </figcaption>
+        ) : null}
+      </figure>
     </div>
   );
 }

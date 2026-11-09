@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
 import { Lato } from "next/font/google";
 
-import About from "./components/About";
-import Artists from "./components/Artists";
 import ClosingNote from "./components/ClosingNote";
 import Culinary from "./components/Culinary";
 import Floors from "./components/Floors";
-import Gallery from "./components/Gallery";
 import Hero from "./components/Hero";
 import LavenderBand from "./components/LavenderBand";
 import ParadiseProject from "./components/ParadiseProject";
-import Story from "./components/Story";
+import SplitSection from "./components/SplitSection";
 import Support from "./components/Support";
 import VideoSection from "./components/VideoSection";
 import WhatWeDo from "./components/WhatWeDo";
@@ -48,12 +45,59 @@ export default function CenterForHumanFamilyPage() {
   return (
     <article className={`chf-page ${lato.variable}`}>
       <Hero {...hero} />
-      <Story {...story} imageSrc={images.story || undefined} />
+
+      {/* Column widths, gaps and paddings below are Figma measurements at 1440px. */}
+      <SplitSection
+        id="chf-story"
+        heading={story.heading}
+        paragraphGroups={story.paragraphs.map((paragraph) => [paragraph])}
+        groupGap={16}
+        imageSide="right"
+        imageRatio="458 / 401"
+        imageLabel="rendering of The Center"
+        imageSrc={images.story || undefined}
+        columns="minmax(0, 675fr) minmax(0, 456fr)"
+        gap={93}
+        paddingTop={159}
+        paddingTopMd={90}
+        paddingTopSm={64}
+      />
+
       <VideoSection {...video} />
-      <About {...about} imageSrc={images.about || undefined} />
-      <Gallery {...gallery} srcs={images.gallery} />
-      <Floors {...floors} />
-      <Artists {...artists} imageSrc={images.artists || undefined} />
+
+      <SplitSection
+        id="chf-about"
+        heading={about.heading}
+        paragraphGroups={about.paragraphGroups}
+        imageSide="left"
+        imageRatio="456 / 692"
+        imageLabel="interior rendering of The Center"
+        imageSrc={images.about || undefined}
+        columns="minmax(0, 456fr) minmax(0, 687fr)"
+        gap={81}
+        paddingTop={81}
+        paddingTopMd={64}
+        paddingTopSm={48}
+      />
+
+      <Floors {...floors} gallery={gallery} gallerySrcs={images.gallery} />
+
+      <SplitSection
+        id="chf-artists"
+        heading={artists.heading}
+        paragraphGroups={artists.paragraphGroups}
+        imageSide="right"
+        imageRatio="456 / 488"
+        imageLabel="gallery space for Bay Area artists"
+        imageSrc={images.artists || undefined}
+        columns="minmax(0, 687fr) minmax(0, 456fr)"
+        gap={81}
+        paddingTop={122}
+        paddingTopMd={80}
+        paddingTopSm={56}
+        textOffset={101}
+      />
+
       <WhatWeDo {...whatWeDo} />
 
       <LavenderBand>

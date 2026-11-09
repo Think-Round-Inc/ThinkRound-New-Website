@@ -1,7 +1,5 @@
 import Image from "next/image";
 
-import styles from "./Placeholder.module.css";
-
 interface PlaceholderProps {
   /** Aspect ratio from the Figma frame, written as "width / height". */
   ratio: string;
@@ -13,6 +11,8 @@ interface PlaceholderProps {
    */
   src?: string;
   className?: string;
+  /** Corner radius in px, where the design differs from the page default. */
+  radius?: number;
   /** Widths for the browser to choose from; the default suits a half-width image. */
   sizes?: string;
 }
@@ -21,18 +21,21 @@ export default function Placeholder({
   ratio,
   label,
   src,
-  className,
+  className = "",
+  radius,
   sizes = "(max-width: 767px) 100vw, 50vw",
 }: PlaceholderProps) {
-  const classes = className
-    ? `${styles.placeholder} ${className}`
-    : styles.placeholder;
+  const box = `relative w-full overflow-hidden rounded-[var(--chf-radius)] bg-[var(--chf-placeholder)] ${className}`;
+  const shape = {
+    aspectRatio: ratio,
+    ...(radius ? { borderRadius: radius } : {}),
+  };
 
   if (!src) {
     return (
       <div
-        className={classes}
-        style={{ aspectRatio: ratio }}
+        className={box}
+        style={shape}
         role="img"
         aria-label={`Placeholder for ${label}`}
       />
@@ -40,9 +43,9 @@ export default function Placeholder({
   }
 
   return (
-    <div className={classes} style={{ aspectRatio: ratio }}>
+    <div className={box} style={shape}>
       <Image
-        className={styles.image}
+        className="object-cover"
         src={src}
         alt={label}
         fill

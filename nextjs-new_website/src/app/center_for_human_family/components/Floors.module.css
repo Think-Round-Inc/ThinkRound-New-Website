@@ -14,20 +14,6 @@
   color: var(--chf-purple);
 }
 
-.badgeIcon {
-  width: 62px;
-  height: 62px;
-}
-
-.heading {
-  margin: 28px 0 0;
-  text-align: center;
-  font-size: 40px;
-  line-height: 48px;
-  font-weight: 700;
-  color: var(--chf-heading);
-}
-
 .cards {
   display: grid;
   gap: 25px;
@@ -43,12 +29,6 @@
   background: #ffffff;
 }
 
-.cardHead {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-}
-
 .cardIcon {
   display: grid;
   place-items: center;
@@ -60,21 +40,12 @@
   color: var(--chf-purple);
 }
 
-.cardIconGlyph {
-  width: 21px;
-  height: 21px;
-}
-
 .cardTitle {
   margin: 0;
   font-size: 25px;
   line-height: 30px;
   font-weight: 400;
   color: var(--chf-heading);
-}
-
-.cardBody {
-  margin: 22px 0 0;
 }
 
 @media (max-width: 1250px) {
@@ -99,16 +70,6 @@
   .badge {
     width: 96px;
     height: 96px;
-  }
-
-  .badgeIcon {
-    width: 40px;
-    height: 40px;
-  }
-
-  .heading {
-    font-size: 32px;
-    line-height: 40px;
   }
 
   .cards {

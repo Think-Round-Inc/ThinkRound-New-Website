@@ -1,12 +1,13 @@
 import type { ReactNode } from "react";
 
-import styles from "./LavenderBand.module.css";
-
 /**
  * The lavender stretch of the page, from The Paradise Project down to the
- * social links. Its top edge is a shallow dome that rises into the white
- * section above — the Figma draws this as a 1440x233 ellipse.
+ * social links. Its top edge is the shared dome (see .chf-dome in chf.css).
  */
 export default function LavenderBand({ children }: { children: ReactNode }) {
-  return <div className={styles.band}>{children}</div>;
+  return (
+    <div className="chf-dome mt-[233px] bg-[var(--chf-lavender)] max-[767px]:mt-[120px]">
+      {children}
+    </div>
+  );
 }
