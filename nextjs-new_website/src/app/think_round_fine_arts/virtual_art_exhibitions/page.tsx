@@ -1,4 +1,5 @@
-import { client, urlFor } from "@/sanity/client";
+import { client } from "@/sanity/client";
+import { urlFor } from "@/sanity/image";
 import { PortableText } from "@portabletext/react";
 import Image from "next/image";
 import { TypedObject } from "sanity";

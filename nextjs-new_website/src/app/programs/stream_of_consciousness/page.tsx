@@ -1,5 +1,6 @@
 import SocialLinks from "@/components/SocialLinks";
-import { client, urlFor } from "@/sanity/client";
+import { client } from "@/sanity/client";
+import { urlFor } from "@/sanity/image";
 import { PortableText, PortableTextBlock } from "next-sanity";
 import { Instrument_Sans, League_Spartan } from "next/font/google";
 import Image from "next/image";

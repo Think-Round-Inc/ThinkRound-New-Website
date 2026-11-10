@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Lato } from "next/font/google";
+import { urlFor } from "@/sanity/image";
 
 const lato = Lato({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -28,7 +29,7 @@ type Community = {
   name: string;
   subtitle?: string;
   slug: { current: string };
-  image?: { asset?: { url: string }; alt?: string };
+  image?: { asset?: { _ref: string; _type: "reference" }; alt?: string };
   familyCount?: number;
   paintingCount?: number;
   comingSoon?: boolean;
@@ -83,7 +84,9 @@ export default function CommunitiesSection({ communities, viewAll }: Props) {
         <div className={`${view === "grid" ? "grid" : "hidden"} lg:grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-12`}>
           {communities.map((community) => {
             const slug = community.slug?.current;
-            const imageUrl = community.image?.asset?.url;
+            const imageUrl = community.image?.asset?._ref
+              ? urlFor(community.image).width(1200).height(900).url()
+              : undefined;
 
             if (community.comingSoon) {
               return (
@@ -159,7 +162,9 @@ export default function CommunitiesSection({ communities, viewAll }: Props) {
         <div className={`${view === "list" ? "flex" : "hidden"} lg:hidden flex-col max-w-md mx-auto divide-y divide-gray-200`}>
           {communities.map((community, index) => {
             const slug = community.slug?.current;
-            const imageUrl = community.image?.asset?.url;
+            const imageUrl = community.image?.asset?._ref
+              ? urlFor(community.image).width(800).height(600).url()
+              : undefined;
             const partLabel = ROMAN_NUMERALS[index] ?? `${index + 1}`;
 
             return (
