@@ -2,8 +2,6 @@
 
 This app sends the volunteer and subscribe forms through [EmailJS](https://www.emailjs.com/) via the server-side REST API. No EmailJS JS SDK is loaded in the browser — everything happens in the two API routes:
 
-- [src/app/api/volunteer/route.ts](../src/app/api/volunteer/route.ts)
-- [src/app/api/subscribe/route.ts](../src/app/api/newsletter/route.ts)
 
 ## 1. Create an EmailJS account
 
@@ -21,49 +19,70 @@ This app sends the volunteer and subscribe forms through [EmailJS](https://www.e
 
 This project needs **two templates** — one for each form. Go to **Email Templates** → **Create New Template** for each.
 
-### Volunteer template (`EMAILJS_TEMPLATE_ID`)
+### Volunteer template (`EMAILJS_VOLUNTEER_TEMPLATE_ID`)
 
 Used by the volunteer form. The route sends these template params — reference them in the template body/subject with `{{param_name}}`:
 
-| Param        | Description              |
-| ------------ | ------------------------- |
-| `first_name` | Volunteer's first name    |
-| `last_name`  | Volunteer's last name     |
-| `email`      | Volunteer's email address |
-| `interest`   | What they're interested in |
-| `message`    | Their message              |
 
 Paste this into the template's **Content** (HTML) editor as a starting point:
 
 ```html
-<div style="padding:24px 12px;background:#f0efea;font-family:system-ui,-apple-system,sans-serif;">
-<div style="max-width:580px;margin:0 auto;background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #e5e5e3;">
+<style>
+  @media only screen and (max-width: 640px) {
+    .tr-wrap { padding: 12px 8px !important; }
+    .tr-card { border-radius: 12px !important; }
+    .tr-pad { padding-left: 16px !important; padding-right: 16px !important; }
+    .tr-title { display: block !important; text-align: center !important; font-size: 13px !important; padding: 8px 12px !important; margin-bottom: 14px !important; }
+    .tr-label { font-size: 10px !important; margin-bottom: 8px !important; }
+    .tr-intro { font-size: 14px !important; }
+    .tr-col { display: block !important; width: 100% !important; box-sizing: border-box !important; }
+    .tr-gap { display: block !important; width: 100% !important; height: 8px !important; line-height: 8px !important; }
+    .tr-msg { font-size: 14px !important; }
+    .tr-foot-email { display: block !important; width: 100% !important; text-align: center !important; padding-bottom: 10px !important; }
+    .tr-foot-btn { display: block !important; width: 100% !important; text-align: center !important; }
+    .tr-btn { display: block !important; padding: 11px 16px !important; font-size: 14px !important; }
+    .tr-email { word-break: break-all !important; }
+  }
+</style>
+<div class="tr-wrap" style="padding:24px 12px;background:white;font-family:system-ui,-apple-system,sans-serif;">
+<div class="tr-card" style="max-width:580px;margin:0 auto;background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #e5e5e3;">
+
+  <!-- Logo bar -->
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+      <td class="tr-pad" style="padding:12px 20px;background:#ffffff;border-bottom:3px solid #6f2da8;vertical-align:middle;">
+        <a href="https://www.thinkround.org/" style="text-decoration:none;">
+          <img src="https://images.squarespace-cdn.com/content/v1/522e01f0e4b074119b24a9d8/3f82b049-2e02-41b3-9737-d1792357a136/New_Logo-02-02.png?format=750w" alt="Think Round, Inc." height="36" style="display:block;height:36px;width:auto;max-width:220px;border:0;">
+        </a>
+      </td>
+    </tr>
+  </table>
 
   <!-- Header -->
-  <div style="padding:22px 20px 20px;background:#f8f8f6;border-bottom:1px solid #e5e5e3;">
-    <div style="margin-bottom:14px;">
-      <div style="margin-bottom:8px;">
-        <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#378ADD;margin-right:7px;vertical-align:middle;"></span>
-        <span style="font-size:11px;color:#888780;letter-spacing:0.07em;text-transform:uppercase;font-weight:500;vertical-align:middle;">Volunteer Form</span>
-      </div>
-      <span style="font-size:11px;padding:4px 10px;border-radius:20px;background:#EAF3DE;color:#3B6D11;border:1px solid #97C459;display:inline-block;">&#10003; New submission</span>
+  <div class="tr-pad" style="padding:24px 20px;background:#4A9FEA;border-bottom:1px solid #e5e5e3;">
+    <div style="margin-bottom:10px;font-size:11px;color:rgba(255,255,255,0.85);letter-spacing:0.08em;text-transform:uppercase;font-weight:600;">
+      Volunteer Form
     </div>
-    <div style="font-size:19px;font-weight:500;color:#1a1a18;line-height:1.3;margin-bottom:4px;">New volunteer application</div>
-    <div style="font-size:12px;color:#888780;line-height:1.6;">A message has been received. Kindly respond at your earliest convenience.</div>
+    <div class="tr-title" style="display:inline-block;margin-bottom:12px;padding:4px 12px;border-radius:20px;background:#ffffff;color:#6f2da8;font-size:12px;font-weight:600;line-height:1.4;">
+      &#10003; New volunteer application
+    </div>
+    <div style="font-size:13px;color:#ffffff;line-height:1.6;">
+      A new volunteer sign-up has come in through the website!
+    </div>
   </div>
 
   <!-- Avatar + Name -->
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
     <tr>
-      <td style="padding:18px 20px;border-bottom:1px solid #e5e5e3;">
+      <td class="tr-pad" style="padding:18px 20px;border-bottom:1px solid #e5e5e3;">
         <table role="presentation" cellpadding="0" cellspacing="0">
           <tr>
             <td style="width:46px;padding-right:14px;vertical-align:middle;">
-              <div style="width:46px;height:46px;border-radius:50%;background:#EBF4FF;border:1px solid #B5D4F4;text-align:center;line-height:46px;font-size:20px;">&#128100;</div>
+              <div style="width:46px;height:46px;border-radius:50%;background:white;border:1px solid #68B7FD;text-align:center;line-height:46px;font-size:20px;">&#128100;</div>
             </td>
             <td style="vertical-align:middle;">
               <div style="font-size:15px;font-weight:500;color:#1a1a18;">{{first_name}} {{last_name}}</div>
-              <div style="font-size:12px;color:#888780;margin-top:2px;">{{user_email}}</div>
+              <div class="tr-email" style="font-size:12px;color:#888780;margin-top:2px;">{{user_email}}</div>
             </td>
           </tr>
         </table>
@@ -74,20 +93,17 @@ Paste this into the template's **Content** (HTML) editor as a starting point:
   <!-- Chips -->
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
     <tr>
-      <td style="padding:16px 20px;border-bottom:1px solid #e5e5e3;">
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+      <td class="tr-pad" style="padding:16px 20px;border-bottom:1px solid #e5e5e3;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;">
           <tr>
-            <td style="width:50%;padding-right:5px;vertical-align:top;">
-              <div style="background:#EBF4FF;border:1px solid #B5D4F4;border-radius:10px;padding:11px 13px;">
-                <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.07em;font-weight:500;color:#185FA5;margin-bottom:4px;">Interest</div>
-                <div style="font-size:13px;font-weight:500;color:#0C447C;">{{subject}}</div>
-              </div>
+            <td class="tr-col" width="49%" valign="top" style="width:49%;background:#9f78ce;border:1px solid #6f2da8;border-radius:10px;padding:11px 13px;vertical-align:top;">
+              <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.07em;font-weight:500;color:white;margin-bottom:4px;">Interest</div>
+              <div style="font-size:13px;font-weight:500;color:white;">{{subject}}</div>
             </td>
-            <td style="width:50%;padding-left:5px;vertical-align:top;">
-              <div style="background:#EAF3DE;border:1px solid #C0DD97;border-radius:10px;padding:11px 13px;">
-                <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.07em;font-weight:500;color:#3B6D11;margin-bottom:4px;">From</div>
-                <div style="font-size:13px;font-weight:500;color:#27500A;">{{first_name}} {{last_name}}</div>
-              </div>
+            <td class="tr-gap" width="10" style="width:10px;font-size:0;line-height:0;">&nbsp;</td>
+            <td class="tr-col" width="49%" valign="top" style="width:49%;background:#fcae63;border:1px solid #fa7d00;border-radius:10px;padding:11px 13px;vertical-align:top;">
+              <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.07em;font-weight:500;color:white;margin-bottom:4px;">From</div>
+              <div style="font-size:13px;font-weight:500;color:white;">{{first_name}} {{last_name}}</div>
             </td>
           </tr>
         </table>
@@ -98,9 +114,9 @@ Paste this into the template's **Content** (HTML) editor as a starting point:
   <!-- Message -->
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
     <tr>
-      <td style="padding:16px 20px;border-bottom:1px solid #e5e5e3;">
+      <td class="tr-pad" style="padding:16px 20px;border-bottom:1px solid #e5e5e3;">
         <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.07em;font-weight:500;color:#888780;margin-bottom:8px;">&#9993; Message</div>
-        <div style="font-size:13px;color:#2c2c2a;line-height:1.8;">{{message}}</div>
+        <div class="tr-msg" style="font-size:13px;color:#2c2c2a;line-height:1.8;">{{message}}</div>
       </td>
     </tr>
   </table>
@@ -108,12 +124,12 @@ Paste this into the template's **Content** (HTML) editor as a starting point:
   <!-- Footer -->
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
     <tr>
-      <td style="padding:14px 20px;background:#f8f8f6;">
+      <td class="tr-pad" style="padding:14px 20px;background:#68B7FD;">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
           <tr>
-            <td style="font-size:11px;color:#888780;vertical-align:middle;">{{user_email}}</td>
-            <td align="right">
-              <a href="mailto:{{user_email}}" style="font-size:12px;font-weight:500;color:#ffffff;background:#378ADD;border-radius:8px;padding:7px 16px;text-decoration:none;display:inline-block;">&#9993; Reply to {{first_name}}</a>
+            <td class="tr-foot-email tr-email" style="font-size:11px;color:white;vertical-align:middle;">{{user_email}}</td>
+            <td class="tr-foot-btn" align="right">
+              <a class="tr-btn" href="mailto:{{user_email}}" style="font-size:12px;font-weight:500;color:#ffffff;background:#6f2da8;border-radius:8px;padding:7px 16px;text-decoration:none;display:inline-block;">&#9993; Reply to {{first_name}}</a>
             </td>
           </tr>
         </table>
@@ -126,48 +142,70 @@ Paste this into the template's **Content** (HTML) editor as a starting point:
 ```
 
 
-Save the template and copy its **Template ID** into `EMAILJS_TEMPLATE_ID`.
+Save the template and copy its **Template ID** into `EMAILJS_VOLUNTEER_TEMPLATE_ID`.
 
-### Subscribe template (`EMAILJS_NEWSLETTER_TEMPLATE_ID`)
+### Subscribe/contact form template (`EMAILJS_SUBSCRIBE_TEMPLATE_ID`)
 
-Used by the subscribe signup form. Its template params are:
-
-| Param        | Description         |
-| ------------ | -------------------- |
-| `first_name` | Subscriber's first name |
-| `last_name`  | Subscriber's last name  |
-| `email`      | Subscriber's email      |
-| `subject`    | Message subject         |
-| `message`    | Message body             |
 
 Paste this into the template's **Content** (HTML) editor as a starting point:
 
 ```html
-<div style="padding:24px 12px;background:#f0efea;font-family:system-ui,-apple-system,sans-serif;">
-<div style="max-width:580px;margin:0 auto;background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #e5e5e3;">
+<style>
+  @media only screen and (max-width: 480px) {
+    .tr-wrap { padding: 12px 8px !important; }
+    .tr-card { border-radius: 12px !important; }
+    .tr-pad { padding-left: 16px !important; padding-right: 16px !important; }
+    .tr-title { font-size: 18px !important; }
+    .tr-col { display: block !important; width: 100% !important; padding: 0 !important; }
+    .tr-col-first { padding-bottom: 10px !important; }
+    .tr-msg { font-size: 14px !important; }
+    .tr-foot-email { display: block !important; width: 100% !important; text-align: center !important; padding-bottom: 10px !important; }
+    .tr-foot-btn { display: block !important; width: 100% !important; text-align: center !important; }
+    .tr-btn { display: block !important; padding: 11px 16px !important; font-size: 14px !important; }
+    .tr-email { word-break: break-all !important; }
+    .tr-org { padding-left: 12px !important; }
+    .tr-org-first { margin-bottom: 12px !important; padding-bottom: 0 !important; }
+    .tr-org div { font-size: 12px !important; }
+    .tr-nav span { display: none !important; }
+    .tr-nav a { display: inline-block !important; margin: 4px 10px !important; font-size: 13px !important; }
+  }
+</style>
+<div class="tr-wrap" style="padding:24px 12px;background:white;font-family:system-ui,-apple-system,sans-serif;">
+<div class="tr-card" style="max-width:580px;margin:0 auto;background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #e5e5e3;">
+
+  <!-- Logo bar -->
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+      <td class="tr-pad" style="padding:12px 20px;background:#ffffff;border-bottom:3px solid #6f2da8;vertical-align:middle;">
+        <a href="https://www.thinkround.org/" style="text-decoration:none;">
+          <img src="https://images.squarespace-cdn.com/content/v1/522e01f0e4b074119b24a9d8/3f82b049-2e02-41b3-9737-d1792357a136/New_Logo-02-02.png?format=750w" alt="Think Round, Inc." height="36" style="display:block;height:36px;width:auto;max-width:220px;border:0;">
+        </a>
+      </td>
+    </tr>
+  </table>
 
   <!-- Header -->
-  <div style="padding:22px 20px 20px;background:#1a1a18;border-bottom:1px solid #2e2e2b;">
+  <div class="tr-pad" style="padding:20px 20px 20px;background:#68B7FD;border-bottom:1px solid #e5e5e3;">
     <div style="margin-bottom:12px;">
-      <span style="font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:0.07em;text-transform:uppercase;font-weight:500;display:block;margin-bottom:8px;">501(c)3 Nonprofit</span>
-      <span style="font-size:11px;padding:4px 10px;border-radius:20px;background:#EAF3DE;color:#3B6D11;border:1px solid #97C459;display:inline-block;">&#10003; New subscriber</span>
+      <div style="font-size:11px;line-height:16px;color:white;letter-spacing:0.07em;text-transform:uppercase;font-weight:600;margin:0 0 8px 0;">501(c)3 Nonprofit</div>
+      <span style="display:inline-block;font-size:11px;line-height:16px;padding:3px 10px;border-radius:20px;background:{{chip_bg}};color:white;border:2px solid {{chip_border}};white-space:nowrap;">{{type_icon}} {{type_label}}</span>
     </div>
-    <div style="font-size:20px;font-weight:500;color:#ffffff;line-height:1.3;margin-bottom:5px;">Think Round, Inc.</div>
-    <div style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.6;">A new mailing list subscription has been received via the website contact form.</div>
+    <div class="tr-title" style="font-size:19px;font-weight:500;color:white;line-height:1.3;margin-bottom:4px;">Think Round, Inc.</div>
+    <div style="font-size:12px;color:white;line-height:1.6;">{{intro_text}}</div>
   </div>
 
   <!-- Avatar + Name -->
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
     <tr>
-      <td style="padding:18px 20px;border-bottom:1px solid #e5e5e3;">
+      <td class="tr-pad" style="padding:18px 20px;border-bottom:1px solid #e5e5e3;">
         <table role="presentation" cellpadding="0" cellspacing="0">
           <tr>
             <td style="width:46px;padding-right:14px;vertical-align:middle;">
-              <div style="width:46px;height:46px;border-radius:50%;background:#EBF4FF;border:1px solid #B5D4F4;text-align:center;line-height:46px;font-size:20px;">&#128100;</div>
+              <div style="width:46px;height:46px;border-radius:50%;background:white;border:1px solid #68B7FD;text-align:center;line-height:46px;font-size:20px;">&#128100;</div>
             </td>
             <td style="vertical-align:middle;">
               <div style="font-size:15px;font-weight:500;color:#1a1a18;">{{first_name}} {{last_name}}</div>
-              <div style="font-size:12px;color:#888780;margin-top:2px;">{{user_email}}</div>
+              <div class="tr-email" style="font-size:12px;color:#888780;margin-top:2px;">{{user_email}}</div>
             </td>
           </tr>
         </table>
@@ -175,13 +213,13 @@ Paste this into the template's **Content** (HTML) editor as a starting point:
     </tr>
   </table>
 
-  <!-- Chip: Subject only -->
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+  <!-- Chip: Subject -->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0">
     <tr>
-      <td style="padding:16px 20px;border-bottom:1px solid #e5e5e3;">
-        <div style="background:#EBF4FF;border:1px solid #B5D4F4;border-radius:10px;padding:11px 13px;">
-          <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.07em;font-weight:500;color:#185FA5;margin-bottom:4px;">Subject</div>
-          <div style="font-size:13px;font-weight:500;color:#0C447C;">{{subject}}</div>
+      <td class="tr-pad" style="padding:16px 20px;border-bottom:1px solid #e5e5e3;">
+        <div style="background:{{chip_bg}};border:1px solid {{chip_border}};border-radius:10px;padding:11px 13px;">
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.07em;font-weight:500;color:black;margin-bottom:4px;">Subject</div>
+          <div style="font-size:13px;font-weight:500;color:black;">{{subject}}</div>
         </div>
       </td>
     </tr>
@@ -190,9 +228,9 @@ Paste this into the template's **Content** (HTML) editor as a starting point:
   <!-- Message -->
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
     <tr>
-      <td style="padding:16px 20px;border-bottom:1px solid #e5e5e3;">
+      <td class="tr-pad" style="padding:16px 20px;border-bottom:1px solid #e5e5e3;">
         <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.07em;font-weight:500;color:#888780;margin-bottom:8px;">&#9993; Message</div>
-        <div style="font-size:13px;color:#2c2c2a;line-height:1.8;">{{message}}</div>
+        <div class="tr-msg" style="font-size:13px;color:#2c2c2a;line-height:1.8;">{{message}}</div>
       </td>
     </tr>
   </table>
@@ -200,18 +238,18 @@ Paste this into the template's **Content** (HTML) editor as a starting point:
   <!-- Org Info -->
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
     <tr>
-      <td style="padding:16px 20px;border-bottom:1px solid #e5e5e3;background:#f8f8f6;">
+      <td class="tr-pad" style="padding:16px 20px;border-bottom:1px solid #e5e5e3;">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
           <tr>
-            <td style="vertical-align:top;padding-right:16px;">
-              <div style="font-size:11px;font-weight:500;color:#1a1a18;margin-bottom:5px;">Think Round, Inc.</div>
+            <td class="tr-col tr-org tr-org-first" style="vertical-align:top;padding-right:16px;border-left:3px solid #fcae63;padding-left:12px;">
+              <div style="font-size:11px;font-weight:600;color:#1a1a18;margin-bottom:5px;">Think Round, Inc.</div>
               <div style="font-size:11px;color:#888780;line-height:1.7;">
                 2140 Bush Street, Suite 1<br>
                 San Francisco, CA 94115<br>
                 United States
               </div>
             </td>
-            <td style="vertical-align:top;">
+            <td class="tr-col tr-org" style="vertical-align:top;border-left:3px solid #9f78ce;padding-left:12px;">
               <div style="font-size:11px;color:#888780;line-height:1.7;">
                 <a href="tel:4156029599" style="color:#378ADD;text-decoration:none;">(415) 602-9599</a><br>
                 <a href="mailto:info@thinkround.org" style="color:#378ADD;text-decoration:none;">info@thinkround.org</a>
@@ -226,14 +264,14 @@ Paste this into the template's **Content** (HTML) editor as a starting point:
   <!-- Nav Links -->
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
     <tr>
-      <td style="padding:12px 20px;border-bottom:1px solid #e5e5e3;background:#f8f8f6;text-align:center;">
-        <a href="https://www.thinkround.org/mission" style="font-size:12px;color:#378ADD;text-decoration:none;margin:0 6px;">Mission</a>
-        <span style="color:#d3d1c7;">|</span>
-        <a href="https://www.thinkround.org/contact-1" style="font-size:12px;color:#378ADD;text-decoration:none;margin:0 6px;">Contact</a>
-        <span style="color:#d3d1c7;">|</span>
-        <a href="https://www.thinkround.org/our-team" style="font-size:12px;color:#378ADD;text-decoration:none;margin:0 6px;">Our Board Members</a>
-        <span style="color:#d3d1c7;">|</span>
-        <a href="https://www.thinkround.org/map" style="font-size:12px;color:#378ADD;text-decoration:none;margin:0 6px;">Map</a>
+      <td class="tr-pad tr-nav" style="padding:12px 20px;text-align:center;">
+        <a href="https://www.thinkround.org/mission" style="font-size:12px;font-weight:500;color:#6f2da8;text-decoration:none;margin:0 6px;">Mission</a>
+        <span style="color:#e5e5e3;">|</span>
+        <a href="https://www.thinkround.org/contact-1" style="font-size:12px;font-weight:500;color:#6f2da8;text-decoration:none;margin:0 6px;">Contact</a>
+        <span style="color:#e5e5e3;">|</span>
+        <a href="https://www.thinkround.org/our-team" style="font-size:12px;font-weight:500;color:#6f2da8;text-decoration:none;margin:0 6px;">Our Board Members</a>
+        <span style="color:#e5e5e3;">|</span>
+        <a href="https://www.thinkround.org/map" style="font-size:12px;font-weight:500;color:#6f2da8;text-decoration:none;margin:0 6px;">Map</a>
       </td>
     </tr>
   </table>
@@ -241,12 +279,12 @@ Paste this into the template's **Content** (HTML) editor as a starting point:
   <!-- Footer -->
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
     <tr>
-      <td style="padding:14px 20px;background:#1a1a18;">
+      <td class="tr-pad" style="padding:14px 20px;background:#68B7FD;">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
           <tr>
-            <td style="font-size:11px;color:rgba(255,255,255,0.4);vertical-align:middle;">{{user_email}}</td>
-            <td align="right">
-              <a href="mailto:{{user_email}}" style="font-size:12px;font-weight:500;color:#ffffff;background:#378ADD;border-radius:8px;padding:7px 14px;text-decoration:none;display:inline-block;">&#9993; Reply to {{first_name}}</a>
+            <td class="tr-foot-email tr-email" style="font-size:11px;color:white;vertical-align:middle;">{{user_email}}</td>
+            <td class="tr-foot-btn" align="right">
+              <a class="tr-btn" href="mailto:{{user_email}}" style="font-size:12px;font-weight:500;color:#ffffff;background:#6f2da8;border-radius:8px;padding:7px 16px;text-decoration:none;display:inline-block;">&#9993; Reply to {{first_name}}</a>
             </td>
           </tr>
         </table>
@@ -278,7 +316,7 @@ cp .env.local.example .env.local
 
 ```
 EMAILJS_SERVICE_ID=service_abc1234
-EMAILJS_TEMPLATE_ID=template_volunteer123
+EMAILJS_VOLUNTEER_TEMPLATE_ID=template_volunteer123
 EMAILJS_SUBSCRIBE_TEMPLATE_ID=template_subscribe456
 EMAILJS_PUBLIC_KEY=your_public_key
 EMAILJS_PRIVATE_KEY=your_private_key   
@@ -289,6 +327,6 @@ Restart `npm run dev` after editing `.env.local` so Next.js picks up the new val
 ## 6. Test it
 
 1. Run `npm run dev` and open the site.
-2. Submit the volunteer form and the subscribe form.
+2. Submit the contact form, the volunteer form and the subscribe form.
 3. Check the inbox tied to the connected email service for each message.
 4. If a request fails, the API route returns the EmailJS error message in its JSON response — check the browser network tab or server logs for details (common causes: wrong Service/Template ID, or the non-browser API restriction from step 4).
