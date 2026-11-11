@@ -36,17 +36,11 @@ type Community = {
   launchDate?: string;
 };
 
-type ViewAll = {
-  familyCount?: number;
-  paintingCount?: number;
-};
-
 type Props = {
   communities: Community[];
-  viewAll?: ViewAll;
 };
 
-export default function CommunitiesSection({ communities, viewAll }: Props) {
+export default function CommunitiesSection({ communities }: Props) {
   const [view, setView] = useState<"grid" | "list">("grid");
 
   return (
@@ -142,21 +136,6 @@ export default function CommunitiesSection({ communities, viewAll }: Props) {
             );
           })}
 
-          {/* View All — always last */}
-          <Link href="/paradise_project/all" className="group border border-gray-200 rounded-xl overflow-hidden flex flex-col items-center justify-center p-8 min-h-[15rem] lg:border-[#7E7E7E] lg:rounded-2xl lg:bg-[#FCFCFC] lg:h-[25rem] lg:justify-start lg:px-0 lg:py-12 hover:shadow-md transition-shadow">
-            <h3 className={`${lato.className} text-[2.75rem] lg:text-[3rem] font-normal leading-tight lg:leading-[1.2] text-black text-center`}>View All</h3>
-            <p className={`${lato.className} text-[1.25rem] lg:text-[1.875rem] lg:leading-[1.2] text-black mt-3 lg:mt-[1.625rem] text-center`}>
-              {viewAll?.familyCount ? `${viewAll.familyCount} families` : "X number of families"}
-            </p>
-            <p className={`${lato.className} text-[1.25rem] lg:text-[1.875rem] lg:leading-[1.2] text-black lg:mt-6 text-center`}>
-              {viewAll?.paintingCount ? `${viewAll.paintingCount} paintings` : "X number of paintings"}
-            </p>
-            <div className="mt-6 lg:mt-auto">
-              <span className={`${lato.className} ${buttonClass} ${buttonHoverClass}`}>
-                Explore <Chevron />
-              </span>
-            </div>
-          </Link>
         </div>
 
         <div className={`${view === "list" ? "flex" : "hidden"} lg:hidden flex-col max-w-md mx-auto divide-y divide-gray-200`}>
@@ -198,18 +177,6 @@ export default function CommunitiesSection({ communities, viewAll }: Props) {
             );
           })}
 
-          {/* View All — always last */}
-          <div className="flex flex-col items-center text-center py-8">
-            <h3 className={`${lato.className} text-[1.5rem] text-black`}>View All Paintings</h3>
-            <div className="mt-4">
-              <Link
-                href="/paradise_project/all"
-                className={`${lato.className} inline-flex items-center gap-1 border border-black rounded-none px-3 py-1 text-[1rem] hover:bg-black hover:text-white transition-colors`}
-              >
-                Explore <span>›</span>
-              </Link>
-            </div>
-          </div>
         </div>
       </div>
     </section>

@@ -22,38 +22,6 @@ const lato = Lato({
     weight: ["400", "700"],
 });
 
-type OtherExhibit = {
-    _type: "currentExhibition" | "pastExhibition";
-    _id: string;
-    title: string;
-    cardTitle?: string;
-    slug: { current: string };
-    coverImage?: { asset?: { _ref: string; _type: "reference" }; alt?: string };
-    imageUrl?: string;
-    artists?: { name: string }[];
-};
-
-async function getOtherExhibits(): Promise<OtherExhibit[]> {
-    const exhibits = await client.fetch<OtherExhibit[]>(
-        `*[_type in ["currentExhibition", "pastExhibition"]] | order(startDate desc) [0...6] {
-      _type,
-      _id,
-      title,
-      cardTitle,
-      slug,
-      coverImage,
-      artists[] { name }
-    }`,
-    );
-
-    return exhibits.map((exhibit) => ({
-        ...exhibit,
-        imageUrl: exhibit.coverImage?.asset?._ref
-            ? urlFor(exhibit.coverImage).width(800).height(600).url()
-            : undefined,
-    }));
-}
-
 export default async function ParadiseProjectPage() {
     const query = `*[_type == "paradiseProject"][0]{
     ...,
@@ -67,17 +35,10 @@ export default async function ParadiseProjectPage() {
       paintingCount,
       comingSoon,
       launchDate
-    },
-    viewAll {
-      familyCount,
-      paintingCount
     }
   }`;
 
-    const [data, otherExhibits] = await Promise.all([
-        client.fetch(query),
-        getOtherExhibits(),
-    ]);
+    const data = await client.fetch(query);
 
     const heroImageUrl = data?.heroImage?.asset?._ref
       ? urlFor(data.heroImage).width(1920).height(928).url()
@@ -360,49 +321,6 @@ export default async function ParadiseProjectPage() {
 >
         <div className="max-w-[114rem] mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
 
-            {/* Discover Other Exhibits Section */}
-            {otherExhibits.length > 0 && (
-                <section className='w-full py-12 px-[2.3125rem] lg:py-0 lg:px-12'>
-                    <div className='max-w-[114rem] mx-auto'>
-                        <h2
-                            className={`${lato.className} text-[2rem] lg:text-[3rem] font-normal lg:leading-[1.2] text-black text-center lg:text-left mb-8 lg:mt-[2.375rem] lg:mb-[3.125rem]`}
-                        >
-                            Discover other exhibits that might catch your eye
-                            <span className='hidden lg:inline'>:</span>
-                        </h2>
-                        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-x-12 lg:gap-y-24'>
-                            {otherExhibits.map((exhibit) => {
-                                const href =
-                                    exhibit._type === "currentExhibition"
-                                        ? `/think_round_fine_arts/current_upcoming_exhibitions/${exhibit.slug.current}`
-                                        : `/think_round_fine_arts/past_exhibitions/${exhibit.slug.current}`;
-                                const imageUrl = exhibit.imageUrl;
-
-
-                return (
-                  <Link
-                    key={exhibit._id}
-                    href={href}
-                    className="group block overflow-hidden rounded-lg border border-gray-200 hover:shadow-md transition-shadow"
-                  >
-                    <div className="relative aspect-[4/3] bg-gray-100">
-                      {imageUrl && (
-                        <Image
-                          src={imageUrl}
-                          alt={exhibit.coverImage?.alt || exhibit.title}
-                          fill
-                          className="object-cover"
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        />
-                      )}
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-          </div>
-      </section>
-    )}
 {communities.map((community: {
   name: string;
   slug?: { current: string };
@@ -553,94 +471,6 @@ return (
 );
 })}           
 
-          {/* View All — always last */}
-  <Link
-  href="/paradise_project/all"
-  className="
-    group
-    border
-    border-black/10
-    bg-[#fffdf8]
-    rounded-lg
-    overflow-hidden
-    flex
-    flex-col
-    items-center
-    justify-center
-    p-8
-    min-h-[17rem]
-    hover:shadow-lg
-    hover:-translate-y-1
-    transition-all
-    duration-300
-  "
->
-  <p
-    className={`
-      ${lato.className}
-      text-[0.7rem]
-      uppercase
-      tracking-[0.2em]
-      text-[#9b6c35]
-      mb-3
-    `}
-  >
-    Explore Everything
-  </p>
-
-  <h3
-    className={`
-      ${cormorantInfant.className}
-      text-[2.8rem]
-      lg:text-[3.2rem]
-      text-black
-      text-center
-    `}
-  >
-    View All
-  </h3>
-
-  <div className="flex items-center gap-5 mt-6">
-    <div className="text-center">
-      <p className={`${cormorantInfant.className} text-[1.5rem]`}>
-        {data?.viewAll?.paintingCount || "X"}
-      </p>
-      <p className={`${lato.className} text-[0.7rem] text-black/60`}>
-        paintings
-      </p>
-    </div>
-
-    <div className="w-px h-10 bg-black/15" />
-
-    <div className="text-center">
-      <p className={`${cormorantInfant.className} text-[1.5rem]`}>
-        {data?.viewAll?.familyCount || "X"}
-      </p>
-      <p className={`${lato.className} text-[0.7rem] text-black/60`}>
-        families
-      </p>
-    </div>
-  </div>
-
-  <div
-    className="
-      mt-7
-      w-11
-      h-11
-      rounded-full
-      bg-[#b4874e]
-      text-white
-      flex
-      items-center
-      justify-center
-      text-xl
-      group-hover:bg-black
-      transition-colors
-    "
-  >
-    →
-  </div>
-</Link>
          </div>
       </section>
     </div>
