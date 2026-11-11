@@ -69,6 +69,7 @@ export default function VolunteerSubscribeFormClient({ id }: Props) {
 
   const handleSubmit = async (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
+    if (isSubmitting || modalError || successModal) return;
     if (!validateForm()) return;
 
     try {
@@ -212,7 +213,7 @@ export default function VolunteerSubscribeFormClient({ id }: Props) {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="bg-purple-900 text-white px-9 py-5 disabled:cursor-not-allowed disabled:opacity-60"
+        className="bg-purple-900 text-white px-9 py-5 cursor-pointer disabled:cursor-not-allowed disabled:opacity-60"
         style={{
           letterSpacing: "0.3em",
         }}

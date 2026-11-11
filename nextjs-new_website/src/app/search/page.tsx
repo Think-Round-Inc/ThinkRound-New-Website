@@ -16,8 +16,13 @@ interface SearchResult {
   id: string;
   label: string;
   sentence: string;
-  href: Route;
+  href: Route | BlogRoute;
 }
+
+type BlogRoute = {
+  pathname: "/blogs/[year]/[month]/[day]/[slug]";
+  query: { year: string; month: string; day: string; slug: string };
+};
 
 const resultLabels: Record<string, string> = {
   aboutUs: "ABOUT US",
@@ -131,17 +136,20 @@ function highlightSearchTerm(sentence: string, term: string) {
   );
 }
 
-function getDocumentHref(document: SearchDocument) {
+function getDocumentHref(document: SearchDocument): Route | BlogRoute {
   if (
     document._type === "blogs" &&
     document.slug?.current &&
     document.publishedAt
   ) {
     const [year, month, day] = document.publishedAt.split("-");
-    return `/blogs/${year}/${month}/${day}/${document.slug.current}`;
+    return {
+      pathname: "/blogs/[year]/[month]/[day]/[slug]",
+      query: { year, month, day, slug: document.slug.current },
+    };
   }
 
-  const routes: Record<string, string> = {
+  const routes: Record<string, Route> = {
     aboutUs: "/about/about_us",
     contactUs: "/about/contact_us",
     boardMember: "/about/our_board",
@@ -183,7 +191,7 @@ async function getSearchResults(term: string): Promise<SearchResult[]> {
         id: document._id,
         label,
         sentence,
-        href: getDocumentHref(document) as Route,
+        href: getDocumentHref(document),
       };
     })
     .filter((result): result is SearchResult => result !== null)

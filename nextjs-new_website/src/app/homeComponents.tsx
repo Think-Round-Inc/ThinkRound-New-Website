@@ -1,7 +1,11 @@
 import { urlFor } from "@/sanity/client";
 import { PortableTextComponents } from "@portabletext/react";
 import Image from "next/image";
-import type { HomeButtonVariant } from "@/types/common";
+import type {
+    HomeButtonVariant,
+    VideoFeatureLayout,
+    VideoSourceType,
+} from "@/types/common";
 
 export const homeComponents: PortableTextComponents = {
     types: {
@@ -105,7 +109,7 @@ export const homeComponents: PortableTextComponents = {
 
         videoFeatureBlock: ({ value }) => {
             const {
-                sourceType,
+                sourceType: rawSourceType,
                 videoUrl,
                 videoFile,
                 autoplay,
@@ -113,8 +117,17 @@ export const homeComponents: PortableTextComponents = {
                 muted,
                 headline,
                 description,
-                layout,
+                layout: rawLayout,
             } = value;
+
+            const sourceType: VideoSourceType | undefined =
+                rawSourceType === "url" || rawSourceType === "upload"
+                    ? rawSourceType
+                    : undefined;
+            const layout: VideoFeatureLayout | undefined =
+                rawLayout === "videoLeft" || rawLayout === "videoRight"
+                    ? rawLayout
+                    : undefined;
 
             const isVideoRight = layout === "videoRight";
             const videoNode =

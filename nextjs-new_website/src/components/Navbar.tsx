@@ -8,6 +8,39 @@ import Image from "next/image";
 import { ArrowLeft, Menu, X, Search } from "lucide-react";
 import UpdatedSocialLinksContent from "./UpdatedSocialLinksContent";
 
+type InternalMenuLink = {
+  name: string;
+  href: Route;
+  disabled?: false;
+  external?: false;
+};
+
+type DisabledMenuLink = {
+  name: string;
+  href: string;
+  disabled: true;
+  external?: never;
+};
+
+type ExternalMenuLink = {
+  name: string;
+  href: `https://${string}`;
+  external: true;
+  disabled?: never;
+};
+
+type MenuLink = InternalMenuLink | DisabledMenuLink | ExternalMenuLink;
+
+type MenuItem =
+  | { label: string; links: MenuLink[]; href?: never; external?: never }
+  | { label: string; links?: never; href: Route; external?: false }
+  | {
+      label: string;
+      links?: never;
+      href: `https://${string}`;
+      external: true;
+    };
+
 const formatMenuLabel = (label: string) =>
   label
     .toLowerCase()
@@ -23,7 +56,7 @@ export default function Navbar() {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const ThinkRoundLogoPath = "/Think_Round_logo_NavBar.webp";
-  const menuItems = [
+  const menuItems: MenuItem[] = [
     {
       label: "ABOUT",
       links: [
@@ -53,7 +86,11 @@ export default function Navbar() {
         },
         { name: "CLASSES AT THINK ROUND", href: "/programs/classes" },
         { name: "FAMILY ARTS PROGRAM", href: "/programs/family_arts_program" },
-        { name: "MAGIC OF WHY", href: "https://www.magicofwhy.com" },
+        {
+          name: "MAGIC OF WHY",
+          href: "https://www.magicofwhy.com",
+          external: true,
+        },
         {
           name: "TURNING THE TIDE OF TRAUMA",
           href: "/programs/turning_the_tide_of_trauma",
@@ -236,12 +273,20 @@ export default function Navbar() {
                         {formatMenuLabel(menu.label)}
                         <span className="text-gray-600">{` >>`}</span>
                       </button>
+                    ) : menu.external ? (
+                      <a
+                        href={menu.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block font-bold text-white"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        {formatMenuLabel(menu.label)}
+                      </a>
                     ) : (
                       <Link
-                        href={menu.href! as Route}
-                        target={menu.external ? "_blank" : undefined}
-                        rel={menu.external ? "noopener noreferrer" : undefined}
-                        className="block font-bold text-white "
+                        href={menu.href}
+                        className="block font-bold text-white"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         {formatMenuLabel(menu.label)}
@@ -277,9 +322,22 @@ export default function Navbar() {
                           <span className="block text-gray-500 cursor-not-allowed">
                             {formatMenuLabel(link.name)}
                           </span>
+                        ) : link.external ? (
+                          <a
+                            href={link.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block font-bold text-black"
+                            onClick={() => {
+                              setIsMobileMenuOpen(false);
+                              setMobileSubmenu(null);
+                            }}
+                          >
+                            {formatMenuLabel(link.name)}
+                          </a>
                         ) : (
                           <Link
-                            href={link.href as Route}
+                            href={link.href}
                             className="block font-bold text-black "
                             onClick={() => {
                               setIsMobileMenuOpen(false);
@@ -356,11 +414,19 @@ export default function Navbar() {
                 >
                   {menu.label}
                 </button>
+              ) : menu.external ? (
+                <a
+                  href={menu.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setOpenMenu(null)}
+                  className="inline-flex items-center h-7 px-3 py-2 font-bold text-[#70169c] hover:text-[#FA7D00] whitespace-nowrap"
+                >
+                  {menu.label}
+                </a>
               ) : (
                 <Link
-                  href={menu.href! as Route}
-                  target={menu.external ? "_blank" : undefined}
-                  rel={menu.external ? "noopener noreferrer" : undefined}
+                  href={menu.href}
                   onClick={() => setOpenMenu(null)}
                   className={` inline-flex  items-center h-7 px-3 py-2 font-bold  text-[#70169c] hover:text-[#FA7D00] whitespace-nowrap `}
                 >
@@ -377,9 +443,19 @@ export default function Navbar() {
                           <span className="block px-4  whitespace-nowrap text-gray-500 cursor-not-allowed select-none">
                             {link.name}
                           </span>
+                        ) : link.external ? (
+                          <a
+                            href={link.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block px-4 text-black font-bold hover:text-[#FA7D00] whitespace-nowrap"
+                            onClick={() => setOpenMenu(null)}
+                          >
+                            {link.name}
+                          </a>
                         ) : (
                           <Link
-                            href={link.href as Route}
+                            href={link.href}
                             className={`block px-4  text-black font-bold hover:text-[#FA7D00]   whitespace-nowrap  `}
                             onClick={() => setOpenMenu(null)}
                           >
