@@ -1,0 +1,88 @@
+.floors {
+  padding-top: 82px;
+}
+
+/* 150px lavender disc with the purple stairs glyph, centred above the heading. */
+.badge {
+  display: grid;
+  place-items: center;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: var(--chf-lavender);
+  color: var(--chf-purple);
+}
+
+.cards {
+  display: grid;
+  gap: 25px;
+  margin: 66px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  padding: 48px;
+  border: 1px solid var(--chf-lavender);
+  border-radius: 16px;
+  background: #ffffff;
+}
+
+.cardIcon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: var(--chf-lavender);
+  color: var(--chf-purple);
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 25px;
+  line-height: 30px;
+  font-weight: 400;
+  color: var(--chf-heading);
+}
+
+@media (max-width: 1250px) {
+  .floors {
+    padding-top: 64px;
+  }
+
+  .cards {
+    margin-top: 48px;
+  }
+
+  .card {
+    padding: 32px;
+  }
+}
+
+@media (max-width: 767px) {
+  .floors {
+    padding-top: 48px;
+  }
+
+  .badge {
+    width: 96px;
+    height: 96px;
+  }
+
+  .cards {
+    margin-top: 32px;
+    gap: 16px;
+  }
+
+  .card {
+    padding: 24px;
+  }
+
+  .cardTitle {
+    font-size: 21px;
+    line-height: 26px;
+  }
+}

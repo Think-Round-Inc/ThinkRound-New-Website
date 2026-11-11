@@ -16,6 +16,7 @@ import videoBlock from './homepage/videoBlock'
 import videoFeatureBlock from './homepage/videoFeatureBlock'
 import buttonRow from './homepage/buttonRow'
 import paradiseProject from './paradiseProject'
+import centerForTheHumanFamily from './centerForHumanFamily'
 import painting from './painting'
 import {volunteerSubmission} from './volunteerSubmission'
 import {subscribeSubmission} from './subscribeSubmission'
@@ -46,6 +47,7 @@ export const schemaTypes = [
   videoFeatureBlock,
   buttonRow,
   paradiseProject,
+  centerForTheHumanFamily,
   painting,
   volunteerSubmission,
   subscribeSubmission,
