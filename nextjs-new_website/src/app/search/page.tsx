@@ -1,5 +1,6 @@
 // "use client";
 import Link from "next/link";
+import type { Route } from "next";
 import { client } from "@/sanity/client";
 import SearchBox from "./SearchBox";
 
@@ -15,7 +16,7 @@ interface SearchResult {
   id: string;
   label: string;
   sentence: string;
-  href: string;
+  href: Route;
 }
 
 const resultLabels: Record<string, string> = {
@@ -130,17 +131,17 @@ function highlightSearchTerm(sentence: string, term: string) {
   );
 }
 
-function getDocumentHref(document: SearchDocument) {
+function getDocumentHref(document: SearchDocument): Route {
   if (
     document._type === "blogs" &&
     document.slug?.current &&
     document.publishedAt
   ) {
     const [year, month, day] = document.publishedAt.split("-");
-    return `/blogs/${year}/${month}/${day}/${document.slug.current}`;
+    return `/blogs/${year}/${month}/${day}/${document.slug.current}` as Route;
   }
 
-  const routes: Record<string, string> = {
+  const routes: Record<string, Route> = {
     aboutUs: "/about/about_us",
     contactUs: "/about/contact_us",
     boardMember: "/about/our_board",

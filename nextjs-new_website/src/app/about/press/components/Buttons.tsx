@@ -1,12 +1,12 @@
 "use client";
 
 import clsx from "clsx";
-import Link from "next/link";
+import type { PressButtonVariant } from "@/types/common";
 
 interface ButtonProps {
     name: string;
     href: string;
-    variant: "solid" | "outline";
+    variant: PressButtonVariant;
 }
 
 export default function Buttons(props: ButtonProps) {
@@ -15,7 +15,7 @@ export default function Buttons(props: ButtonProps) {
     }
 
     return (
-        <Link
+        <a
             href={props.href}
             className={clsx(
                 "inline-flex min-h-11 items-center justify-center rounded-md px-6 py-3 text-sm font-semibold tracking-wide transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-800 sm:px-7",
@@ -25,6 +25,6 @@ export default function Buttons(props: ButtonProps) {
             )}
         >
             {props.name}
-        </Link>
+        </a>
     );
 }
