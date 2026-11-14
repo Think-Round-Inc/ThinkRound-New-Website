@@ -16,13 +16,8 @@ interface SearchResult {
   id: string;
   label: string;
   sentence: string;
-  href: Route | BlogRoute;
+  href: Route;
 }
-
-type BlogRoute = {
-  pathname: "/blogs/[year]/[month]/[day]/[slug]";
-  query: { year: string; month: string; day: string; slug: string };
-};
 
 const resultLabels: Record<string, string> = {
   aboutUs: "ABOUT US",
@@ -136,17 +131,14 @@ function highlightSearchTerm(sentence: string, term: string) {
   );
 }
 
-function getDocumentHref(document: SearchDocument): Route | BlogRoute {
+function getDocumentHref(document: SearchDocument): Route {
   if (
     document._type === "blogs" &&
     document.slug?.current &&
     document.publishedAt
   ) {
     const [year, month, day] = document.publishedAt.split("-");
-    return {
-      pathname: "/blogs/[year]/[month]/[day]/[slug]",
-      query: { year, month, day, slug: document.slug.current },
-    };
+    return `/blogs/${year}/${month}/${day}/${document.slug.current}` as Route;
   }
 
   const routes: Record<string, Route> = {
