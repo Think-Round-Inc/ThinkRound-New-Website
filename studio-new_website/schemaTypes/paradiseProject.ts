@@ -91,23 +91,6 @@ export default defineType({
         },
       ],
     }),
-    defineField({
-      name: 'viewAll',
-      title: 'View All Card',
-      type: 'object',
-      fields: [
-        defineField({
-          name: 'familyCount',
-          title: 'Total Number of Families',
-          type: 'number',
-        }),
-        defineField({
-          name: 'paintingCount',
-          title: 'Total Number of Paintings',
-          type: 'number',
-        }),
-      ],
-    }),
   ],
   preview: {
     select: {
