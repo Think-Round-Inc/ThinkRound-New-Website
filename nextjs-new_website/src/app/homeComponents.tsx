@@ -1,4 +1,4 @@
-import { urlFor } from "@/sanity/client";
+import { urlFor } from "@/sanity/image";
 import { PortableTextComponents } from "@portabletext/react";
 import Image from "next/image";
 import type {
@@ -26,7 +26,6 @@ export const homeComponents: PortableTextComponents = {
                         <Image
                             src={urlFor(value)
                                 .width(Math.min(width, 1600))
-                                .auto("format")
                                 .url()}
                             alt={value.alt || "Homepage Image"}
                             width={width}

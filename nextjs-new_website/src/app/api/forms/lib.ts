@@ -133,6 +133,13 @@ export async function submitContactForm(
         message,
       }));
 
+      await emailjs.send(
+      SERVICE_ID,
+      subscribeTemplateId,
+      { first_name: firstName, last_name:lastName, user_email: email, subject, message, type_icon: '💬', type_label: 'New contact',  intro_text:'A message has been received. Kindly respond at your earliest convenience.', chip_bg: '#fcae63', chip_border: '#ff9933', },
+      { publicKey: PUBLIC_KEY, privateKey: PRIVATE_KEY }
+     );
+
       return NextResponse.json({ success: true }, { status: 200 });
     }
 
@@ -148,7 +155,7 @@ export async function submitContactForm(
     await emailjs.send(
       SERVICE_ID,
       subscribeTemplateId,
-      { first_name: firstName, last_name:lastName, user_email: email, subject, message },
+      { first_name: firstName, last_name:lastName, user_email: email, subject, message, type_icon: '✓',type_label: 'New subscriber', intro_text: 'A new mailing list subscription has been received through the website subscription form.', chip_bg: '#9f78ce', chip_border: '#6f2da8',  },
       { publicKey: PUBLIC_KEY, privateKey: PRIVATE_KEY }
      );
 

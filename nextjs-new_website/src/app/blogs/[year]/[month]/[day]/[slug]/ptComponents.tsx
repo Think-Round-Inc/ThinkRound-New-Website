@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { urlFor } from "@/sanity/client";
+import { urlFor } from "@/sanity/image";
+import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 
 interface ImageValue {
   _type: string;
@@ -22,7 +23,7 @@ export const ptComponents = {
       return (
         <div className="mb-6 w-full flex justify-center">
           <Image
-            src={urlFor(value as unknown)
+            src={urlFor(value as SanityImageSource)
               .width(1200)
               .url()}
             alt={value.alt || "Blog content image"}

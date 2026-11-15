@@ -1,9 +1,11 @@
-import { client, urlFor } from "@/sanity/client";
+import { client } from "@/sanity/client";
+import { urlFor } from "@/sanity/image";
 import Link from "next/link";
 import { PortableText, PortableTextBlock } from "next-sanity";
 import ExhibitionGallery from "@/components/ExhibitionGallery";
 import ArtistCard from "@/components/ArtistCard";
 import type { Metadata } from "next";
+import { buildExhibitionGalleryImages } from "../../galleryImages";
 
 export const revalidate = 30;
 
@@ -92,7 +94,6 @@ export async function generateMetadata({
               url: urlFor(exhibition.coverImage)
                 .width(1200)
                 .height(630)
-                .auto("format")
                 .url(),
               width: 1200,
               height: 630,
@@ -231,35 +232,7 @@ export default async function CurrentExhibitionDetailPage({
             )}
           </header>
 
-          <ExhibitionGallery
-            images={[
-              {
-                src: urlFor(exhibition.coverImage).width(1200).auto("format").url(),
-                thumbSrc: urlFor(exhibition.coverImage)
-                  .width(160)
-                  .height(160)
-                  .auto("format")
-                  .url(),
-                blurDataURL: urlFor(exhibition.coverImage)
-                  .width(20)
-                  .blur(10)
-                  .url(),
-                alt:
-                  exhibition.coverImage.alt || `${exhibition.title} exhibition`,
-              },
-              ...(exhibition.artworkGallery || []).map((artwork, index) => ({
-                src: urlFor(artwork.image).width(1200).auto("format").url(),
-                thumbSrc: urlFor(artwork.image)
-                  .width(160)
-                  .height(160)
-                  .auto("format")
-                  .url(),
-                blurDataURL: urlFor(artwork.image).width(20).blur(10).url(),
-                alt: artwork.alt || artwork.caption || `Artwork ${index + 1}`,
-                caption: artwork.caption,
-              })),
-            ]}
-          />
+          <ExhibitionGallery images={buildExhibitionGalleryImages(exhibition)} />
 
           {exhibition.receptionInfo && (
             <div className="bg-gray-50 rounded-lg p-6 mb-12 border border-gray-200">

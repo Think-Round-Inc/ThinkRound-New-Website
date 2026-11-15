@@ -17,7 +17,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "ThinkRound",
-  description: "",
+  description:
+    "ThinkRound is a nonprofit organization supporting artists, arts education, and community programs.",
 };
 
 export default function RootLayout({
