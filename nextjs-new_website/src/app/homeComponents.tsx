@@ -1,6 +1,11 @@
 import { urlFor } from "@/sanity/image";
 import { PortableTextComponents } from "@portabletext/react";
 import Image from "next/image";
+import type {
+    HomeButtonVariant,
+    VideoFeatureLayout,
+    VideoSourceType,
+} from "@/types/common";
 
 export const homeComponents: PortableTextComponents = {
     types: {
@@ -103,7 +108,7 @@ export const homeComponents: PortableTextComponents = {
 
         videoFeatureBlock: ({ value }) => {
             const {
-                sourceType,
+                sourceType: rawSourceType,
                 videoUrl,
                 videoFile,
                 autoplay,
@@ -111,8 +116,17 @@ export const homeComponents: PortableTextComponents = {
                 muted,
                 headline,
                 description,
-                layout,
+                layout: rawLayout,
             } = value;
+
+            const sourceType: VideoSourceType | undefined =
+                rawSourceType === "url" || rawSourceType === "upload"
+                    ? rawSourceType
+                    : undefined;
+            const layout: VideoFeatureLayout | undefined =
+                rawLayout === "videoLeft" || rawLayout === "videoRight"
+                    ? rawLayout
+                    : undefined;
 
             const isVideoRight = layout === "videoRight";
             const videoNode =
@@ -176,7 +190,7 @@ export const homeComponents: PortableTextComponents = {
 
             if (buttons.length === 0) return null;
 
-            const getVariantClass = (variant?: string) => {
+            const getVariantClass = (variant?: HomeButtonVariant) => {
                 if (variant === "secondary") {
                     return "border-2 border-[#6f3ca8] text-[#6f3ca8] hover:bg-[#f5f0fb]";
                 }
@@ -204,7 +218,7 @@ export const homeComponents: PortableTextComponents = {
                                         ? "noopener noreferrer"
                                         : undefined
                                 }
-                                className={`${baseStyle} ${getVariantClass(button?.variant as string | undefined)}`}
+                                className={`${baseStyle} ${getVariantClass(button?.variant as HomeButtonVariant | undefined)}`}
                             >
                                 {button?.label as React.ReactNode}
                             </a>
