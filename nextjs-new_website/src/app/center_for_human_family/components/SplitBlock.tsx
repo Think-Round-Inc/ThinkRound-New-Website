@@ -1,14 +1,8 @@
 import type { CSSProperties } from "react";
 
 import Placeholder from "./Placeholder";
-
-export interface SplitBlockData {
-  readonly imageSide: string;
-  readonly imageLabel: string;
-  readonly imageRatio?: string;
-  readonly caption?: string;
-  readonly paragraphs: readonly string[];
-}
+import RichText from "./RichText";
+import type { SplitBlockData } from "../types";
 
 /** Gap between the image and the text in every split block, from the Figma. */
 const GAP = 84;
@@ -21,12 +15,12 @@ const CONTENT = 1224;
  */
 export default function SplitBlock({
   imageSide,
-  imageLabel,
+  image,
   imageRatio = "458 / 234",
-  imageSrc,
   caption,
-  paragraphs,
-}: SplitBlockData & { imageSrc?: string }) {
+  statement,
+  body,
+}: SplitBlockData) {
   const imageWidth = Number.parseInt(imageRatio, 10);
   const textWidth = CONTENT - GAP - imageWidth;
   const imageFirst = imageSide === "left";
@@ -42,14 +36,17 @@ export default function SplitBlock({
       data-mobile="image-first"
       style={{ "--chf-split-cols": columns } as CSSProperties}
     >
-      <div className="min-w-0 [&>p]:mb-[16px] [&>p:last-child]:mb-0">
-        {paragraphs.map((paragraph) => (
-          <p key={paragraph}>{paragraph}</p>
-        ))}
+      <div className="min-w-0">
+        <RichText value={body} />
+        {statement ? (
+          <p className="mt-[16px] mb-0 text-[26px] leading-[34px]">
+            {statement}
+          </p>
+        ) : null}
       </div>
 
       <figure className="m-0 min-w-0">
-        <Placeholder ratio={imageRatio} label={imageLabel} src={imageSrc} />
+        <Placeholder ratio={imageRatio} {...image} />
         {caption ? (
           <figcaption className="mt-[10px] text-[14px] leading-[19px]">
             {caption}

@@ -1,15 +1,9 @@
 import Link from "next/link";
+import type { Route } from "next";
 
 import Placeholder from "./Placeholder";
-
-interface SupportProps {
-  title: string;
-  heading: string;
-  paragraphs: readonly string[];
-  ctaLabel: string;
-  ctaHref: string;
-  imageSrc?: string;
-}
+import RichText from "./RichText";
+import type { ChfContent } from "../types";
 
 /**
  * The closing white section. Its top edge is the same dome as the lavender
@@ -18,11 +12,11 @@ interface SupportProps {
 export default function Support({
   title,
   heading,
-  paragraphs,
+  body,
   ctaLabel,
   ctaHref,
-  imageSrc,
-}: SupportProps) {
+  image,
+}: ChfContent["support"]) {
   return (
     <section
       className="chf-dome bg-white pb-[120px] max-[767px]:pb-[72px]"
@@ -41,24 +35,18 @@ export default function Support({
             >
               {heading}
             </h2>
-            {paragraphs.map((paragraph) => (
-              <p className="mt-0 mb-[16px]" key={paragraph}>
-                {paragraph}
-              </p>
-            ))}
-            <Link
-              className="mt-[32px] flex h-[55px] w-[175px] items-center justify-center rounded-[10px] bg-[var(--chf-purple)] text-[16px] leading-none text-white no-underline transition-colors duration-150 hover:bg-[var(--chf-purple-dark)] focus-visible:outline-[3px] focus-visible:outline-offset-[5px] focus-visible:outline-[var(--chf-purple)]"
-              href={ctaHref}
-            >
-              {ctaLabel}
-            </Link>
+            <RichText value={body} />
+            {ctaHref && ctaLabel ? (
+              <Link
+                className="mt-[32px] flex h-[55px] w-[175px] items-center justify-center rounded-[10px] bg-[var(--chf-purple)] text-[16px] leading-none text-white no-underline transition-colors duration-150 hover:bg-[var(--chf-purple-dark)] focus-visible:outline-[3px] focus-visible:outline-offset-[5px] focus-visible:outline-[var(--chf-purple)]"
+                href={ctaHref as Route}
+              >
+                {ctaLabel}
+              </Link>
+            ) : null}
           </div>
 
-          <Placeholder
-            ratio="458 / 492"
-            label="supporters at The Center"
-            src={imageSrc}
-          />
+          <Placeholder ratio="458 / 492" {...image} />
         </div>
       </div>
     </section>

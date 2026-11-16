@@ -118,7 +118,7 @@ export default defineType({
       ],
     }),
 
-     /*"The Floors" Content Area*/
+    /*"The Floors" Content Area*/
     defineField({
       name: 'floorsHeading',
       title: 'Floors — Heading',
@@ -219,6 +219,20 @@ export default defineType({
           type: 'object',
           fields: [
             defineField({
+              name: 'kind',
+              title: 'Section Subject',
+              type: 'string',
+              description:
+                'Keeps the section artwork and layout associated when reordered. Leave unset for legacy content.',
+              options: {
+                list: [
+                  {title: 'Holographic Earth', value: 'earth'},
+                  {title: 'Portrait Armatures', value: 'armatures'},
+                  {title: 'Stained-glass Ceiling', value: 'ceiling'},
+                ],
+              },
+            }),
+            defineField({
               name: 'body',
               title: 'Body',
               type: 'array',
@@ -249,6 +263,58 @@ export default defineType({
               }
             },
           },
+        },
+      ],
+    }),
+    /*Culinary content added for the rebuilt overview page. Existing fields stay intact.*/
+    defineField({
+      name: 'culinaryFeature',
+      title: 'Culinary — Feature Image and Quote',
+      type: 'object',
+      fields: [
+        defineField({
+          name: 'image',
+          title: 'Portrait Exhibition Image',
+          type: 'image',
+          options: {hotspot: true},
+          fields: [defineField({name: 'alt', title: 'Alternative Text', type: 'string'})],
+        }),
+        defineField({name: 'caption', title: 'Caption', type: 'text'}),
+        defineField({name: 'quote', title: 'Pull Quote', type: 'text'}),
+      ],
+    }),
+    defineField({
+      name: 'culinarySections',
+      title: 'Culinary — Sections',
+      type: 'array',
+      of: [
+        {
+          name: 'culinarySection',
+          title: 'Culinary Section',
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'kind',
+              title: 'Section Subject',
+              type: 'string',
+              options: {
+                list: [
+                  {title: 'Kitchens', value: 'kitchens'},
+                  {title: 'Balcony', value: 'balcony'},
+                ],
+              },
+            }),
+            defineField({name: 'body', title: 'Body', type: 'array', of: [{type: 'block'}]}),
+            defineField({
+              name: 'image',
+              title: 'Image',
+              type: 'image',
+              options: {hotspot: true},
+              fields: [defineField({name: 'alt', title: 'Alternative Text', type: 'string'})],
+            }),
+            defineField({name: 'caption', title: 'Caption', type: 'text'}),
+          ],
+          preview: {select: {title: 'kind', subtitle: 'caption', media: 'image'}},
         },
       ],
     }),

@@ -6,7 +6,7 @@ interface PlaceholderProps {
   /** Describes the picture: used as alt text, or as the placeholder's label. */
   label: string;
   /**
-   * Path to the exported image under /public. Leave it out and a grey box is
+   * Local artwork path or a URL resolved with the Sanity image helper. A grey box is
    * drawn instead, so the layout is right before the artwork exists.
    */
   src?: string;

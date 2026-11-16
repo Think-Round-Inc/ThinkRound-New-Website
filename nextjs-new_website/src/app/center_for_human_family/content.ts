@@ -1,9 +1,8 @@
 /**
  * All copy for the Center for the Human Family page.
  *
- * Kept in one place so the components stay purely presentational. When this
- * page is wired up to Sanity, this file is what gets replaced by the query
- * result — the components take the same shapes as props either way.
+ * Fallback copy and artwork for missing or partially populated Sanity content.
+ * Keep these defaults in one place; data.ts adapts them to the component props.
  */
 
 export const hero = {
@@ -177,9 +176,12 @@ export const culinary = {
   ],
 } as const;
 
+const contactEmail = "info@thinkround.org";
+
 export const closingNote = {
+  contactEmail,
   lines: [
-    "Imagine with us all that The Center for the Human Family can become. Email your ideas and dreams to info@thinkround.org!",
+    `Imagine with us all that The Center for the Human Family can become. Email your ideas and dreams to ${contactEmail}!`,
     "For more information, please follow us on our social media outlets listed below!",
   ],
   socialLabels: ["Facebook", "X", "Instagram", "YouTube"],

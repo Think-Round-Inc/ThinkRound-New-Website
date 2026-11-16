@@ -11,21 +11,7 @@ import SplitSection from "./components/SplitSection";
 import Support from "./components/Support";
 import VideoSection from "./components/VideoSection";
 import WhatWeDo from "./components/WhatWeDo";
-import {
-  about,
-  artists,
-  closingNote,
-  culinary,
-  floors,
-  gallery,
-  hero,
-  images,
-  paradise,
-  story,
-  support,
-  video,
-  whatWeDo,
-} from "./content";
+import { getChfContent } from "./sanity";
 import "./chf.css";
 
 const lato = Lato({
@@ -41,7 +27,21 @@ export const metadata: Metadata = {
     "Discover Think Round’s vision for the Center for the Human Family. Earth is home. Humans are family.",
 };
 
-export default function CenterForHumanFamilyPage() {
+export default async function CenterForHumanFamilyPage() {
+  const {
+    hero,
+    story,
+    video,
+    about,
+    floors,
+    artists,
+    whatWeDo,
+    paradise,
+    culinary,
+    closingNote,
+    support,
+  } = await getChfContent();
+
   return (
     <article className={`chf-page ${lato.variable}`}>
       <Hero {...hero} />
@@ -50,12 +50,11 @@ export default function CenterForHumanFamilyPage() {
       <SplitSection
         id="chf-story"
         heading={story.heading}
-        paragraphGroups={story.paragraphs.map((paragraph) => [paragraph])}
+        body={story.body}
         groupGap={16}
         imageSide="right"
         imageRatio="458 / 401"
-        imageLabel="rendering of The Center"
-        imageSrc={images.story || undefined}
+        image={story.image}
         columns="minmax(0, 675fr) minmax(0, 456fr)"
         gap={93}
         paddingTop={159}
@@ -68,11 +67,10 @@ export default function CenterForHumanFamilyPage() {
       <SplitSection
         id="chf-about"
         heading={about.heading}
-        paragraphGroups={about.paragraphGroups}
+        body={about.body}
         imageSide="left"
         imageRatio="456 / 692"
-        imageLabel="interior rendering of The Center"
-        imageSrc={images.about || undefined}
+        image={about.image}
         columns="minmax(0, 456fr) minmax(0, 687fr)"
         gap={81}
         paddingTop={81}
@@ -80,16 +78,15 @@ export default function CenterForHumanFamilyPage() {
         paddingTopSm={48}
       />
 
-      <Floors {...floors} gallery={gallery} gallerySrcs={images.gallery} />
+      <Floors {...floors} />
 
       <SplitSection
         id="chf-artists"
         heading={artists.heading}
-        paragraphGroups={artists.paragraphGroups}
+        body={artists.body}
         imageSide="right"
         imageRatio="456 / 488"
-        imageLabel="gallery space for Bay Area artists"
-        imageSrc={images.artists || undefined}
+        image={artists.image}
         columns="minmax(0, 687fr) minmax(0, 456fr)"
         gap={81}
         paddingTop={122}
@@ -101,24 +98,12 @@ export default function CenterForHumanFamilyPage() {
       <WhatWeDo {...whatWeDo} />
 
       <LavenderBand>
-        <ParadiseProject
-          {...paradise}
-          heroSrc={images.paradiseDome || undefined}
-          blockSrcs={[
-            images.paradiseHolographicEarth,
-            images.paradiseArmatures,
-            images.paradiseStainedGlassCeiling,
-          ]}
-        />
-        <Culinary
-          {...culinary}
-          featureSrc={images.visitorsAndPortraits || undefined}
-          blockSrcs={[images.culinaryKitchens, images.balcony]}
-        />
+        <ParadiseProject {...paradise} />
+        <Culinary {...culinary} />
         <ClosingNote {...closingNote} />
       </LavenderBand>
 
-      <Support {...support} imageSrc={images.support || undefined} />
+      <Support {...support} />
     </article>
   );
 }

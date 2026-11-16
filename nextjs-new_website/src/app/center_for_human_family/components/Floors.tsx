@@ -1,12 +1,6 @@
 import Placeholder from "./Placeholder";
 import styles from "./Floors.module.css";
-
-interface FloorsProps {
-  gallery: { readonly label: string; readonly items: readonly string[] };
-  gallerySrcs?: readonly string[];
-  heading: string;
-  items: readonly { readonly title: string; readonly body: string }[];
-}
+import type { ChfContent } from "../types";
 
 /** The three-step glyph on the floors badge and on each floor card. */
 function StairsIcon({ className }: { className?: string }) {
@@ -24,10 +18,9 @@ function StairsIcon({ className }: { className?: string }) {
 
 export default function Floors({
   gallery,
-  gallerySrcs,
   heading,
   items,
-}: FloorsProps) {
+}: ChfContent["floors"]) {
   return (
     <>
       {/* Four tall tiles, inset from the content edges. */}
@@ -36,13 +29,13 @@ export default function Floors({
         aria-label={gallery.label}
       >
         <ul className="m-0 grid list-none grid-cols-[repeat(4,236px)] justify-center gap-[72px] p-0 max-[1250px]:grid-cols-[repeat(4,minmax(0,1fr))] max-[1250px]:gap-[24px] max-[767px]:grid-cols-[repeat(2,minmax(0,1fr))] max-[767px]:gap-[16px]">
-          {gallery.items.map((item, index) => (
-            <li key={item}>
+          {gallery.items.map((item) => (
+            <li key={item._key}>
               <Placeholder
                 ratio="236 / 420"
-                label={item}
+                label={item.label}
                 radius={16}
-                src={gallerySrcs?.[index] || undefined}
+                src={item.src}
                 sizes="(max-width: 767px) 50vw, 236px"
               />
             </li>
@@ -72,7 +65,7 @@ export default function Floors({
 
         <ul className={styles.cards}>
           {items.map((floor) => (
-            <li className={styles.card} key={floor.title}>
+            <li className={styles.card} key={floor._key}>
               <div className="flex items-center gap-[11px]">
                 <span className={styles.cardIcon} aria-hidden="true">
                   <StairsIcon className="size-[21px]" />

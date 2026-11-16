@@ -3,11 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import styles from "./WhatWeDo.module.css";
-
-interface WhatWeDoProps {
-  heading: string;
-  cards: readonly { readonly title: string; readonly body: string }[];
-}
+import type { ChfContent } from "../types";
 
 /**
  * The three "what we do" cards.
@@ -15,7 +11,7 @@ interface WhatWeDoProps {
  * All three fit at desktop width, so the arrows are disabled there. They come
  * into play on narrower screens, where the track scrolls one card at a time.
  */
-export default function WhatWeDo({ heading, cards }: WhatWeDoProps) {
+export default function WhatWeDo({ heading, cards }: ChfContent["whatWeDo"]) {
   const trackRef = useRef<HTMLUListElement>(null);
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(true);
@@ -32,7 +28,7 @@ export default function WhatWeDo({ heading, cards }: WhatWeDoProps) {
     syncArrows();
     window.addEventListener("resize", syncArrows);
     return () => window.removeEventListener("resize", syncArrows);
-  }, [syncArrows]);
+  }, [syncArrows, cards]);
 
   /** Advance by a full set of visible cards, as the design's two states do. */
   const scrollByPage = (direction: 1 | -1) => {
@@ -73,7 +69,7 @@ export default function WhatWeDo({ heading, cards }: WhatWeDoProps) {
 
         <ul className={styles.track} ref={trackRef} onScroll={syncArrows}>
           {cards.map((card) => (
-            <li className={styles.card} key={card.title}>
+            <li className={styles.card} key={card._key}>
               <span className={styles.cardIcon} aria-hidden="true" />
               <h3 className={styles.cardTitle}>{card.title}</h3>
               <p className={styles.cardBody}>{card.body}</p>

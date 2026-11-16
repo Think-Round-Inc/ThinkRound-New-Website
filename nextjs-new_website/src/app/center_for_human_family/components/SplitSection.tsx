@@ -1,16 +1,16 @@
 import type { CSSProperties } from "react";
 
 import Placeholder from "./Placeholder";
+import RichText from "./RichText";
+import type { BodyContent, ImageData } from "../types";
 
 export interface SplitSectionProps {
   id: string;
   heading: string;
-  /** Paragraphs inside a group run together; groups are separated by a gap. */
-  paragraphGroups: readonly (readonly string[])[];
+  body: BodyContent;
   imageSide: "left" | "right";
   imageRatio: string;
-  imageLabel: string;
-  imageSrc?: string;
+  image: ImageData;
   /** Figma measurements for this section, at 1440px. */
   columns: string;
   gap: number;
@@ -32,11 +32,10 @@ export interface SplitSectionProps {
 export default function SplitSection({
   id,
   heading,
-  paragraphGroups,
+  body,
   imageSide,
   imageRatio,
-  imageLabel,
-  imageSrc,
+  image,
   columns,
   gap,
   paddingTop,
@@ -68,16 +67,10 @@ export default function SplitSection({
         <h2 className="chf-heading" id={id}>
           {heading}
         </h2>
-        {paragraphGroups.map((group) => (
-          <div className="chf-split-group" key={group[0]}>
-            {group.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-          </div>
-        ))}
+        <RichText value={body} groupGap={groupGap ?? 8} />
       </div>
 
-      <Placeholder ratio={imageRatio} label={imageLabel} src={imageSrc} />
+      <Placeholder ratio={imageRatio} {...image} />
     </section>
   );
 }
