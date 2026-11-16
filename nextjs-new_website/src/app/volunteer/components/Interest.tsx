@@ -13,8 +13,9 @@ export default function Interest({ value, onChange, error }: Props) {
 
   return (
     <div>
-      <label className="block font-medium">Interest *</label>
+      <label htmlFor="interest" className="block font-medium">Interest *</label>
       <select
+        id="interest"
         name="interest"
         value={value}
         onChange={handleChange}
