@@ -1,5 +1,6 @@
 import UpdatedSocialLinks from "@/components/UpdatedSocialLinks";
-import { client, urlFor } from "@/sanity/client";
+import { client } from "@/sanity/client";
+import { urlFor } from "@/sanity/image";
 import {
     PortableText,
     PortableTextBlock,
@@ -8,6 +9,7 @@ import {
 import { League_Spartan } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
+import type { Route } from "next";
 
 const leagueSpartan = League_Spartan({
     subsets: ["latin"],
@@ -166,7 +168,6 @@ export default async function TtoTPage() {
               <Image
                 src={urlFor(ttot.mainImage)
                   .width(1600)
-                  .auto("format")
                   .url()}
                 alt={ttot.title}
                 width={1600}
@@ -263,7 +264,7 @@ export default async function TtoTPage() {
             {ttot.links.map((link) => (
               <Link
                 key={link._key ?? link.linkname}
-                href={link.linkurl ?? "#"}
+                href={(link.linkurl ?? "#") as Route}
                 target={
                   link.linkurl?.startsWith("http")
                     ? "_blank"

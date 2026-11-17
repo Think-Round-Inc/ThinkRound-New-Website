@@ -1,6 +1,6 @@
-import { client, urlFor } from "@/sanity/client";
+import { client } from "@/sanity/client";
+import { urlFor } from "@/sanity/image";
 import Image from "next/image";
-import Link from "next/link";
 
 interface AboutUs {
     _id: string;
@@ -121,7 +121,7 @@ export default async function AboutUsPage() {
                         </h2>
                         <div className='w-full flex justify-center'>
                             {cPartners.map((partner) => (
-                                <Link
+                                <a
                                     key={partner._id}
                                     href={partner.hyperlink || "#"}
                                     target='_blank'
@@ -130,7 +130,6 @@ export default async function AboutUsPage() {
                                         <Image
                                             src={urlFor(partner.logo)
                                                 .width(1600)
-                                                .auto("format")
                                                 .url()}
                                             alt='Current Partners'
                                             width={2000}
@@ -139,7 +138,7 @@ export default async function AboutUsPage() {
                                             sizes='(max-width: 768px) 100vw, 1200px'
                                         />
                                     </div>
-                                </Link>
+                                </a>
                             ))}
                         </div>
                     </div>

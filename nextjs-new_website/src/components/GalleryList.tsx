@@ -1,14 +1,7 @@
 import Link from "next/link";
 import { SanityDocument } from "next-sanity";
 import Image from "next/image";
-import imageUrlBuilder from '@sanity/image-url';
-import { client } from "@/sanity/client";
-
-const builder = imageUrlBuilder(client);
-
-function urlFor(source: unknown) {
-  return builder.image(source as Record<string, unknown>);
-}
+import { urlFor } from "@/sanity/image";
 
 interface GalleryListProps {
   galleries: SanityDocument[];

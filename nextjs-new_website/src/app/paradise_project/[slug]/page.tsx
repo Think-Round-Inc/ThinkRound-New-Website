@@ -1,4 +1,5 @@
-import { client, urlFor } from "@/sanity/client";
+import { client } from "@/sanity/client";
+import { urlFor } from "@/sanity/image";
 import { notFound } from "next/navigation";
 import CommunityGallery from "./CommunityGallery";
 
@@ -53,15 +54,13 @@ export default async function CommunityPage({
   ]);
 
   const paintings = (rawPaintings ?? []).map((painting: RawPainting) => ({    ...painting,
-    imageUrl: urlFor(painting.image).url(),
+    imageUrl: urlFor(painting.image).width(2400).url(),
     displayImageUrl: urlFor(painting.image)
       .width(1200)
-      .auto("format")
       .url(),
     thumbnailUrl: urlFor(painting.image)
       .width(400)
       .height(400)
-      .auto("format")
       .url(),
   }));
 

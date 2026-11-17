@@ -1,5 +1,6 @@
 import UpdatedSocialLinks from "@/components/UpdatedSocialLinks";
 import { client } from "@/sanity/client";
+import { urlFor } from "@/sanity/image";
 import { League_Spartan } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,11 +14,7 @@ export const revalidate = 30; // ISR: revalidate every 30s
 async function getDonatePage() {
     const query = `*[_type == "donatePage"][0]{
     title,
-    Image{
-      asset->{
-        url
-      }
-    },
+    Image,
     ButtonText,
     introText,
     supportingContent,
@@ -51,10 +48,13 @@ export default async function DonatePage() {
                 className=' flex flex-col max-w-7xl mx-auto  space-y-10 text-center'
                 style={{ fontFamily: leagueSpartan.style.fontFamily }}
             >
-                {data.Image?.asset?.url && (
+                {data.Image?.asset?._ref && (
                     <section className='  w-5/6 h-5/6 mx-auto'>
                         <Image
-                            src={data.Image.asset.url}
+                            src={urlFor(data.Image)
+                                .width(1137)
+                                .height(786)
+                                .url()}
                             alt={data.title || "Donate image"}
                             width={1137}
                             height={786}

@@ -1,18 +1,11 @@
 import Image from "next/image";
 import { PortableText, type SanityDocument } from "next-sanity";
-import imageUrlBuilder from "@sanity/image-url";
-import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import { client } from "@/sanity/client";
+import { urlFor } from "@/sanity/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 const POST_QUERY = `*[_type == "post" && slug.current == $slug][0]`;
-
-const { projectId, dataset } = client.config();
-const urlFor = (source: SanityImageSource) =>
-  projectId && dataset
-    ? imageUrlBuilder({ projectId, dataset }).image(source)
-    : null;
 
 const options = { next: { revalidate: 30 } };
 
@@ -57,7 +50,7 @@ export default async function PostPage({
   }
 
   const postImageUrl = post?.image
-    ? urlFor(post.image)?.width(550).height(310).url()
+    ? urlFor(post.image).width(550).height(310).url()
     : null;
 
   return (
