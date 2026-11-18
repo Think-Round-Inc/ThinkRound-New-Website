@@ -1,6 +1,7 @@
 import { client } from "@/sanity/client";
 import { PortableText, PortableTextBlock } from "@portabletext/react";
 import { ptComponents } from "./ptComponents";
+import { notFound } from "next/navigation";
 
 interface Blog {
     title: string;
@@ -39,12 +40,7 @@ export default async function BlogPostPage({
 
     const blog = await getBlog({ date: formattedDate, slug });
 
-    if (!blog)
-        return (
-            <div className='bg-white min-h-screen p-20 text-center'>
-                Post not found.
-            </div>
-        );
+    if (!blog) notFound();
 
     return (
         <article className='min-h-screen bg-white py-24 px-6 md:px-12 w-full'>
