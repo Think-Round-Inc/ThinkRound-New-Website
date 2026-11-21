@@ -29,6 +29,7 @@ const groupedDocumentTypes = [
   'virtualExhibitions3D',
 
   // Center for the Human Family
+  'centerForTheHumanFamily',
   'paradiseProject',
 
   // Blogs
@@ -92,6 +93,7 @@ export const structure: StructureResolver = (S) => {
     ]),
 
     folder('Center for the Human Family', [
+      documentListItem('centerForTheHumanFamily', 'Overview Page'),
       documentListItem('paradiseProject', 'Paradise Project'),
     ]),
 

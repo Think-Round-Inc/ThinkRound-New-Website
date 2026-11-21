@@ -1,1 +1,8 @@
 node_modules
+
+# Local macOS and SonarScanner files
+.DS_Store
+.scannerwork/
+
+# npm projects keep their lockfiles inside the frontend and Studio directories
+/package-lock.json
