@@ -1,5 +1,3 @@
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
 import { client } from "@/sanity/client";
 import { urlFor } from "@/sanity/image";
 import type { Metadata } from "next";
@@ -68,21 +66,17 @@ export default async function PastExhibitionsPage() {
     const exhibitions = await getExhibitions();
 
     if (!exhibitions || exhibitions.length === 0) {
-        return (
-            <>
-                <main className='min-h-screen  p-8 flex justify-center items-center'>
-                    <h1 className='text-4xl font-bold'>
-                        No past exhibitions found.
-                    </h1>
-                </main>
-                <Footer />
-            </>
-        );
-    }
+    return (
+        <main className="min-h-screen p-8 flex justify-center items-center">
+            <h1 className="text-4xl font-bold">
+                No past exhibitions found.
+            </h1>
+        </main>
+    );
+}
 
     return (
         <>
-            <Navbar />
             <main className='min-h-screen bg-white px-6 py-16'>
                 <div className='max-w-[1400px] mx-auto'>
                     {/* Page Title */}
@@ -146,7 +140,6 @@ export default async function PastExhibitionsPage() {
                     </div>
                 </div>
             </main>
-            <Footer />
         </>
     );
 }

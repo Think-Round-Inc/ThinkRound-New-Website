@@ -16,7 +16,7 @@ export default function Modal({
       <div
         role="dialog"
         aria-modal="true"
-        aria-labelledby="modal-title"
+        aria-labelledby="error-modal-title"
         className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl"
       >
         <h2

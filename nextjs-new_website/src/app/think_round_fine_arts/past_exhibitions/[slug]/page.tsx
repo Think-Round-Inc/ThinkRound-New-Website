@@ -5,7 +5,6 @@ import { PortableText, PortableTextBlock } from "next-sanity";
 import ExhibitionGallery from "@/components/ExhibitionGallery";
 import ArtistCard from "@/components/ArtistCard";
 import type { Metadata } from "next";
-import Footer from "@/components/Footer";
 import { buildExhibitionGalleryImages } from "../../galleryImages";
 export const revalidate = 30;
 
@@ -202,7 +201,6 @@ export default async function PastExhibitionDetailPage({
             Back to Past Exhibitions
           </Link>
         </main>
-        <Footer />
       </>
     );
   }
