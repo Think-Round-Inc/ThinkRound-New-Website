@@ -5,7 +5,13 @@ import type { Route } from "next";
 import { useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { ArrowLeft, Menu, X, Search } from "lucide-react";
+import {
+  ArrowLeft,
+  ChevronRight,
+  Menu,
+  Search,
+  X,
+} from "lucide-react";
 import UpdatedSocialLinksContent from "./UpdatedSocialLinksContent";
 
 type InternalMenuLink = {
@@ -13,6 +19,7 @@ type InternalMenuLink = {
   href: Route;
   disabled?: false;
   external?: false;
+  links?: never;
 };
 
 type DisabledMenuLink = {
@@ -20,6 +27,7 @@ type DisabledMenuLink = {
   href: string;
   disabled: true;
   external?: never;
+  links?: never;
 };
 
 type ExternalMenuLink = {
@@ -27,9 +35,22 @@ type ExternalMenuLink = {
   href: `https://${string}`;
   external: true;
   disabled?: never;
+  links?: never;
 };
 
-type MenuLink = InternalMenuLink | DisabledMenuLink | ExternalMenuLink;
+type NestedMenuLink = {
+  name: string;
+  links: MenuLink[];
+  href?: never;
+  disabled?: never;
+  external?: never;
+};
+
+type MenuLink =
+  | InternalMenuLink
+  | DisabledMenuLink
+  | ExternalMenuLink
+  | NestedMenuLink;
 
 type MenuItem =
   | { label: string; links: MenuLink[]; href?: never; external?: never }
@@ -51,7 +72,7 @@ export default function Navbar() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [isMediumScreen, setIsMediumScreen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [mobileSubmenu, setMobileSubmenu] = useState<string | null>(null);
+  const [mobileMenuPath, setMobileMenuPath] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -123,55 +144,65 @@ export default function Navbar() {
       links: [
         {
           name: "EXTERIOR",
-          href: "/center_for_human_family/exterior",
-          disabled: true,
-        },
-        {
-          name: "SUSTAINABLE LIVING - LEARNING CENTERS",
-          href: "/center_for_human_family/sustainable-living-learning-centers",
-          disabled: true,
+          links: [
+            {
+              name: "SUSTAINABLE LIVING - LEARNING CENTERS",
+              href: "/center_for_human_family/sustainable-living-learning-centers",
+              disabled: true,
+            },
+          ],
         },
         {
           name: "1ST FLOOR",
-          href: "/center_for_human_family/1st-floor",
-          disabled: true,
-        },
-        {
-          name: "LOBBY - STREAM OF CONSCIOUSNESS",
-          href: "/center_for_human_family/lobby-stream-of-consciousness",
-          disabled: true,
-        },
-        {
-          name: "AQUAPONICS & FISH FARMS",
-          href: "/center_for_human_family/aquaponics-fish-farms",
-          disabled: true,
-        },
-        {
-          name: "RESTAURANT / CAFE / CULINARY ACADEMY",
-          href: "/center_for_human_family/restaurant-cafe-culinary-academy",
-          disabled: true,
+          links: [
+            {
+              name: "LOBBY - STREAM OF CONSCIOUSNESS",
+              href: "/center_for_human_family/lobby-stream-of-consciousness",
+              disabled: true,
+            },
+            {
+              name: "AQUAPONICS & FISH FARMS",
+              href: "/center_for_human_family/aquaponics-fish-farms",
+              disabled: true,
+            },
+            {
+              name: "RESTAURANT / CAFE / CULINARY ACADEMY",
+              href: "/center_for_human_family/restaurant-cafe-culinary-academy",
+              disabled: true,
+            },
+          ],
         },
         {
           name: "2ND FLOOR",
-          href: "/center_for_human_family/2nd-floor",
-          disabled: true,
-        },
-        {
-          name: "HEALING ROOMS",
-          href: "/center_for_human_family/healing-rooms",
-          disabled: true,
-        },
-        {
-          name: "AIR, WATER, SOIL EXHIBIT",
-          href: "/center_for_human_family/air-water-soil-exhibit",
-          disabled: true,
+          links: [
+            {
+              name: "HEALING ROOMS",
+              href: "/center_for_human_family/healing-rooms",
+              disabled: true,
+            },
+            {
+              name: "AIR, WATER, SOIL EXHIBIT",
+              href: "/center_for_human_family/air-water-soil-exhibit",
+              disabled: true,
+            },
+          ],
         },
         {
           name: "3RD FLOOR",
-          href: "/center_for_human_family/3rd-floor",
-          disabled: true,
+          links: [
+            {
+              name: "PARADISE PROJECT",
+              links: [
+                {
+                  name: "3D WALKTHROUGH",
+                  href: "https://thinkroundinc123-wq.itch.io/paradise",
+                  external: true,
+                },
+                { name: "VIVID CULTURES", href: "/paradise_project" },
+              ],
+            },
+          ],
         },
-        { name: "PARADISE PROJECT", href: "/paradise_project" },
       ],
     },
 
@@ -194,6 +225,80 @@ export default function Navbar() {
       setOpenMenu(null);
     }, 150);
   };
+
+  const getMobileMenuLinks = (path: string[]) => {
+    let links = menuItems.find((menu) => menu.label === path[0])?.links;
+
+    for (const name of path.slice(1)) {
+      links = links?.find((link) => link.name === name)?.links;
+    }
+
+    return links;
+  };
+
+  const renderDesktopLinks = (links: MenuLink[], parentPath: string) => (
+    <ul className="flex flex-col bg-white shadow-md">
+      {links.map((link) => {
+        const path = `${parentPath}/${link.name}`;
+        const isExpanded =
+          openMenu === path || openMenu?.startsWith(`${path}/`);
+
+        return (
+          <li
+            key={link.name}
+            className="relative"
+            onMouseEnter={
+              link.links ? () => handleMouseEnter(path) : undefined
+            }
+          >
+            {link.links ? (
+              <>
+                <button
+                  type="button"
+                  className={`flex w-full cursor-pointer items-center justify-between gap-4 px-4 py-2 text-left font-bold text-black hover:text-[#FA7D00] whitespace-nowrap ${
+                    isExpanded ? "text-[#FA7D00]" : ""
+                  }`}
+                  onClick={() => setOpenMenu(path)}
+                  aria-haspopup="true"
+                  aria-expanded={isExpanded}
+                >
+                  {link.name}
+                  <ChevronRight size={16} aria-hidden="true" />
+                </button>
+                {isExpanded && (
+                  <div className="absolute left-full top-0 z-10 pl-1">
+                    {renderDesktopLinks(link.links, path)}
+                  </div>
+                )}
+              </>
+            ) : link.disabled ? (
+              <span className="block px-4 py-2 whitespace-nowrap text-gray-500 cursor-not-allowed select-none">
+                {link.name}
+              </span>
+            ) : link.external ? (
+              <a
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block px-4 py-2 text-black font-bold hover:text-[#FA7D00] whitespace-nowrap"
+                onClick={() => setOpenMenu(null)}
+              >
+                {link.name}
+              </a>
+            ) : (
+              <Link
+                href={link.href}
+                className="block px-4 py-2 text-black font-bold hover:text-[#FA7D00] whitespace-nowrap"
+                onClick={() => setOpenMenu(null)}
+              >
+                {link.name}
+              </Link>
+            )}
+          </li>
+        );
+      })}
+    </ul>
+  );
 
   const handleSearch = () => {
     const term = searchTerm.trim();
@@ -231,7 +336,7 @@ export default function Navbar() {
   if (!isMediumScreen) {
     return (
       <div className="relative  bg-white">
-        <div className="relative z-20 flex items-center justify-between bg-white p-3">
+        <div className="relative z-50 flex items-center justify-between bg-white p-3">
           <Link href="/" aria-label="Think Round home" className="w-70">
             <Image
               src={ThinkRoundLogoPath}
@@ -243,13 +348,13 @@ export default function Navbar() {
 
           <button
             type="button"
-            className="p-2 text-[#70169c] hover:text-[#FA7D00]"
+            className="cursor-pointer p-2 text-[#70169c] hover:text-[#FA7D00]"
             aria-expanded={isMobileMenuOpen}
             aria-controls="mobile-navigation"
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             onClick={() => {
               setIsMobileMenuOpen((isOpen) => !isOpen);
-              setMobileSubmenu(null);
+              setMobileMenuPath([]);
             }}
           >
             {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -258,7 +363,7 @@ export default function Navbar() {
         {isMobileMenuOpen && (
           <div
             id="mobile-navigation"
-            className="fixed inset-0 z-10 h-[100dvh] max-h-[100dvh] mobile-navigation-open overflow-hidden overscroll-none border-t border-gray-200 bg-[#68B7FD] px-6 pb-4 pt-40"
+            className="fixed inset-0 z-40 h-[100dvh] max-h-[100dvh] mobile-navigation-open overflow-hidden overscroll-none border-t border-gray-200 bg-[#68B7FD] px-6 pb-4 pt-40"
           >
             <ul className="flex h-full flex-col  gap-5 text-2xl leading-tight">
               {menuItems.map((menu) => {
@@ -268,7 +373,7 @@ export default function Navbar() {
                       <button
                         type="button"
                         className="block w-full text-left font-bold text-white cursor-pointer"
-                        onClick={() => setMobileSubmenu(menu.label)}
+                        onClick={() => setMobileMenuPath([menu.label])}
                       >
                         {formatMenuLabel(menu.label)}
                         <span className="text-gray-600">{` >>`}</span>
@@ -296,59 +401,68 @@ export default function Navbar() {
                 );
               })}
             </ul>
-            {mobileSubmenu && (
+            {mobileMenuPath.length > 0 && (
               <div
                 role="dialog"
                 aria-modal="true"
-                aria-label="Mobile submenu"
+                aria-label={`Mobile submenu: ${formatMenuLabel(mobileMenuPath[mobileMenuPath.length - 1])}`}
                 className="z-10 absolute inset-x-0 top-0 mt-10  min-h-screen overflow-y-auto bg-[#68B7FD] px-6 pb-4 pt-28"
               >
-                {mobileSubmenu && (
-                  <button
-                    type="button"
-                    className="mb-10 inline-flex items-center gap-1 font-bold text-white text-3xl cursor-pointer"
-                    onClick={() => setMobileSubmenu(null)}
-                  >
-                    <ArrowLeft size={20} aria-hidden="true" />
-                    <span>Back</span>
-                  </button>
-                )}
+                <button
+                  type="button"
+                  className="mb-10 inline-flex items-center gap-1 font-bold text-white text-3xl cursor-pointer"
+                  onClick={() =>
+                    setMobileMenuPath((path) => path.slice(0, -1))
+                  }
+                >
+                  <ArrowLeft size={20} aria-hidden="true" />
+                  <span>Back</span>
+                </button>
                 <ul className=" flex flex-col text-xl gap-3">
-                  {menuItems
-                    .find((menu) => menu.label === mobileSubmenu)
-                    ?.links?.map((link) => (
-                      <li key={link.name}>
-                        {link.disabled ? (
-                          <span className="block text-gray-500 cursor-not-allowed">
-                            {formatMenuLabel(link.name)}
-                          </span>
-                        ) : link.external ? (
-                          <a
-                            href={link.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block font-bold text-black"
-                            onClick={() => {
-                              setIsMobileMenuOpen(false);
-                              setMobileSubmenu(null);
-                            }}
-                          >
-                            {formatMenuLabel(link.name)}
-                          </a>
-                        ) : (
-                          <Link
-                            href={link.href}
-                            className="block font-bold text-black "
-                            onClick={() => {
-                              setIsMobileMenuOpen(false);
-                              setMobileSubmenu(null);
-                            }}
-                          >
-                            {formatMenuLabel(link.name)}
-                          </Link>
-                        )}
-                      </li>
-                    ))}
+                  {getMobileMenuLinks(mobileMenuPath)?.map((link) => (
+                    <li key={link.name}>
+                      {link.links ? (
+                        <button
+                          type="button"
+                          className="flex w-full cursor-pointer items-center justify-between text-left font-bold text-black"
+                          onClick={() =>
+                            setMobileMenuPath((path) => [...path, link.name])
+                          }
+                        >
+                          {formatMenuLabel(link.name)}
+                          <ChevronRight size={20} aria-hidden="true" />
+                        </button>
+                      ) : link.disabled ? (
+                        <span className="block text-gray-500 cursor-not-allowed">
+                          {formatMenuLabel(link.name)}
+                        </span>
+                      ) : link.external ? (
+                        <a
+                          href={link.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block font-bold text-black"
+                          onClick={() => {
+                            setIsMobileMenuOpen(false);
+                            setMobileMenuPath([]);
+                          }}
+                        >
+                          {formatMenuLabel(link.name)}
+                        </a>
+                      ) : (
+                        <Link
+                          href={link.href}
+                          className="block font-bold text-black "
+                          onClick={() => {
+                            setIsMobileMenuOpen(false);
+                            setMobileMenuPath([]);
+                          }}
+                        >
+                          {formatMenuLabel(link.name)}
+                        </Link>
+                      )}
+                    </li>
+                  ))}
                 </ul>
               </div>
             )}
@@ -409,8 +523,19 @@ export default function Navbar() {
             >
               {menu.links ? (
                 <button
-                  className={` inline-flex items-center h-7 px-3 py-2 font-bold text-[#70169c] hover:text-[#FA7D00] border-0 whitespace-nowrap ${openMenu === menu.label ? "text-[#FA7D00]" : ""}`}
+                  className={` inline-flex cursor-pointer items-center h-7 px-3 py-2 font-bold text-[#70169c] hover:text-[#FA7D00] border-0 whitespace-nowrap ${
+                    openMenu === menu.label ||
+                    openMenu?.startsWith(`${menu.label}/`)
+                      ? "text-[#FA7D00]"
+                      : ""
+                  }`}
                   type="button"
+                  onClick={() => setOpenMenu(menu.label)}
+                  aria-haspopup="true"
+                  aria-expanded={
+                    openMenu === menu.label ||
+                    Boolean(openMenu?.startsWith(`${menu.label}/`))
+                  }
                 >
                   {menu.label}
                 </button>
@@ -434,39 +559,13 @@ export default function Navbar() {
                 </Link>
               )}
 
-              {menu.links && openMenu === menu.label && (
-                <div className="absolute left-0 top-full w-auto z-1 pt-2">
-                  <ul className="flex flex-col bg-white ">
-                    {menu.links.map((link) => (
-                      <li key={link.name}>
-                        {link.disabled ? (
-                          <span className="block px-4  whitespace-nowrap text-gray-500 cursor-not-allowed select-none">
-                            {link.name}
-                          </span>
-                        ) : link.external ? (
-                          <a
-                            href={link.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block px-4 text-black font-bold hover:text-[#FA7D00] whitespace-nowrap"
-                            onClick={() => setOpenMenu(null)}
-                          >
-                            {link.name}
-                          </a>
-                        ) : (
-                          <Link
-                            href={link.href}
-                            className={`block px-4  text-black font-bold hover:text-[#FA7D00]   whitespace-nowrap  `}
-                            onClick={() => setOpenMenu(null)}
-                          >
-                            {link.name}
-                          </Link>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+              {menu.links &&
+                (openMenu === menu.label ||
+                  openMenu?.startsWith(`${menu.label}/`)) && (
+                  <div className="absolute left-0 top-full z-50 w-auto pt-2">
+                    {renderDesktopLinks(menu.links, menu.label)}
+                  </div>
+                )}
             </div>
           ))}
         </div>
