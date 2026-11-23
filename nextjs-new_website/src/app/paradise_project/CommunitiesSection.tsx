@@ -124,10 +124,12 @@ export default function CommunitiesSection({ communities }: Props) {
                   {community.imageUrl && (
                     <Image
                       src={community.imageUrl}
-                      alt={community.image?.alt || `${community.name} community artwork`}
+                      alt={community.image?.alt || (slug === "indigenous"
+                        ? "Part V: First Families/Families First (Indigenous) artwork installation"
+                        : `${community.name} community artwork`)}
                       fill
                       sizes="(max-width: 639px) 100vw, (max-width: 1023px) 42vw, 20vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                      className={`object-cover ${slug === "indigenous" ? "object-[center_38%]" : ""} transition-transform duration-500 group-hover:scale-[1.03]`}
                     />
                   )}
                 </div>

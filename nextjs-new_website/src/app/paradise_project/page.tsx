@@ -44,11 +44,14 @@ export default async function ParadiseProjectPage() {
       : undefined;
     const communities = (data?.communities ?? []).map((community: {
       image?: { asset?: { _ref: string; _type: "reference" }; alt?: string };
+      slug?: { current?: string };
     }) => ({
       ...community,
       imageUrl: community.image?.asset?._ref
         ? urlFor(community.image).width(600).height(450).url()
-        : undefined,
+        : community.slug?.current === "indigenous"
+          ? "/indigenous-part-v.jpg"
+          : undefined,
     }));
 
     return (
