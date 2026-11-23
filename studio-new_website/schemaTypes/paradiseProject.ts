@@ -53,8 +53,8 @@ export default defineType({
               title: 'Slug (used in URL)',
               type: 'slug',
               options: {
-                source: (_doc: unknown, context: { parent?: { name?: string } }) =>
-                  context.parent?.name ?? '',
+                source: (_doc, {parent}) =>
+                  !Array.isArray(parent) && typeof parent?.name === 'string' ? parent.name : '',
               },
             }),
             defineField({
