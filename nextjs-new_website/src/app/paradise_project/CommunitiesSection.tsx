@@ -3,35 +3,22 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Lato } from "next/font/google";
-import { urlFor } from "@/sanity/image";
+import { Lato, Cormorant_Infant } from "next/font/google";
+import { COMMUNITY_DETAILS, COMMUNITY_DETAIL_LABELS } from "./communityDetails";
 
 const lato = Lato({ subsets: ["latin"], weight: ["400", "700"] });
-
-const ROMAN_NUMERALS = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
-
-const buttonClass = "inline-flex items-center gap-1 border border-black rounded-none px-3 py-1 text-[1.125rem] lg:gap-4 lg:h-11 lg:px-3.5 lg:py-0 lg:rounded lg:text-black lg:text-[1.875rem] lg:leading-none";
-const buttonHoverClass = "group-hover:bg-black group-hover:text-white lg:group-hover:text-white transition-colors";
-
-// "›" on mobile; the Figma chevron on desktop.
-function Chevron() {
-  return (
-    <>
-      <span className="lg:hidden">›</span>
-      <svg viewBox="8.59 6 7.41 12" preserveAspectRatio="none" aria-hidden="true" className="hidden lg:block w-3 h-5">
-        <path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z" fill="currentColor" />
-      </svg>
-    </>
-  );
-}
+const cormorantInfant = Cormorant_Infant({ subsets: ["latin"], weight: ["500"] });
+const DETAIL_SECTIONS = Object.keys(COMMUNITY_DETAIL_LABELS) as (keyof typeof COMMUNITY_DETAIL_LABELS)[];
+type CommunitySlug = keyof typeof COMMUNITY_DETAILS;
 
 type Community = {
   name: string;
   subtitle?: string;
   slug: { current: string };
-  image?: { asset?: { _ref: string; _type: "reference" }; alt?: string };
-  familyCount?: number;
+  image?: { alt?: string };
+  imageUrl?: string;
   paintingCount?: number;
+  familyCount?: number;
   comingSoon?: boolean;
   launchDate?: string;
 };
@@ -40,144 +27,157 @@ type Props = {
   communities: Community[];
 };
 
-export default function CommunitiesSection({ communities }: Props) {
-  const [view, setView] = useState<"grid" | "list">("grid");
+function CommunityActions({
+  community,
+  expanded,
+  onToggleDetails,
+}: {
+  community: Community;
+  expanded: boolean;
+  onToggleDetails: () => void;
+}) {
+  const slug = community.slug.current;
+  const detailsId = `community-details-${slug}`;
 
   return (
-    <section className="bg-white w-full py-12 px-[2.3125rem] lg:pb-0 lg:px-12">
-      <div className="max-w-[114rem] mx-auto">
-        {/* View toggle */}
-        <div className="flex justify-center gap-2 mb-8 lg:hidden">
+    <div className="mt-6 grid grid-cols-1 gap-3 xl:grid-cols-2">
+      <button
+        type="button"
+        aria-expanded={expanded}
+        aria-controls={detailsId}
+        onClick={onToggleDetails}
+        className={`${lato.className} inline-flex min-h-12 w-full items-center justify-center rounded-full bg-[#F4F2F7] px-4 py-3 text-sm font-bold text-[#5C3A84] transition-colors hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5C3A84] sm:text-base`}
+      >
+        {expanded ? "Hide Details" : "View Details"}
+      </button>
+      <Link
+        href={`/paradise_project/${slug}`}
+        aria-label={`Explore ${community.name} paintings`}
+        className={`${lato.className} inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#5C3A84] px-4 py-3 text-sm font-bold text-white transition-colors hover:bg-[#482D6A] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5C3A84] sm:text-base`}
+      >
+        Explore <span aria-hidden="true">→</span>
+      </Link>
+    </div>
+  );
+}
+
+function CommunityDetails({ community, expanded }: { community: Community; expanded: boolean }) {
+  const slug = community.slug.current;
+  const details: Partial<Record<keyof typeof COMMUNITY_DETAIL_LABELS, string>> = COMMUNITY_DETAILS[slug as CommunitySlug];
+  const [activeSection, setActiveSection] = useState<keyof typeof COMMUNITY_DETAIL_LABELS>("artist");
+  const detailsId = `community-details-${slug}`;
+
+  return (
+    <div
+      id={detailsId}
+      hidden={!expanded}
+      aria-label={`${community.name} details`}
+      className="border-t border-[#D8CEE5] bg-white/70 px-5 py-5 sm:px-7 lg:col-span-2"
+    >
+      <div className="flex flex-wrap gap-2" aria-label={`${community.name} detail sections`}>
+        {DETAIL_SECTIONS.map((section) => (
           <button
-            onClick={() => setView("list")}
-            aria-label="List view"
-            className={`w-10 h-10 flex items-center justify-center rounded border ${
-              view === "list" ? "bg-gray-200 border-gray-300" : "border-gray-200 hover:bg-gray-50"
+            key={section}
+            type="button"
+            aria-pressed={activeSection === section}
+            onClick={() => setActiveSection(section)}
+            className={`${lato.className} rounded-full border px-4 py-2 text-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5C3A84] ${
+              activeSection === section
+                ? "border-[#5C3A84] bg-[#5C3A84] text-white"
+                : "border-[#D8CEE5] bg-white text-[#4B3B5B] hover:bg-[#F4F2F7]"
             }`}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="M4 6h16M4 12h16M4 18h16" stroke="black" strokeWidth="2" strokeLinecap="round" />
-            </svg>
+            {COMMUNITY_DETAIL_LABELS[section]}
           </button>
-          <button
-            onClick={() => setView("grid")}
-            aria-label="Grid view"
-            className={`w-10 h-10 flex items-center justify-center rounded border ${
-              view === "grid" ? "bg-gray-200 border-gray-300" : "border-gray-200 hover:bg-gray-50"
-            }`}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <rect x="4" y="4" width="7" height="7" fill="black" />
-              <rect x="13" y="4" width="7" height="7" fill="black" />
-              <rect x="4" y="13" width="7" height="7" fill="black" />
-              <rect x="13" y="13" width="7" height="7" fill="black" />
-            </svg>
-          </button>
-        </div>
+        ))}
+      </div>
+      <div className="mt-5 max-h-[32rem] overflow-y-auto rounded-xl bg-white p-4 sm:p-6">
+        <h4 className={`${lato.className} text-xl font-bold text-[#2F2439]`}>
+          {COMMUNITY_DETAIL_LABELS[activeSection]}
+        </h4>
+        <p className={`${lato.className} mt-3 whitespace-pre-line text-base leading-7 text-[#352F39]`}>
+          {details[activeSection] || "Details coming soon."}
+        </p>
+      </div>
+    </div>
+  );
+}
 
-        <div className={`${view === "grid" ? "grid" : "hidden"} lg:grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-12`}>
-          {communities.map((community) => {
-            const slug = community.slug?.current;
-            const imageUrl = community.image?.asset?._ref
-              ? urlFor(community.image).width(1200).height(900).url()
-              : undefined;
+export default function CommunitiesSection({ communities }: Props) {
+  const [expandedSlug, setExpandedSlug] = useState<string | null>(null);
+  const toggleDetails = (slug: string) => setExpandedSlug((current) => (current === slug ? null : slug));
 
-            if (community.comingSoon) {
-              return (
-                <div key={slug} className="border border-gray-200 rounded-xl overflow-hidden flex flex-row h-[15rem] lg:border-[#7E7E7E] lg:rounded-2xl lg:bg-[#FCFCFC] lg:h-[25rem]">
-                  <div className="flex flex-col justify-between p-8 flex-1 lg:items-center lg:text-center lg:px-0 lg:py-12">
-                    <div>
-                      <h3 className={`${lato.className} text-[2.75rem] lg:text-[3rem] font-normal leading-tight lg:leading-[1.2] text-black`}>{community.name}</h3>
-                      <p className={`${lato.className} text-[1.25rem] lg:text-[1.875rem] lg:leading-[1.2] text-black mt-3 lg:mt-[1.625rem]`}>Coming soon</p>
-                    </div>
-                    <div className="mt-6">
-                      <span className={`${lato.className} ${buttonClass}`}>
-                        {community.launchDate || "4/5/24"} <Chevron />
-                      </span>
-                    </div>
-                  </div>
-                  <div className="w-[15rem] lg:w-[29.4375rem] flex-shrink-0 p-3 lg:pl-0 lg:py-6 lg:pr-6 flex items-stretch">
-                    <div className="flex-1 rounded-lg lg:rounded-[0.9375rem] overflow-hidden bg-gray-200 lg:bg-[#D9D9D9] relative">
-                      {imageUrl && (
-                        <Image src={imageUrl} alt={community.image?.alt || community.name} fill className="object-cover" sizes="(max-width: 768px) 100vw, 30vw" />
-                      )}
-                    </div>
-                  </div>
-                </div>
-              );
-            }
+  return (
+    <section className="w-full bg-[#faf8f3] px-3 py-16 sm:px-6 lg:px-16 lg:py-20">
+      <div className="mx-auto grid max-w-[114rem] grid-cols-1 gap-6 xl:grid-cols-2">
+        {communities.map((community) => {
+          const slug = community.slug?.current;
+          if (!slug) return null;
 
-            return (
-              <Link key={slug} href={`/paradise_project/${slug}`} className="group border border-gray-200 rounded-xl overflow-hidden flex flex-row h-[15rem] lg:border-[#7E7E7E] lg:rounded-2xl lg:bg-[#FCFCFC] lg:h-[25rem] hover:shadow-md transition-shadow">
-                <div className="flex flex-col justify-between p-8 flex-1 lg:items-center lg:text-center lg:px-0 lg:py-12">
-                  <div>
-                    <h3 className={`${lato.className} text-[2.75rem] lg:text-[3rem] font-normal leading-tight lg:leading-[1.2] text-black`}>{community.name}</h3>
-                    <p className={`${lato.className} text-[1.25rem] lg:text-[1.875rem] lg:leading-[1.2] text-black mt-3 lg:mt-[1.625rem]`}>
-                      {community.familyCount ? `${community.familyCount} families` : "X number of families"}
-                    </p>
-                    <p className={`${lato.className} text-[1.25rem] lg:text-[1.875rem] lg:leading-[1.2] text-black lg:mt-6`}>
-                      {community.paintingCount ? `${community.paintingCount} paintings` : "X number of paintings"}
-                    </p>
-                  </div>
-                  <div className="mt-6">
-                    <span className={`${lato.className} ${buttonClass} ${buttonHoverClass}`}>
-                      Explore <Chevron />
-                    </span>
-                  </div>
-                </div>
-                <div className="w-[15rem] lg:w-[29.4375rem] flex-shrink-0 p-3 lg:pl-0 lg:py-6 lg:pr-6 flex items-stretch">
-                  <div className="flex-1 rounded-lg lg:rounded-[0.9375rem] overflow-hidden bg-gray-200 lg:bg-[#D9D9D9] relative">
-                    {imageUrl && (
-                      <Image src={imageUrl} alt={community.image?.alt || community.name} fill className="object-cover" sizes="(max-width: 768px) 100vw, 30vw" />
-                    )}
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
-
-        </div>
-
-        <div className={`${view === "list" ? "flex" : "hidden"} lg:hidden flex-col max-w-md mx-auto divide-y divide-gray-200`}>
-          {communities.map((community, index) => {
-            const slug = community.slug?.current;
-            const imageUrl = community.image?.asset?._ref
-              ? urlFor(community.image).width(800).height(600).url()
-              : undefined;
-            const partLabel = ROMAN_NUMERALS[index] ?? `${index + 1}`;
-
-            return (
-              <div key={slug ?? index} className="flex flex-col items-center text-center py-8 first:pt-0">
-                <h3 className={`${lato.className} text-[1.5rem] text-black`}>
-                  Part {partLabel}: {community.name}
-                </h3>
-                {community.subtitle && (
-                  <p className={`${lato.className} italic text-gray-500 mt-1`}>{community.subtitle}</p>
-                )}
-                {imageUrl && (
-                  <div className="relative w-full aspect-[4/3] mt-4 rounded-lg overflow-hidden bg-gray-200">
-                    <Image src={imageUrl} alt={community.image?.alt || community.name} fill className="object-cover" sizes="100vw" />
-                  </div>
-                )}
-                <div className="mt-4">
-                  {community.comingSoon ? (
-                    <span className={`${lato.className} inline-flex items-center gap-1 border border-black rounded-none px-3 py-1 text-[1rem]`}>
-                      {community.launchDate || "4/5/24"} <span>›</span>
-                    </span>
-                  ) : (
-                    <Link
-                      href={`/paradise_project/${slug}`}
-                      className={`${lato.className} inline-flex items-center gap-1 border border-black rounded-none px-3 py-1 text-[1rem] hover:bg-black hover:text-white transition-colors`}
-                    >
-                      Explore <span>›</span>
-                    </Link>
+          return (
+            <article
+              key={slug}
+              className="group overflow-hidden rounded-2xl bg-[#EDE8F4] ring-1 ring-[#E1D9EA] transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:flex sm:min-h-[17rem] sm:flex-row sm:bg-[#fffdf8] sm:ring-black/10"
+            >
+              <div className="w-full sm:w-[42%] sm:shrink-0 sm:p-3 lg:p-4">
+                <div className="relative aspect-[1.4] w-full overflow-hidden bg-[#E0D9E8] sm:h-full sm:min-h-[15rem] sm:aspect-auto sm:rounded-md sm:bg-gray-100">
+                  {community.imageUrl && (
+                    <Image
+                      src={community.imageUrl}
+                      alt={community.image?.alt || (slug === "indigenous"
+                        ? "Part V: First Families/Families First (Indigenous) artwork installation"
+                        : `${community.name} community artwork`)}
+                      fill
+                      sizes="(max-width: 639px) 100vw, (max-width: 1023px) 42vw, 20vw"
+                      className={`object-cover ${slug === "indigenous" ? "object-[center_38%]" : ""} transition-transform duration-500 group-hover:scale-[1.03]`}
+                    />
                   )}
                 </div>
               </div>
-            );
-          })}
 
-        </div>
+              <div className="flex-1 p-5 sm:flex sm:flex-col sm:justify-center sm:p-6 lg:p-8">
+                <p className={`${lato.className} mb-2 text-[0.7rem] uppercase tracking-[0.2em] text-[#9b6c35] sm:mb-3`}>
+                  Faith &amp; Community
+                </p>
+                <h3 className={`${cormorantInfant.className} text-[2.2rem] leading-none text-black lg:text-[2.8rem]`}>
+                  {community.name}
+                </h3>
+                <p className={`${lato.className} mt-3 text-[0.95rem] text-black/70`}>
+                  {community.subtitle || "Explore families, traditions, culture and shared stories."}
+                </p>
+
+                <div className="mt-5 flex items-center gap-5 sm:mt-6">
+                  <div>
+                    <p className={`${cormorantInfant.className} text-2xl leading-none text-black`}>
+                      {community.paintingCount || "X"}
+                    </p>
+                    <p className={`${lato.className} mt-1 text-[0.7rem] text-black/60`}>paintings</p>
+                  </div>
+                  <div className="h-10 w-px bg-black/15" />
+                  <div>
+                    <p className={`${cormorantInfant.className} text-2xl leading-none text-black`}>
+                      {community.familyCount || "X"}
+                    </p>
+                    <p className={`${lato.className} mt-1 text-[0.7rem] text-black/60`}>families</p>
+                  </div>
+                  {community.comingSoon && (
+                    <p className={`${lato.className} ml-auto text-right text-xs font-bold text-[#69577B]`}>
+                      Coming soon{community.launchDate ? ` · ${community.launchDate}` : ""}
+                    </p>
+                  )}
+                </div>
+
+                <CommunityActions
+                  community={community}
+                  expanded={expandedSlug === slug}
+                  onToggleDetails={() => toggleDetails(slug)}
+                />
+              </div>
+
+              <CommunityDetails community={community} expanded={expandedSlug === slug} />
+            </article>
+          );
+        })}
       </div>
     </section>
   );
