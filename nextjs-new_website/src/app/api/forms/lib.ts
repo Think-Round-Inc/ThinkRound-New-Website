@@ -8,6 +8,27 @@ const SERVICE_ID = process.env.EMAILJS_SERVICE_ID!;
 const PUBLIC_KEY = process.env.EMAILJS_PUBLIC_KEY!;
 const PRIVATE_KEY = process.env.EMAILJS_PRIVATE_KEY!;
 
+// Per-IP, per-form limit. In-memory, so each server instance keeps its own count.
+const RATE_LIMIT = 5;
+const RATE_WINDOW_MS = 10 * 60 * 1000;
+const submissions = new Map<string, { count: number; resetAt: number }>();
+
+export function isRateLimited(key: string, now = Date.now()) {
+  if (submissions.size > 10_000) {
+    for (const [k, entry] of submissions) {
+      if (entry.resetAt <= now) submissions.delete(k);
+    }
+  }
+
+  const entry = submissions.get(key);
+  if (!entry || entry.resetAt <= now) {
+    submissions.set(key, { count: 1, resetAt: now + RATE_WINDOW_MS });
+    return false;
+  }
+
+  entry.count += 1;
+  return entry.count > RATE_LIMIT;
+}
 
 function normalizeFormType(value: unknown): ContactFormType | null {
   if (
@@ -60,8 +81,32 @@ export async function submitContactForm(
   request: Request,
   formType?: ContactFormType,
 ) {
+  const ip =
+    request.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
+    request.headers.get("x-real-ip") ||
+    "unknown";
+  if (isRateLimited(`${formType ?? "form"}:${ip}`)) {
+    return NextResponse.json(
+      { error: "Too many submissions. Please try again later." },
+      { status: 429 },
+    );
+  }
+
+  let body: Record<string, unknown> | null;
   try {
-    const body = (await request.json()) as Record<string, unknown>;
+    body = await request.json();
+  } catch {
+    body = null;
+  }
+
+  if (!body || typeof body !== "object") {
+    return NextResponse.json(
+      { error: "Request body must be valid JSON." },
+      { status: 400 },
+    );
+  }
+
+  try {
     const resolvedFormType = formType ?? normalizeFormType(body.formType);
 
     const volunteerTemplateId = process.env.EMAILJS_VOLUNTEER_TEMPLATE_ID;
@@ -133,6 +178,13 @@ export async function submitContactForm(
         message,
       }));
 
+      await emailjs.send(
+      SERVICE_ID,
+      subscribeTemplateId,
+      { first_name: firstName, last_name:lastName, user_email: email, subject, message, type_icon: '💬', type_label: 'New contact',  intro_text:'A message has been received. Kindly respond at your earliest convenience.', chip_bg: '#fcae63', chip_border: '#ff9933', },
+      { publicKey: PUBLIC_KEY, privateKey: PRIVATE_KEY }
+     );
+
       return NextResponse.json({ success: true }, { status: 200 });
     }
 
@@ -148,7 +200,7 @@ export async function submitContactForm(
     await emailjs.send(
       SERVICE_ID,
       subscribeTemplateId,
-      { first_name: firstName, last_name:lastName, user_email: email, subject, message },
+      { first_name: firstName, last_name:lastName, user_email: email, subject, message, type_icon: '✓',type_label: 'New subscriber', intro_text: 'A new mailing list subscription has been received through the website subscription form.', chip_bg: '#9f78ce', chip_border: '#6f2da8',  },
       { publicKey: PUBLIC_KEY, privateKey: PRIVATE_KEY }
      );
 

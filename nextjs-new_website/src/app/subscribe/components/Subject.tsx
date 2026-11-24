@@ -14,8 +14,9 @@ export default function Subject({ value, onChange, error }: Props) {
   return (
     <>
       <div>
-        <label className="block  font-medium">Subject *</label>
+        <label htmlFor="subject" className="block  font-medium">Subject *</label>
         <input
+          id="subject"
           name="subject"
           value={value}
           onChange={handleChange}

@@ -1,16 +1,20 @@
+import type { ModalTone } from "@/types/common";
+
 type ModalProps = {
   message: string;
   onClose: () => void;
   title: string;
-  textColor: string;
+  tone: ModalTone;
 };
 
 export default function Modal({
   message,
   onClose,
   title,
-  textColor,
+  tone,
 }: ModalProps) {
+  const titleColor = tone === "error" ? "red" : "green";
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
       <div
@@ -20,9 +24,9 @@ export default function Modal({
         className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl"
       >
         <h2
-          id="error-modal-title"
+          id="modal-title"
           className="text-2xl font-semibold mb-3 "
-          style={{ color: textColor }}
+          style={{ color: titleColor }}
         >
           {title}
         </h2>
