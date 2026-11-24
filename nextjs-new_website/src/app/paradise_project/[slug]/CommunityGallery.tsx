@@ -62,10 +62,12 @@ export default function CommunityGallery({
 
   const categories = ["Default", ...Array.from(new Set(paintings.map((p) => p.category?.trim()).filter(Boolean))) as string[]];
 
-  const filteredPaintings =
+    const filteredPaintings =
     selectedCategory === "Default"
       ? paintings
-      : paintings.filter((p) => p.category === selectedCategory);
+      : paintings.filter(
+          (p) => p.category?.trim() === selectedCategory
+        );
 
   const selected = filteredPaintings[selectedIndex] ?? filteredPaintings[0];
   const totalThumbPages = Math.ceil(filteredPaintings.length / THUMBS_PER_PAGE);
@@ -176,7 +178,7 @@ export default function CommunityGallery({
           </div>
         </div>
 
-        {paintings.length > 0 ? (
+        {filteredPaintings.length > 0 ? (
           <div className="flex px-8 py-6 gap-6">
             {/* Left: large viewer */}
             <div className="flex-1 min-w-0">
@@ -334,9 +336,14 @@ export default function CommunityGallery({
               )}
             </div>
           </div>
-        ) : (
-          <div className="flex items-center justify-center py-24 text-gray-400 text-lg">
-            No paintings added yet. Upload paintings in Sanity Studio.
+                  ) : (
+          <div
+            role="status"
+            className="flex items-center justify-center py-24 text-gray-500 text-lg"
+          >
+            {paintings.length === 0
+              ? "No paintings added yet. Upload paintings in Sanity Studio."
+              : `No paintings found in the "${selectedCategory}" category.`}
           </div>
         )}
       </main>
